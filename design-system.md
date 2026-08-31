@@ -297,7 +297,7 @@ Image-led card for discovery.
 | Element | Token |
 |---|---|
 | Photo | named `photo` layer — replace fill with an image paint |
-| Scrim | vertical gradient, ink 0 → 0.86 |
+| Scrim | vertical gradient, black 0 → 0.16 → 0.42 → 0.60, over the bottom 132pt |
 | Title / calories | `text.on-media` |
 | Match tag | `border.on-media` fill 18%, stroke 75% |
 
@@ -352,17 +352,40 @@ the real token name rather than a hex value.
 A floating pill rather than a full-width bar, inset 20pt from each edge and lifted 28pt off
 the bottom so content breathes underneath it.
 
+Built as **two layers**, which is what makes it work:
+
+| Layer | Role |
+|---|---|
+| `glass-plate` | Carries the glass: `bg.surface` fill, `border.on-media` hairline, `BACKGROUND_BLUR` 20, two drop shadows, all at **node opacity 0.65** |
+| `tab-bar (glass)` | Transparent auto-layout on top holding icons and labels at full opacity |
+
 | Element | Value |
 |---|---|
-| Container | 353 × 68, `radius.full` |
-| Fill | `bg.surface` at 72% |
-| Backdrop | `BACKGROUND_BLUR` 24 |
-| Border | `bg.surface` at 65%, 1pt inside |
-| Shadow | 0 10 28 −6 @ 10% + 0 2 6 −2 @ 5% |
+| Container | 353 × 68, `radius.full`, inset 20pt, lifted 28pt |
+| Fill | `bg.surface` @ 65% (node opacity) |
+| Backdrop | `BACKGROUND_BLUR` 20 |
+| Border | `border.on-media`, 1pt inside |
+| Shadow | 0 14 36 −8 @ 20% + 0 2 8 −3 @ 9% (alphas boosted to survive the 0.65 opacity) |
 | FAB | 50pt, CTA gradient, seated inside the pill |
 
-The translucent fill is what makes the blur read — a fully opaque pill would blur nothing.
-Content is allowed to scroll under it; that is the point of the treatment.
+**Why two layers, not one.** Node opacity fades a frame's children as well as its fill, so a
+single-layer pill would dim its own icons. Splitting the glass onto a plate behind the
+content keeps the labels crisp at full opacity. The translucent fill is also what makes the
+blur read at all — a fully opaque pill blurs nothing. Content is allowed to scroll under it;
+that is the point of the treatment.
+
+> **Implementation note.** Do not build translucent bound paints by cloning a paint object.
+> `setBoundVariableForPaint` returns a paint whose colour resolves **asynchronously**; any
+> read-back-and-reassign re-stores the placeholder black and silently produces a dark
+> element that still reports `bound: true`. Assign the bound paint exactly once and put
+> translucency on the node, not the paint.
+
+### Ingredient rows (Recipe Details)
+
+Each row is `icon-well` + name + amount. The well is a 34pt `radius.full` circle filled
+`bg.sunken`, holding an 18pt outline icon at 1.35pt stroke in `text.secondary`. The earlier
+bare coral icons read as dry; a light well gives the row structure without adding weight.
+`bg.raised` was tried first and was invisible against the white sheet.
 
 ### Photography
 

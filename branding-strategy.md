@@ -298,7 +298,7 @@ large numerics, where its softer terminals suit the ring readouts.
 | Token | Size / Line | Weight | Tracking | Use |
 |---|---|---|---|---|
 | `display-calorie` | 56 / 58 | Heavy | −1.6 | Dashboard hero readout only (Rounded, tabular) |
-| `metric-card` | 34 / 38 | Bold | −0.6 | In-card calorie figures (Rounded, tabular) |
+| `metric-card` | 28 / 32 | Semibold | −0.4 | In-card calorie figures (Rounded, tabular) |
 | `large-title` | 40 / 44 | Bold | −1.0 | Screen titles — expressive |
 | `title-1` | 28 / 34 | Bold | +0.36 | Section heroes |
 | `title-2` | 22 / 28 | Semibold | +0.35 | Card titles |

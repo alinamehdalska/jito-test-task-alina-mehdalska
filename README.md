@@ -68,7 +68,7 @@ premium feel. The rules that carry it:
 - **A floating glass tab bar** — a translucent, backdrop-blurred pill inset from the edges,
   with content scrolling beneath it.
 - **Two calorie scales, not one.** The dashboard hero is 56pt Heavy; figures inside cards
-  use a lighter 34pt Bold so they sit in the hierarchy instead of shouting over it.
+  use a lighter 28pt Semibold so they sit in the hierarchy instead of shouting over it.
 - **Gradient is rationed** to three places: the canvas wash, the primary CTA, the gauge sweep.
 
 ### "Fits your day" beats a number

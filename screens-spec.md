@@ -72,7 +72,7 @@ specific portion.
 | Result head | 216 | Product card: image 72pt, "Greek Yogurt, 2%", brand `footnote`, "≈" confidence marker |
 | Portion | 316 | `title-3` "Portion" · stepper · **slider 0–500g**, value `170 g` |
 | Breakdown | 420 | 3 macro rows: bar + gram value + kcal contribution |
-| Total | 580 | `display-calorie` **142 kcal** + "per 170 g" `footnote` |
+| Total | grouped with CTA | `metric-card` **142** + "per 170 g serving" — sits directly above the button rather than stranded mid-screen |
 | CTA | 752 | `Button variant=primary size=lg fullWidth` — "Add to Diary" |
 
 ### The portion slider is the whole screen
@@ -82,7 +82,7 @@ values, and the total. This is the screen's single interaction and the reason it
 competitors make portion a buried secondary field, which is precisely where accuracy is
 lost.
 
-- Slider track `bg.sunken`, fill `accent.primary`, thumb 28pt white at `elevation.2`.
+- Slider track 3pt `bg.sunken`, fill `accent.primary-hover`, thumb 20pt white with a hairline.
 - Snaps to 5g increments; the stepper adjusts by 10g.
 - Common portions ("1 cup", "1 container") appear as `IngredientChip` presets below.
 
