@@ -310,17 +310,30 @@ Image-led card for discovery.
 
 ## 3. Composition rules
 
-1. **Screen margin is `space.20`.** Cards may bleed to `space.16` only in horizontal
-   scrollers.
+1. **Screen margin is `space.20`.** Cards may bleed to `space.16` only in horizontal scrollers.
 2. **Vertical rhythm:** `space.24` between sections, `space.12` within a section,
    `space.8` between tightly-coupled elements.
-3. **One elevation level per stacking context.** A card at `elevation.1` never contains
-   another `elevation.1` card — nested surfaces use `bg.raised` instead.
-4. **Touch targets are 44pt minimum**, including the scan button and chip close buttons.
-5. **Macro order is always carbs → protein → fat.** Never re-sorted by value.
-6. **Numbers are tabular** everywhere they can change.
+3. **Bottom safe-area.** Every scrolling column carries `paddingBottom` — `space.64` on
+   screens with the floating nav, `space.48` otherwise. Without it the last row ends flush
+   against the bar at scroll-end.
+4. **Every primary CTA's bottom edge sits at y = 808** (44pt above the screen bottom),
+   whether it lives in a sticky bar or a bottom group. Form screens differ in height; the
+   button must not.
+5. **Screens with a floating nav carry a 96pt `bottom-fade`** — a transparent-to-canvas
+   gradient behind the bar. A floating bar leaves a 28pt gap at the bottom, and without the
+   fade scrolling content shows through it as a stray sliver.
+6. **One elevation level per stacking context.** A card at `elevation.1` never contains
+   another `elevation.1` card — nested surfaces use `bg.raised`.
+7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.
+8. **Macro order is always carbs → protein → fat.** Never re-sorted by value.
+9. **Numbers are tabular** everywhere they can change.
 
----
+> **Spacing tokens must exist on the grid.** `setBoundVariable('paddingLeft', undefined)`
+> silently *clears* the padding rather than failing, so binding to an off-grid value such as
+> `space/14` or `space/10` produces a container with zero padding that still looks
+> intentional in the layer tree. This cost 40 containers their padding in one pass. Use a
+> guarded setter that throws when the token is missing — the valid steps are
+> `0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64`.
 
 ## 4. Figma library structure
 
@@ -363,8 +376,8 @@ Built as **two layers**, which is what makes it work:
 
 | Element | Value |
 |---|---|
-| Container | 353 × 68, `radius.full`, inset 20pt, lifted 28pt |
-| Fill | `bg.surface` @ 65% (node opacity) |
+| Container | 353 × 68, `radius.full`, inset 20pt, lifted 28pt, items at equal 52pt widths |
+| Fill | `bg.surface` @ 85% (node opacity) |
 | Backdrop | `BACKGROUND_BLUR` 20 |
 | Border | `border.on-media`, 1pt inside |
 | Shadow | 0 14 36 −8 @ 20% + 0 2 8 −3 @ 9% (alphas boosted to survive the 0.65 opacity) |

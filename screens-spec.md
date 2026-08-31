@@ -15,7 +15,8 @@ inset 20pt and lifted 28pt; content scrolls beneath it.
 | 5 | Recipe Details | Decide and log |
 | 5b | Recipe Details — Nutrition & Instructions | Scrolled state |
 | 6 | Add — action sheet | The central nav action |
-| 7 | Empty & loading states | Product realism |
+| 7 | Diary — empty state | Product realism |
+| 7b | Search — loading state | Product realism |
 | 8 | Logged — confirmation | Feedback after logging |
 
 ---
@@ -113,6 +114,7 @@ the image, so legibility never depends on what the photograph looks like.
 | Insight | `✓ Fits your daily plan — This serving fits within your 610 kcal remaining today.` |
 | Macros | Protein / Carbs / Fat with grams **and** percent of daily goal |
 | Ingredients | Icon-well list with amounts |
+| Section tabs | `Ingredients · Nutrition · Instructions` — scroll-spy anchors shared by both frames, not separate views |
 | **5b — Nutrition** | Per-serving table: calories, protein, carbs, fat, fibre |
 | **5b — Instructions** | Three numbered steps with titles and detail |
 | Sticky CTA | Servings stepper + `Log 1 serving to Diary` |
@@ -129,10 +131,11 @@ a defined job rather than an ambiguous one.
 
 ---
 
-## 7 · Empty & loading states
+## 7 · Diary — empty state · 7b · Search — loading state
 
-Empty diary with an explanatory line and a direct `+ Add food`, plus skeleton rows for the
-searching state. Neither is decorative: an empty tracker is the first thing a new user sees.
+Split into two frames so each state is shown properly rather than stacked. The empty card is
+vertically centred with equal 179pt gaps above and below; 7b shows a partially-typed query
+with skeleton rows. Neither is decorative — an empty tracker is the first thing a new user sees.
 
 ---
 
