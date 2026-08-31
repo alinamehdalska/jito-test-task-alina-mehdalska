@@ -297,7 +297,8 @@ large numerics, where its softer terminals suit the ring readouts.
 
 | Token | Size / Line | Weight | Tracking | Use |
 |---|---|---|---|---|
-| `display-calorie` | 56 / 58 | Heavy | −1.6 | Hero calorie readout (Rounded, tabular) |
+| `display-calorie` | 56 / 58 | Heavy | −1.6 | Dashboard hero readout only (Rounded, tabular) |
+| `metric-card` | 34 / 38 | Bold | −0.6 | In-card calorie figures (Rounded, tabular) |
 | `large-title` | 40 / 44 | Bold | −1.0 | Screen titles — expressive |
 | `title-1` | 28 / 34 | Bold | +0.36 | Section heroes |
 | `title-2` | 22 / 28 | Semibold | +0.35 | Card titles |
@@ -350,15 +351,21 @@ a border.
 **Surfaces.** White cards on a near-white canvas, separated by radius and soft shadow
 rather than borders. Blush (`bg.raised`) marks nesting one level deep.
 
-**Background.** Never pure white. Every screen carries a vertical gradient from
-`#FFFFFF` to `sand/100` — barely perceptible, but it is what stops white cards from
-disappearing into the page, and the single cheapest source of the "airy" quality.
+**Background.** Never pure white, and never a flat wash. Every screen carries a soft
+**aurora mesh**: a white→`sand/100` base with three heavily blurred colour blobs — peach
+(`coral/200` at 50%), lavender (`periwinkle/200` at 46%) and soft blue (`sky/200` at 42%),
+each at 110–130pt layer blur, concentrated in the upper third.
 
-**Gradient.** Three sanctioned uses and no others: the canvas wash above, the primary CTA
-sweep (`coral/300 → coral/500`), and the hero gauge sweep (`coral/400 → coral/600 →
-periwinkle/600`). Gradient never sits behind body text. Figma cannot bind gradients to
-variables, so each is mirrored by `accent/cta-gradient-*` and `accent/gauge-*` tokens
-holding the same values.
+This is the single biggest contributor to the premium feel, and it is deliberately weak
+enough to stay safe: the worst case, where the peach and lavender blobs overlap, measures
+**10.81:1 for `text.primary` and 4.53:1 for `text.secondary`** — still AAA and AA. The
+opacities were chosen against that measurement, not by eye.
+
+**Gradient.** Four sanctioned uses and no others: the aurora canvas above, the primary CTA
+sweep (`coral/300 → coral/500`), the hero gauge sweep (`coral/400 → coral/600 →
+periwinkle/600`), and the recipe-card scrim. Gradient never sits behind body text. Figma
+cannot bind gradients to variables, so each is mirrored by `accent.cta-gradient-*`,
+`accent.gauge-*` and `bg.aurora-*` tokens holding the same values.
 
 **Iconography.** SF Symbols, Regular weight, 24pt nominal. Icons inherit `text.secondary`
 unless they carry macro identity.

@@ -4,7 +4,8 @@
 size), built from the component sets in [`design-system.md`](design-system.md).
 
 Safe areas: 59pt top (status + Dynamic Island), 34pt bottom (home indicator).
-Screen margin 20pt. Tab bar 49pt + bottom inset.
+Screen margin 20pt. Floating glass tab bar 68pt, inset 20pt horizontally and lifted 28pt
+off the bottom edge; content scrolls beneath it.
 
 ---
 
@@ -31,18 +32,17 @@ possible path to logging something.
 | Region | Y | Content |
 |---|---|---|
 | Header | 59 | "Today" `large-title` · date `subhead` `text.secondary` · avatar 40pt |
-| Budget card | 128 | `CalorieCard variant=daily-budget`, 353×280, `elevation.1` |
-| — total ring | | `MacroRing macro=total size=lg` (160pt), centre `1,240` `display-calorie`, label "of 1,850 kcal" |
+| Budget block | 128 | `CalorieCard variant=daily-budget` — no card chrome; gauge + macro badges sit on the canvas |
+| — hero gauge | | `HeroGauge` — 300pt semicircular arc, orange→violet sweep, centre `1,240` `display-calorie` |
 | — macro row | | three `MacroRing size=sm` — Carbs 142g/210 · Protein 78g/120 · Fat 41g/62 |
 | Quick actions | 428 | two 1⁄2-width `Button size=lg`: "Scan" (primary, barcode icon) · "Search" (secondary) |
 | Today's meals | 500 | `title-3` + "Edit" tertiary button |
 | Meal list | 540 | 3 × `CalorieCard variant=meal-entry`, 8pt gap |
-| Tab bar | 769 | Home · Discover · **+** · Diary · Profile |
+| Tab bar | 756 | Floating glass pill, 353×68, inset 20pt — Home · Discover · **+** · Diary · Profile |
 
 ### Behaviour & states
 
-- The **+** tab is a raised 56pt FAB at `elevation.4`, filled `accent.primary`,
-  vertically centred on the tab bar. It opens the log sheet.
+- The **+** tab is a 50pt gradient FAB seated inside the glass pill. It opens the log sheet.
 - **Empty state** (nothing logged): rings at zero, meal list replaced by a
   `bg.raised` panel — "Nothing logged yet. Scan a barcode or search for a food."
 - **Over budget:** the total ring completes and draws the excess as an inset arc in

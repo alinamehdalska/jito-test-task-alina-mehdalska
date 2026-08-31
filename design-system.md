@@ -345,4 +345,28 @@ Semantic variables also carry `WEB` and `iOS` code syntax
 (`var(--plate-accent-primary)` / `Color.accentPrimary`), so Dev Mode hands engineers
 the real token name rather than a hex value.
 
-**Styles:** 12 text styles and 4 effect styles, generated from the same `tokens.json`.
+**Styles:** 13 text styles and 4 effect styles, generated from the same `tokens.json`.
+
+### 2.9 Tab Bar (glass)
+
+A floating pill rather than a full-width bar, inset 20pt from each edge and lifted 28pt off
+the bottom so content breathes underneath it.
+
+| Element | Value |
+|---|---|
+| Container | 353 × 68, `radius.full` |
+| Fill | `bg.surface` at 72% |
+| Backdrop | `BACKGROUND_BLUR` 24 |
+| Border | `bg.surface` at 65%, 1pt inside |
+| Shadow | 0 10 28 −6 @ 10% + 0 2 6 −2 @ 5% |
+| FAB | 50pt, CTA gradient, seated inside the pill |
+
+The translucent fill is what makes the blur read — a fully opaque pill would blur nothing.
+Content is allowed to scroll under it; that is the point of the treatment.
+
+### Photography
+
+Recipe and meal imagery is real photography, sourced from Pexels (free for commercial use,
+no attribution required) and content-matched per dish. Each image layer is named
+`photo — <dish>`; swapping one is a single fill change because the scrim and type sit above
+it, so legibility never depends on the photograph.
