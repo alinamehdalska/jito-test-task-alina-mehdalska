@@ -377,8 +377,8 @@ Built as **two layers**, which is what makes it work:
 | Element | Value |
 |---|---|
 | Container | 353 × 68, `radius.full`, inset 20pt, lifted 28pt, items at equal 52pt widths |
-| Fill | `bg.surface` @ 85% (node opacity) |
-| Backdrop | `BACKGROUND_BLUR` 20 |
+| Fill | `bg.surface` @ 65% (node opacity) |
+| Backdrop | `BACKGROUND_BLUR` 28 |
 | Border | `border.on-media`, 1pt inside |
 | Shadow | 0 14 36 −8 @ 20% + 0 2 8 −3 @ 9% (alphas boosted to survive the 0.65 opacity) |
 | FAB | 50pt, CTA gradient, seated inside the pill |
@@ -389,11 +389,19 @@ content keeps the labels crisp at full opacity. The translucent fill is also wha
 blur read at all — a fully opaque pill blurs nothing. Content is allowed to scroll under it;
 that is the point of the treatment.
 
-> **Implementation note.** Do not build translucent bound paints by cloning a paint object.
-> `setBoundVariableForPaint` returns a paint whose colour resolves **asynchronously**; any
-> read-back-and-reassign re-stores the placeholder black and silently produces a dark
-> element that still reports `bound: true`. Assign the bound paint exactly once and put
-> translucency on the node, not the paint.
+**Inactive nav items use `text.secondary`, not `text.tertiary`.** At 65% glass over the
+richest patch of aurora, tertiary measures 3.55:1 — acceptable for large text but short of AA
+for an 11pt label. Secondary measures 5.36:1.
+
+> **Implementation note — bound paints.** `setBoundVariableForPaint` returns a paint whose
+> colour resolves **asynchronously**. Two consequences, both of which shipped a dark tab bar
+> before being caught:
+>
+> 1. Never clone a returned paint to add opacity — the clone re-stores the placeholder and the
+>    element renders black while still reporting `bound: true`. Put translucency on the node.
+> 2. **Seed the base paint with the variable's real colour**, not a black placeholder:
+>    `setBoundVariableForPaint({type:'SOLID', color: WHITE}, 'color', v)`. If the binding has
+>    not resolved at paint time, the base colour is what renders.
 
 ### 2.10 Macro Stat
 

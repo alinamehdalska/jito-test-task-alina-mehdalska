@@ -55,10 +55,10 @@ they are used only for decorative tracks, while the meaning-bearing indicator us
 The interface was refactored against a set of reference designs toward a lighter, more
 premium feel. The rules that carry it:
 
-- **No pure white, no flat wash.** Every screen carries a soft aurora mesh — peach,
-  lavender and soft blue blobs at 110–130pt blur over a white→`sand/100` base. Opacities
-  were set against a contrast measurement (worst-case overlap still reads 10.81:1 for body
-  text), not by eye.
+- **No pure white, no flat wash.** Every screen carries a four-colour aurora mesh — peach,
+  lavender, pastel blue and pink at 150–165pt blur. The opacities are a *solved* value: the
+  richest setting at which a three-blob overlap still clears AA for secondary text (4.6:1).
+  At the strength first tried, that overlap failed at 4.44:1.
 - **Depth from shadow, never from borders.** Cards float on two-layer warm shadows — a
   tight contact layer plus a wide ambient one. Heavy grey containers were removed
   throughout: the tab strip, the search field, the product row, the ingredient list.

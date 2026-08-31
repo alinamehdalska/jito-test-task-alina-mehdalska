@@ -351,21 +351,22 @@ a border.
 **Surfaces.** White cards on a near-white canvas, separated by radius and soft shadow
 rather than borders. Blush (`bg.raised`) marks nesting one level deep.
 
-**Background.** Never pure white, and never a flat wash. Every screen carries a soft
-**aurora mesh**: a white→`sand/100` base with three heavily blurred colour blobs — peach
-(`coral/200` at 50%), lavender (`periwinkle/200` at 46%) and soft blue (`sky/200` at 42%),
-each at 110–130pt layer blur, concentrated in the upper third.
+**Background.** Never pure white, and never a flat wash. Every screen carries a
+four-colour **aurora mesh** over a `sand/50` base — peach (`coral/200` at 35%), lavender
+(`periwinkle/200` at 32%), pastel blue (`sky/200` at 31%) and pink (`blush/200` at 26%),
+each at 150–165pt layer blur.
 
-This is the single biggest contributor to the premium feel, and it is deliberately weak
-enough to stay safe: the worst case, where the peach and lavender blobs overlap, measures
-**10.81:1 for `text.primary` and 4.53:1 for `text.secondary`** — still AAA and AA. The
-opacities were chosen against that measurement, not by eye.
+**Those opacities are a solved value, not a taste call.** They are the richest setting at
+which a *three-blob overlap* — the worst case on the canvas — still clears AA for secondary
+text. At the originally-tried strength the same overlap measured 4.44:1 for `text.secondary`
+and 2.98:1 for `text.tertiary`, both failures. Scaled to 77% they measure **4.6:1 and 3.09:1**,
+with `text.primary` at 10.97:1.
 
-**Gradient.** Four sanctioned uses and no others: the aurora canvas above, the primary CTA
-sweep (`coral/300 → coral/500`), the hero gauge sweep (`coral/400 → coral/600 →
-periwinkle/600`), and the recipe-card scrim. Gradient never sits behind body text. Figma
-cannot bind gradients to variables, so each is mirrored by `accent.cta-gradient-*`,
-`accent.gauge-*` and `bg.aurora-*` tokens holding the same values.
+**Gradient.** Four sanctioned uses and no others: the aurora canvas, the calorie gauge sweep,
+the recipe-card scrim, and the bottom fade beneath the floating nav. Primary buttons are
+solid — decoration on the most-used control made the interface read softer than it should.
+Figma cannot bind gradients to variables, so each is mirrored by `accent.gauge-*` and
+`bg.aurora-*` tokens holding the same values.
 
 **Iconography.** SF Symbols, Regular weight, 24pt nominal. Icons inherit `text.secondary`
 unless they carry macro identity.
