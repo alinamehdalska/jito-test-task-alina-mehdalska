@@ -13,7 +13,7 @@ calculator mobile app, produced with an AI-native workflow using Claude Code.
 |---|---|---|
 | 1 | Branding & stylescape | [`branding-strategy.md`](branding-strategy.md) + Figma *Stylescape* section |
 | 2 | Design system | [`tokens.json`](tokens.json) · [`design-system.md`](design-system.md) + Figma variables & components |
-| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens & Flows* page |
+| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens & Flows* page — 8 frames |
 
 **Figma file:** https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l
 (Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6))
@@ -69,7 +69,21 @@ premium feel. The rules that carry it:
   with content scrolling beneath it.
 - **Two calorie scales, not one.** The dashboard hero is 56pt Heavy; figures inside cards
   use a lighter 28pt Semibold so they sit in the hierarchy instead of shouting over it.
-- **Gradient is rationed** to three places: the canvas wash, the primary CTA, the gauge sweep.
+- **Gradient is rationed to one place: the calorie gauge**, where the sweep encodes progress.
+  The CTA gradient was removed in the product pass — decoration on the most-used control made
+  the interface read softer than it should.
+- **Colour never carries meaning alone.** Every macro states its name and its
+  consumed/target figures alongside the colour.
+
+### Both halves of User Story 1
+
+The earlier design calculated calories for a **product** but not for a **dish**, which left
+half the first user story unbuilt. The Calculator now opens on a Product / Dish switch, and
+a dedicated Dish Calculator lets the user assemble ingredients, set servings and see both
+the dish total and the per-serving figure before saving.
+
+The serving-size slider was removed. A continuous slider cannot express an exact gram value,
+which is the one thing that screen exists to capture — preset chips plus a stepper replace it.
 
 ### "Fits your day" beats a number
 

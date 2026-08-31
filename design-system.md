@@ -81,15 +81,17 @@ Primary action affordance.
 
 | Variant | Fill | Label | Border | Shadow |
 |---|---|---|---|---|
-| `primary` | gradient `coral/300 → coral/500` | `text.primary` | none | `elevation.2` |
+| `primary` | solid `accent.primary` | `text.primary` | none | `elevation.1` |
 | `secondary` | `bg.surface` | `accent.primary-strong` | `border.subtle` 1pt | `elevation.1` |
 | `tertiary` | transparent | `accent.primary-strong` | none | none |
 | `destructive` | `feedback.danger-surface` | `feedback.danger` | none | none |
 
-**Why primary uses `text.primary`, not `text.inverse`:** white on coral fails WCAG at
-every usable tint. The gradient was chosen so the ink label clears AA at *both* stops —
-8.07:1 at the start, 4.65:1 at the end. A `coral/400 → coral/600` sweep looks similar but
-drops the label to 3.37:1 and fails.
+**Why primary is solid, and why the label is ink.** Only two combinations on this hue clear
+AA: `coral/400` with an ink label (6.16:1) and `coral/700` with white (6.04:1). The second
+abandons the warm orange accent, so the first wins. The gradient was dropped in the product
+pass — decoration on the most-used control made the interface read softer than it should.
+**Gradient now appears in exactly one place: the calorie gauge**, where the sweep encodes
+progress rather than ornamenting a button.
 
 **Secondary is a floating card, not a tinted button.** White fill, hairline, soft shadow —
 it reads as a surface that happens to be tappable, which keeps secondary actions visually
@@ -328,7 +330,7 @@ Image-led card for discovery.
 00 · Cover            index and token-pipeline notes
 01 · Foundations      colour ramps, semantic groups, macro spine,
                       type specimen, spacing, radius, elevation
-02 · Components       the 8 component sets below — 56 variants
+02 · Components       10 component sets — 61 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
 04 · Screens          4 iOS screens @ 393 × 852
 05 · Flows            2 user-story flow maps
@@ -379,6 +381,31 @@ that is the point of the treatment.
 > read-back-and-reassign re-stores the placeholder black and silently produces a dark
 > element that still reports `bound: true`. Assign the bound paint exactly once and put
 > translucency on the node, not the paint.
+
+### 2.10 Macro Stat
+
+Consumed against target for one macronutrient.
+
+| Element | Token |
+|---|---|
+| Dot | `macro.{m}.indicator` |
+| Label | `text.secondary`, `subhead` |
+| Value | `text.primary`, `subhead` Semibold — `78 / 120 g` |
+| Track / fill | `macro.{m}.track` / `macro.{m}.indicator`, 6pt, `radius.full` |
+
+**Colour is never the only carrier.** Each row states the macro by name and gives both the
+consumed figure and the target, so the information survives without colour perception
+(WCAG 1.4.1). It replaces the ring badges, which showed a value but never the goal.
+
+### 2.11 Reason Chip
+
+| Property | Values |
+|---|---|
+| `tone` | `positive` · `neutral` |
+
+`positive` (`feedback.success-surface`) is reserved for calorie/macro fit. `neutral`
+(`bg.sunken`) carries attributes — time, diet, protein. Used on recipe cards and in the
+Discover recommendation header so the app always says *why* something is suggested.
 
 ### Ingredient rows (Recipe Details)
 
