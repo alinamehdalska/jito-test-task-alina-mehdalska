@@ -48,6 +48,13 @@ Slash-delimited in Figma (produces folder grouping), dot-delimited in DTCG.
 | `border/*` | `STROKE_COLOR` | Only offered as strokes |
 | `space/*` | `GAP`, `WIDTH_HEIGHT` | Only in layout fields |
 | `radius/*` | `CORNER_RADIUS` | Only in radius fields |
+| `*-gradient-*` | `ALL_FILLS`, `STROKE_COLOR` | Mirror values for gradients |
+| `*/on-media` | `TEXT_FILL` / `STROKE_COLOR` | Content over photography |
+
+**Gradients are the one thing tokens cannot own.** Figma paints cannot bind a gradient to a
+variable, so the three sanctioned gradients are mirrored by `accent.cta-gradient-*`,
+`accent.gauge-*` and `bg.canvas-gradient-*` tokens that hold the same stop values. The
+binding audit counts them separately rather than pretending they are bound.
 
 Scoping is the mechanism that makes the right choice the easy one.
 
@@ -72,15 +79,21 @@ Primary action affordance.
 
 24 variants.
 
-| Variant | Fill | Label | Border |
-|---|---|---|---|
-| `primary` | `accent.primary` | `text.primary` | none |
-| `secondary` | `accent.primary-muted` | `accent.primary-strong` | none |
-| `tertiary` | transparent | `accent.primary-strong` | none |
-| `destructive` | `feedback.danger-surface` | `feedback.danger` | none |
+| Variant | Fill | Label | Border | Shadow |
+|---|---|---|---|---|
+| `primary` | gradient `coral/300 → coral/500` | `text.primary` | none | `elevation.2` |
+| `secondary` | `bg.surface` | `accent.primary-strong` | `border.subtle` 1pt | `elevation.1` |
+| `tertiary` | transparent | `accent.primary-strong` | none | none |
+| `destructive` | `feedback.danger-surface` | `feedback.danger` | none | none |
 
 **Why primary uses `text.primary`, not `text.inverse`:** white on coral fails WCAG at
-every usable tint. See `branding-strategy.md` §4.
+every usable tint. The gradient was chosen so the ink label clears AA at *both* stops —
+8.07:1 at the start, 4.65:1 at the end. A `coral/400 → coral/600` sweep looks similar but
+drops the label to 3.37:1 and fails.
+
+**Secondary is a floating card, not a tinted button.** White fill, hairline, soft shadow —
+it reads as a surface that happens to be tappable, which keeps secondary actions visually
+quiet without making them look disabled.
 
 - Height `44`/`52` — both meet the 44pt iOS minimum touch target.
 - Padding `space.24` horizontal, radius `radius.full`.
@@ -114,14 +127,16 @@ Entry point for User Story A. Text search and barcode scan share one control.
 
 | Element | Token |
 |---|---|
-| Container fill | `bg.sunken` |
-| Border (rest) | `border.interactive` |
-| Border (focus) | `border.focus`, 2pt, 2pt offset |
+| Container fill | `bg.surface` |
+| Border (rest) | `border.subtle` 1pt |
+| Border (focus) | `border.focus`, 2pt |
+| Shadow | `elevation.1` |
 | Placeholder | `text.tertiary` |
 | Value | `text.primary` |
 | Icons | `text.secondary` |
 
-- Height 52, radius `radius.lg`, gap `space.12`.
+- Height 52, radius `radius.full` (wide pill), leading padding `space.20`.
+- A soft shadow replaces the harsh border: the field reads as floating on the canvas.
 - The scan button is a **separate 44pt target** inside the container, not the whole field.
 - `focused` uses a 2pt ring at 3.87:1 — meets WCAG 2.4.11.
 
@@ -155,7 +170,7 @@ The system's signature element. Renders one macro's consumed-vs-target as an arc
 | Centre value | `text.primary` (`display-calorie` at `lg`, `title-3` at `sm`) |
 | Centre label | `text.tertiary`, `caption-1` |
 
-- Stroke `sm` 6pt / `lg` 14pt, round caps, 12 o'clock start, clockwise.
+- Stroke `sm` 3pt / `lg` 8pt — deliberately thin, so the number leads and the arc supports.
 - `total` uses `accent.primary` as its indicator.
 - **Over-target does not turn red.** The arc completes and a second, inset arc draws
   the excess in `feedback.warning`.
@@ -192,8 +207,10 @@ Three shapes of the same idea: a calorie figure with macro context.
 | Title | `text.primary`, `title-2` |
 | Meta | `text.secondary`, `footnote` |
 
-- `daily-budget` — `lg` total ring + three `sm` macro rings. Dashboard hero.
-- `meal-entry` — thumbnail, name, kcal, macro bar, quick-add. List row.
+- `daily-budget` — **no card chrome.** Hero Gauge plus a horizontal row of three thin macro
+  badges, sitting directly on the canvas so nothing competes with the data.
+- `meal-entry` — floating card: thumbnail, dish name left-aligned, macro grams as small dot
+  indicators, calories pushed to the right edge.
 - `product-result` — name, brand, per-100g kcal, macro chips. Search result.
 
 ```ts
@@ -249,6 +266,46 @@ Smart filters for User Story B.
 
 ---
 
+### 2.7 Hero Gauge
+
+The dashboard focal point. A thin semicircular arc rather than a full ring — it frees the
+centre for the number and reads as a gauge rather than a progress donut.
+
+| Element | Token / value |
+|---|---|
+| Track | `bg.sunken`, 13pt stroke |
+| Sweep | gradient `accent.gauge-start → gauge-mid → gauge-end` |
+| Value | `display.calorie` (56/58 Heavy Rounded), `text.primary` |
+| Caption | `caption-1`, `text.tertiary` |
+| End labels | `headline` + `caption-2` at each arc terminus |
+
+- Diameter 300, upper semicircle only (`startingAngle` π → 2π).
+- **The gradient stops are mapped to the drawn arc, not the bounding box.** A 67% sweep
+  ends near x=0.75, so a violet stop at position 1.0 would never be painted — the stops sit
+  at 0 / 0.34 / 0.58 / 0.76.
+- The arc is decorative: the value is always present as text, so the light start stop is
+  permitted below 3:1. The mid and end stops clear it anyway.
+
+### 2.8 Recipe Card
+
+Image-led card for discovery.
+
+| Property | Values |
+|---|---|
+| `match` | `fits` · `tight` · `none` |
+
+| Element | Token |
+|---|---|
+| Photo | named `photo` layer — replace fill with an image paint |
+| Scrim | vertical gradient, ink 0 → 0.86 |
+| Title / calories | `text.on-media` |
+| Match tag | `border.on-media` fill 18%, stroke 75% |
+
+- 170 × 232, radius `radius.xl`, `elevation.2`.
+- Title and calories sit **on the scrim**, so legibility is guaranteed by the overlay rather
+  than by the photograph — any image can be dropped in without re-checking contrast.
+- The match tag is a thin outline, not a filled badge.
+
 ## 3. Composition rules
 
 1. **Screen margin is `space.20`.** Cards may bleed to `space.16` only in horizontal
@@ -271,7 +328,7 @@ Smart filters for User Story B.
 00 · Cover            index and token-pipeline notes
 01 · Foundations      colour ramps, semantic groups, macro spine,
                       type specimen, spacing, radius, elevation
-02 · Components       the 6 component sets below — 52 variants
+02 · Components       the 8 component sets below — 56 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
 04 · Screens          4 iOS screens @ 393 × 852
 05 · Flows            2 user-story flow maps
@@ -281,8 +338,8 @@ Smart filters for User Story B.
 
 | Collection | Modes | Count | Scopes |
 |---|---|---|---|
-| `Primitives` | `Value` | 78 | `[]` — private |
-| `Semantic` | `Light`, `Dark` | 38 | role-scoped |
+| `Primitives` | `Value` | 88 | `[]` — private |
+| `Semantic` | `Light`, `Dark` | 47 | role-scoped |
 
 Semantic variables also carry `WEB` and `iOS` code syntax
 (`var(--plate-accent-primary)` / `Color.accentPrimary`), so Dev Mode hands engineers

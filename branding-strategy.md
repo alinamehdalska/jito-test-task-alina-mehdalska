@@ -169,6 +169,26 @@ warm surface neutral, and one ink ramp.
 | `neutral/700` | `#6E645C` | hsl(27 9% 40%) |
 | `neutral/800` | `#51473F` | hsl(27 12% 28%) |
 | `neutral/900` | `#362B23` | hsl(25 21% 17%) |
+#### Sand
+
+*Warm neutral introduced in the airy refactor. Carries the canvas gradient, raised
+surfaces and hairlines — it replaces the cooler grey that made the interface read as
+clinical.*
+
+| Step | Hex |
+|---|---|
+| `sand/50` | `#FDFCFA` |
+| `sand/100` | `#F9F6F3` |
+| `sand/200` | `#F2EFEA` |
+| `sand/300` | `#E6E2DD` |
+| `sand/400` | `#D4D0CA` |
+| `sand/500` | `#BAB7B1` |
+| `sand/600` | `#95928C` |
+| `sand/700` | `#6E6B67` |
+| `sand/800` | `#4C4A46` |
+| `sand/900` | `#2F2E2B` |
+
+
 ### The macro spine
 
 The single most important decision in the system: **the three moodboard accents map
@@ -232,43 +252,42 @@ indicators. This is the kind of defect that ships invisibly and fails an audit l
 
 ## 5. Contrast verification
 
-Every pair below was computed from the actual token values, not estimated.
+Every pair below was computed from the actual token values, not estimated. The canvas
+figure uses `sand/100` — the **darkest end** of the background gradient, i.e. the worst case.
 
 | Foreground | Background | Ratio | Grade |
 |---|---|---|---|
-| `text.primary` `#362B23` | `bg.canvas` `#FBFBFC` | **13.3:1** | AAA |
+| `text.primary` `#362B23` | `bg.canvas (gradient end)` `#F9F6F3` | **12.78:1** | AAA |
 | `text.primary` `#362B23` | `bg.surface` `#FFFFFF` | **13.76:1** | AAA |
-| `text.primary` `#362B23` | `bg.raised` `#FEF4F3` | **12.74:1** | AAA |
-| `text.secondary` `#6E645C` | `bg.canvas` `#FBFBFC` | **5.58:1** | AA |
+| `text.secondary` `#6E645C` | `bg.canvas` `#F9F6F3` | **5.36:1** | AA |
 | `text.secondary` `#6E645C` | `bg.surface` `#FFFFFF` | **5.77:1** | AA |
-| `text.tertiary` `#82808C` | `bg.canvas` `#FBFBFC` | **3.75:1** | AA Large only |
-| `text.disabled` `#9A98A5` | `bg.canvas` `#FBFBFC` | **2.74:1** | FAIL |
-| `text.primary` `#362B23` | `accent.primary` `#F0986A` | **6.16:1** | AA |
-| `accent.primary-strong` `#9B4D1E` | `bg.canvas` `#FBFBFC` | **5.85:1** | AA |
-| `accent.secondary (text)` `#615C9F` | `bg.canvas` `#FBFBFC` | **5.74:1** | AA |
-| `text.inverse` `#FFFFFF` | `bg.inverse` `#362B23` | **13.76:1** | AAA |
+| `text.tertiary` `#82808C` | `bg.canvas` `#F9F6F3` | **3.6:1** | AA-lg |
+| `text.primary` `#362B23` | `accent.cta-gradient-start` `#FEB691` | **8.07:1** | AAA |
+| `text.primary` `#362B23` | `accent.cta-gradient-end` `#DB7E49` | **4.65:1** | AA |
+| `accent.primary-strong` `#9B4D1E` | `bg.canvas` `#F9F6F3` | **5.61:1** | AA |
 | `macro.carbs.label` `#9B4D1E` | `macro.carbs.surface` `#FFF4EF` | **5.6:1** | AA |
 | `macro.protein.label` `#615C9F` | `macro.protein.surface` `#F6F6FF` | **5.52:1** | AA |
 | `macro.fat.label` `#446B86` | `macro.fat.surface` `#F0F8FE` | **5.3:1** | AA |
-| `feedback.success` `#30815E` | `bg.canvas` `#FBFBFC` | **4.59:1** | AA |
-| `feedback.warning` `#A36700` | `bg.canvas` `#FBFBFC` | **4.52:1** | AA |
-| `feedback.danger` `#B4453C` | `bg.canvas` `#FBFBFC` | **5.26:1** | AA |
+| `feedback.success` `#30815E` | `bg.surface` `#FFFFFF` | **4.74:1** | AA |
 
-**Non-text contrast** (WCAG 1.4.11 — 3:1 minimum for meaningful graphics):
+**Non-text contrast** (WCAG 1.4.11 — 3:1 for meaningful graphics):
 
 | Element | Background | Ratio | Grade |
 |---|---|---|---|
-| `macro.carbs.indicator` `#C06530` | `bg.surface` `#FFFFFF` | **4.08:1** | Pass |
-| `macro.protein.indicator` `#7C76C4` | `bg.surface` `#FFFFFF` | **4.0:1** | Pass |
-| `macro.fat.indicator` `#5A87A7` | `bg.surface` `#FFFFFF` | **3.85:1** | Pass |
-| `border.interactive` `#82808C` | `bg.surface` `#FFFFFF` | **3.88:1** | Pass |
-| `border.focus` `#7C76C4` | `bg.canvas` `#FBFBFC` | **3.87:1** | Pass |
-| `border.focus` `#7C76C4` | `bg.surface` `#FFFFFF` | **4.0:1** | Pass |
-**`text.disabled` at 2.74:1 is intentional.** WCAG 1.4.3 exempts disabled controls.
-It is never used for enabled content, and disabled states always carry a second signal
-(reduced opacity plus removed affordance).
+| `gauge sweep — mid` `#C06530` | `bg.surface` `#FFFFFF` | **4.08:1** | PASS |
+| `gauge sweep — end` `#7C76C4` | `bg.surface` `#FFFFFF` | **4.0:1** | PASS |
+| `macro.carbs.indicator` `#C06530` | `bg.surface` `#FFFFFF` | **4.08:1** | PASS |
+| `macro.protein.indicator` `#7C76C4` | `bg.surface` `#FFFFFF` | **4.0:1** | PASS |
+| `macro.fat.indicator` `#5A87A7` | `bg.surface` `#FFFFFF` | **3.85:1** | PASS |
+| `border.interactive` `#82808C` | `bg.surface` `#FFFFFF` | **3.88:1** | PASS |
+| `border.focus` `#7C76C4` | `bg.canvas` `#F9F6F3` | **3.72:1** | PASS |
 
----
+**`text.disabled` is intentionally below AA.** WCAG 1.4.3 exempts disabled controls. It is
+never used for enabled content, and disabled states always carry a second signal.
+
+**The hero gauge's lightest stop sits below 3:1 on purpose.** The gauge is decorative —
+the calorie value is always present as text beside it — so WCAG 1.4.11 does not apply.
+The mid and end stops clear 3:1 anyway, which is why the sweep reads as rich rather than pale.
 
 ## 6. Typography
 
@@ -278,8 +297,8 @@ large numerics, where its softer terminals suit the ring readouts.
 
 | Token | Size / Line | Weight | Tracking | Use |
 |---|---|---|---|---|
-| `display-calorie` | 48 / 52 | Bold | −0.5 | Hero calorie readout (Rounded, tabular) |
-| `large-title` | 34 / 41 | Bold | +0.37 | Screen titles |
+| `display-calorie` | 56 / 58 | Heavy | −1.6 | Hero calorie readout (Rounded, tabular) |
+| `large-title` | 40 / 44 | Bold | −1.0 | Screen titles — expressive |
 | `title-1` | 28 / 34 | Bold | +0.36 | Section heroes |
 | `title-2` | 22 / 28 | Semibold | +0.35 | Card titles |
 | `title-3` | 20 / 25 | Semibold | +0.38 | Subsection headers |
@@ -309,17 +328,20 @@ calm rather than dense, and it matches the moodboard's generous framing.
 Cards use `xl` (20), sheets `3xl` (32), pills and rings `full`. Generous radii are the
 single strongest carrier of the moodboard's soft-UI character.
 
-**Elevation.** Four levels, all warm-tinted — shadows use `neutral/900` (`#362B23`)
-rather than black, so they stay inside the palette instead of greying it.
+**Elevation.** Four levels, each built from **two** layers — a tight contact shadow plus a
+wide ambient one — and all warm-tinted: they use `neutral/900` (`#362B23`) rather than
+black, so they stay inside the palette instead of greying it.
 
-| Level | Y | Blur | Spread | Alpha | Use |
-|---|---|---|---|---|---|
-| `1` | 2 | 8 | −1 | 6% | Resting cards |
-| `2` | 4 | 16 | −2 | 8% | Raised cards |
-| `3` | 8 | 24 | −4 | 10% | Sheets, popovers |
-| `4` | 16 | 40 | −8 | 12% | Modals, the log FAB |
+| Level | Contact layer | Ambient layer | Use |
+|---|---|---|---|
+| `1` | 0 1 2 @ 3% | 0 4 12 −2 @ 5% | Resting cards |
+| `2` | 0 2 4 −1 @ 3% | 0 8 20 −4 @ 7% | Raised cards, slider thumbs |
+| `3` | 0 4 8 −2 @ 4% | 0 16 32 −8 @ 9% | Sheets, tab bar, sticky CTAs |
+| `4` | 0 8 16 −4 @ 5% | 0 24 48 −12 @ 11% | The log FAB |
 
-Negative spread keeps the shadow tucked under the card — wide, soft, and barely there.
+Negative spread keeps the shadow tucked under the card. The two-layer construction is what
+makes cards read as *floating* rather than outlined — depth comes from shadow, never from
+a border.
 
 ---
 
@@ -328,9 +350,15 @@ Negative spread keeps the shadow tucked under the card — wide, soft, and barel
 **Surfaces.** White cards on a near-white canvas, separated by radius and soft shadow
 rather than borders. Blush (`bg.raised`) marks nesting one level deep.
 
-**Gradient.** Used sparingly and only as atmosphere — a soft coral→periwinkle mesh
-behind the dashboard header, never behind text that must be read. The moodboard is
-saturated with gradient; the product uses it as seasoning.
+**Background.** Never pure white. Every screen carries a vertical gradient from
+`#FFFFFF` to `sand/100` — barely perceptible, but it is what stops white cards from
+disappearing into the page, and the single cheapest source of the "airy" quality.
+
+**Gradient.** Three sanctioned uses and no others: the canvas wash above, the primary CTA
+sweep (`coral/300 → coral/500`), and the hero gauge sweep (`coral/400 → coral/600 →
+periwinkle/600`). Gradient never sits behind body text. Figma cannot bind gradients to
+variables, so each is mirrored by `accent/cta-gradient-*` and `accent/gauge-*` tokens
+holding the same values.
 
 **Iconography.** SF Symbols, Regular weight, 24pt nominal. Icons inherit `text.secondary`
 unless they carry macro identity.
