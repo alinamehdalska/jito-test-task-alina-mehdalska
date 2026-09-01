@@ -345,7 +345,7 @@ Image-led card for discovery.
                       type specimen, spacing, radius, elevation
 02 · Components       10 component sets — 61 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
-04 · Screens          4 iOS screens @ 393 × 852
+04 · Screens          10 iOS frames @ 393 × 852 (see screens-spec.md)
 05 · Flows            2 user-story flow maps
 ```
 

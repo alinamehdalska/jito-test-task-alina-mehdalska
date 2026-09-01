@@ -1,0 +1,133 @@
+# Plate — Project Guide
+
+## What this repo is
+
+A **design deliverable**, not an application. It is the submission for the Jito UX/UI test
+task: branding, a design system, and key screens for **Plate**, a calorie-tracking mobile app.
+
+There is no application code, no package manager, no build, lint, typecheck or test step.
+
+> **Note on the global config.** `~/.claude/CLAUDE.md` imports `java.md` and `react.md` and
+> defines a "run lint → typecheck → test → build before commit" workflow. **Neither stack is
+> in use here and that workflow does not apply.** The verification steps for this repo are in
+> *Definition of done* below. Everything else in the global config — scope discipline, honest
+> reporting, no secrets, conventional commits — still applies.
+
+## Designer persona
+
+Senior UI/UX designer working mobile-first: information hierarchy, design-system token
+architecture, and visual craft (glassmorphic surfaces, mesh gradients, layered elevation).
+The recurring challenge is balancing **dense numeric data** — calorie budgets, macro targets,
+calculator forms — against a calm, airy, trustworthy interface.
+
+Prioritise **usability and product logic over decoration.**
+
+## Deliverables
+
+| File | Contents |
+|---|---|
+| `README.md` | Overview, UX rationale, AI-native workflow, photo credits, limitations |
+| `branding-strategy.md` | Brand personality, colour derivation, type, tone, full contrast matrix |
+| `design-system.md` | Token architecture, 11 component specs, composition rules, Figma traps |
+| `screens-spec.md` | 10 frames, both user stories, navigation, accessibility |
+| `tokens.json` | **Source of truth.** W3C DTCG. Counts live here, not in prose |
+
+**Figma:** `lzCgTFcfrlE8qGqYbBTh7l` — pages `00 Cover · 01 Foundations · 02 Components ·
+03 Stylescape · 04 Screens · 05 Flows`.
+**Reference/brief file:** `G4Zl3VtgSh7nRAJ3rcC1vy` (the brief itself is image nodes `4:3` / `4:6`).
+
+## Design system contract
+
+**Two tiers.** `primitive.*` → `semantic.*` → components. Components consume **semantic
+tokens only**. Primitives are scoped `[]` in Figma — invisible in every picker — so the
+semantic layer cannot be bypassed.
+
+**Spacing — the only valid steps:** `0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64`.
+Screen margin 20. `2` is optical-nudge only.
+
+**Radius:** `xs 4 · sm 8 · md 12 · lg 16 · xl 20 · 2xl 24 · 3xl 32 · full`.
+Cards use `xl`, sheets `3xl`, pills/rings `full`.
+
+**Type:** SF Pro / SF Pro Rounded (both verified present in the file). 13 styles.
+`display-calorie` 56/58 Heavy is the **dashboard hero only**; in-card figures use
+`metric-card` 28/32 Semibold. One style must not do both jobs.
+
+**Elevation:** four levels, each **two layers** (tight contact + wide ambient), warm-tinted
+with `neutral/900` rather than black. Depth comes from shadow, never from a border.
+
+**The macro spine.** Coral = carbs, periwinkle = protein, sky = fat — fixed everywhere.
+Each macro has three roles: `track` (decorative), `indicator` (**≥3:1**, WCAG 1.4.11), and
+`label` (**≥4.5:1**).
+
+## Verified constraints — do not "improve" these away
+
+Each was measured. Changing one without re-measuring will break accessibility.
+
+| Rule | Number | Why |
+|---|---|---|
+| Primary CTA is **solid coral with an ink label** | 6.16:1 | White-on-coral fails at *every* tint of this hue. `coral/700` + white passes (6.04) but abandons the warm accent |
+| Gauge sweep and macro indicators use the **600-tints** | 3.85–4.08:1 | The prettier 400-tints measure ~2.1:1 and fail the non-text floor |
+| Aurora opacities `0.35 / 0.32 / 0.31 / 0.26` | 4.6:1 worst case | This is the **richest** setting where a three-blob overlap still clears AA for `text.secondary`. Raising it fails at 4.44 |
+| Glass tab bar 65% + blur 28; **inactive nav = `text.secondary`** | 5.36:1 | `text.tertiary` measures 3.55 behind 65% glass — short of AA for an 11pt label |
+| `text.tertiary` is **large-text only** | 3.6:1 | Never for body copy |
+| Focus ring `periwinkle/600`, 2pt | 3.87:1 | `periwinkle/500` measured 2.82 and failed WCAG 2.4.11 |
+| **Colour never carries meaning alone** | — | Every macro shows a dot **and** a name **and** consumed/target values |
+
+**Gradient is rationed** to four uses: aurora canvas, calorie gauge sweep, recipe-card scrim,
+bottom fade under the floating nav. Primary buttons are solid.
+
+**No shame language.** No red for being over budget (amber at most); `feedback.danger` is
+reserved for destructive actions. No body imagery — food, hands, kitchens only.
+
+## Figma working agreements
+
+Load the `figma-use` skill before **every** `use_figma` call. Beyond it, these have each cost
+real rework on this file:
+
+1. **Seed bound paints with the variable's real colour.**
+   `setBoundVariableForPaint` resolves colour **asynchronously**. A black placeholder base
+   renders black if resolution lags — this shipped a dark tab bar twice while still reporting
+   `bound: true`.
+2. **Never clone a returned paint to add opacity.** The clone re-stores the placeholder. Put
+   translucency on the **node** (`node.opacity`), not the paint.
+3. **Only bind spacing tokens that exist.** `setBoundVariable(prop, undefined)` silently
+   *clears* the property. Binding to `space/14` or `space/10` produced 40 containers with zero
+   padding that looked deliberate in the layer tree. Use a guarded setter that throws.
+4. **`resize()` before setting sizing modes** — resize resets them to `FIXED`, which silently
+   collapses hugging columns.
+5. **Gradients cannot bind to variables.** Mirror their stops in `accent.gauge-*` /
+   `bg.aurora-*` and report them separately in binding audits.
+6. **One `setCurrentPageAsync` per call.** Fan multi-page work out in parallel calls.
+7. **Node opacity fades children too** — that is why the glass bar is two layers (a
+   `glass-plate` behind a transparent content pill).
+8. Screens 2, 3, 5 and 6 are push/modal contexts: sticky CTA, **no tab bar** — this is
+   deliberate, not an omission.
+
+## Definition of done
+
+1. `python3 -c "import json; json.load(open('tokens.json'))"` plus a DTCG shape check —
+   every leaf has `$value`/`$type`, every `{alias}` resolves, no cycles.
+2. **Re-measure contrast** for any pair you changed. Do not eyeball it.
+3. **Screenshot readback** of every frame you touched, and actually look at it — several
+   regressions here passed structural checks while visibly broken.
+4. **Binding audit** on the Screens page: solid fills and strokes should be 100%
+   variable-bound; gradients counted separately.
+5. Keep `tokens.json` and the Figma variables in sync — both are generated from one source.
+6. Conventional commit, imperative subject, body explaining *why*. Do not push without asking.
+
+## Submission requirements — pass/fail
+
+From the brief, and easy to miss:
+
+- Everything must be verifiable **in incognito**. The Figma file and the GitHub repo must both
+  be publicly link-shared, or the submission is discarded.
+- All deliverables **in English**.
+- A **video walkthrough** covering all three parts (branding, design system, screens).
+
+## Open items
+
+- Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
+- GitHub repo public, then `git push`.
+- Replace the Loom placeholder in `README.md`.
+- 16 stray `photo_*` rectangles sit on the Screens page — not mine, left untouched pending a
+  decision.
