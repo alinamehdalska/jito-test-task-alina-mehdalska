@@ -12,6 +12,31 @@ root `README.md`, not application code.
 | `figma-fade-tuning-and-list-parity.js` | **Applied 2026-09-01.** Opaque CTA pods removed from 5/5b, per-screen fade ramps, ingredient list matched to its counter. |
 | `figma-gauge-width-and-grid-cut.js` | **Applied 2026-09-01.** Hero Gauge widened to the card interior, Discovery grid cut repositioned so its fade can be light. |
 | `figma-tab-split-and-discovery-compaction.js` | **Applied 2026-09-01.** Section tabs become true tab views (new frame 5c), each tab's content completed, Discovery reclaims 20pt. |
+| `figma-card-photo-scrim.js` | **Applied 2026-09-01.** Recipe card photo dissolves into the panel; repairs the component's black-seeded surface fill. |
+
+## figma-card-photo-scrim.js
+
+**Frame 5 has no gradient.** Its hero photo meets the content panel because the panel
+*overlaps* it by 24pt with a `radius.3xl` top — the softness is geometry, not a fade. The
+recipe card had a butt joint instead: photo ends at 116, panel starts at 116, hard line.
+
+At 170pt wide, copying the mechanism would read fussy and cost photo height, so the card
+matches the **effect**: its last 24pt dissolve into `bg.surface`, hitting full opacity exactly
+on the photo's bottom edge so there is no seam left to see. This is the design system's
+sanctioned *recipe-card scrim* — one of the four rationed gradients — and like the other three
+it cannot bind to a variable, so its stops are `bg.surface`'s Light value hardcoded. Dark mode
+would need them re-authored.
+
+The scrim must be `layoutPositioning: 'ABSOLUTE'`; in the card's vertical auto-layout a flow
+child pushes the content panel down instead of overlaying the photo.
+
+### Found in passing
+
+Every Recipe Card variant's fill was bound to `bg.surface` but **seeded black** — so the
+component set on the Components page rendered as three black cards while reporting
+`bound: true`. The instances had resolved to white, which is why the Screens page looked
+correct and only the library page was wrong. This is working agreement 1 in `CLAUDE.md`,
+still latent from an earlier pass; re-seeded with the variable's real colour.
 
 ## figma-tab-split-and-discovery-compaction.js
 

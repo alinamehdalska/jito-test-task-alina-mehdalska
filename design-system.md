@@ -313,6 +313,7 @@ Image-led card for discovery.
 | Element | Token |
 |---|---|
 | Photo | named `photo` layer, 170 × 116 — replace fill with an image paint |
+| Photo scrim | `photo-scrim`, 170 × 24, absolute, bottom-aligned to the photo — `bg.surface` 0% → 100% |
 | Content panel | `bg.surface`, padding `space.12`, gap `space.8` |
 | Title | `headline` on `text.primary` |
 | Calories / time | `metric-inline` on `text.primary`, `caption-1` on `text.secondary` |
@@ -323,6 +324,17 @@ Image-led card for discovery.
   therefore independent of the image, and any photo can be dropped in without re-checking
   contrast. (An earlier revision used a bottom scrim with `text.on-media`; the panel
   replaced it and this table lagged behind.)
+- **The `photo-scrim` softens the seam, it does not carry text.** The photo's last 24pt
+  dissolve into `bg.surface`, reaching full opacity exactly on the photo's bottom edge, so
+  there is no edge left to see. Frame 5 gets the same effect geometrically — its content
+  panel overlaps the hero photo by 24 with a `radius.3xl` top — but at 170pt wide that reads
+  fussy and costs photo height, so the card matches the *effect* rather than the mechanism.
+- The scrim is `layoutPositioning: 'ABSOLUTE'`; in the card's vertical auto-layout a flow
+  child would push the content panel down instead of overlaying the photo.
+- **It is one of the four rationed gradients and cannot bind to a variable.** Its stops are
+  `bg.surface`'s Light value at 0% and 100% alpha, hardcoded like the aurora and the
+  bottom-fade. In Dark mode `bg.surface` becomes `neutral/800`, so the scrim would need its
+  stops re-authored; binding audits count it separately.
 - **Never give this component a fixed height.** At 224 it clipped the bottom of the match
   tag on every instance whose title ran to two lines — see Figma working agreement 9.
 - The match tag carries a dot **and** a label, so colour is never the sole indicator.
