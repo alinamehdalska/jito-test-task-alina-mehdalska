@@ -285,6 +285,11 @@ centre for the number and reads as a gauge rather than a progress donut.
 | End labels | `headline` + `caption-2` at each arc terminus |
 
 - Diameter 300, upper semicircle only (`startingAngle` π → 2π).
+- **It is 300 wide inside a 313pt card interior, so its host card must centre its cross
+  axis** (`counterAxisAlignItems: CENTER`). Left-aligned it sits 20pt from the left edge and
+  33pt from the right — a 13pt lean that is invisible in the layer tree and obvious on the
+  canvas. The card's other children (divider, macro column) are already full-width, so
+  centring moves nothing but the gauge.
 - **The gradient stops are mapped to the drawn arc, not the bounding box.** A 67% sweep
   ends near x=0.75, so a violet stop at position 1.0 would never be painted — the stops sit
   at 0 / 0.34 / 0.58 / 0.76.
@@ -337,21 +342,28 @@ Image-led card for discovery.
    clears the home indicator's reserved zone (818–852) with room to spare. Form screens
    differ in height; the button should not.
 
-   Measured 2026-09-01, this holds on one screen of four:
+   Verified 2026-09-01 — all four CTA screens land on 808, and every one of the 24 tappable
+   elements below y 700 clears the zone:
 
-   | Screen | CTA bottom | Clearance | |
-   |---|---|---|---|
-   | 2 · Calculator | 808 | 44pt | on target |
-   | 5 · Recipe Details | 794 | 58pt | safe, more generous than the rule |
-   | 5b · Nutrition | 794 | 58pt | safe, more generous than the rule |
-   | 3 · Dish Calculator | **832** | **20pt** | **breaches the home-indicator zone by 14pt** |
+   | Screen | How it gets there |
+   |---|---|
+   | 2 · Calculator | already on target, unchanged |
+   | 5 · Recipe Details | bar moved **down** 742 → 756, height 92 → 96 so it reaches the frame bottom |
+   | 5b · Nutrition | same |
+   | 3 · Dish Calculator | moved **up**; it was the only CTA inside the zone, at 832 |
 
-   Screen 3 is the one to fix. Its bottom group is 174pt tall — a TOTAL DISH summary card
-   *plus* the CTA — and its content column already ends only 10pt above that group, so
-   raising the button requires reclaiming ~14pt from content above it. That trades directly
-   against the row breathing room added in the same pass, so it is recorded here as a
-   decision rather than taken silently. The cheapest route is the column's inter-section
-   gap (`space.16` → `space.12`, worth 16pt across four gaps).
+   Screen 3 needed 24pt to move up, reclaimed without touching row spacing: column rhythm
+   `space.16` → `space.12` (16pt, and it matches screen 2), the TOTAL DISH card's vertical
+   padding `space.12` → `space.8` (8pt), and the bottom group's own gap `space.12` →
+   `space.8` (4pt). It keeps a 14pt gap between the last content row and the group.
+
+   Note the two directions. On 5/5b the bar was too **high** — its button sat at 794 with only
+   7pt above it, so moving it down improved both. On 3 the button was too **low**, 14pt inside
+   the gesture zone. "Move the CTA down" is not a global instruction; the target is the number.
+
+   The floating tab bar's *frame* ends at 824, inside the zone, but its tap targets — the five
+   nav columns — end at 811. The bar is deliberately a floating pill with the home indicator
+   in the 28pt gap beneath it.
 5. **Screens with a floating nav carry a `bottom-fade` spanning y 696 → 852** — a
    transparent-to-canvas gradient that reaches **full canvas alpha at y 756, the bar's own
    top edge**, and stays solid to the frame bottom. The 60pt ramp above the bar is what

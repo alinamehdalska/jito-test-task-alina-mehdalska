@@ -6,6 +6,12 @@ in [`design-system.md`](design-system.md).
 Safe areas: 59pt top, 34pt bottom. Screen margin 20pt. Floating glass tab bar 353 × 68,
 inset 20pt and lifted 28pt; content scrolls beneath it.
 
+**Every frame carries the 59pt status bar**, including the two that had been shipping
+without one — 5 and 5b. On 5 it sits over the full-bleed hero photo in ink, which the
+image's light upper region carries; on 5b the collapsed header already reserved exactly
+59pt for it. **Every primary CTA's bottom edge sits at y = 808**, and no tap target on any
+frame enters the home indicator's reserved zone (818–852).
+
 | # | Frame | Role |
 |---|---|---|
 | 1 | Dashboard | Where am I today, and what next |

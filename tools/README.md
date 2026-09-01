@@ -8,6 +8,38 @@ root `README.md`, not application code.
 |---|---|
 | `figma-spacing-and-homebar-fix.js` | **Applied 2026-09-01.** 60 gaps restored, 24 left at zero by design, 7 chips repadded, 10 home indicators, safe-areas set. |
 | `figma-component-and-fade-fix.js` | **Applied 2026-09-01.** Recipe Card overflow, 44pt tap targets, skeleton/real card parity, segmented control, steppers, bottom scroll fade. |
+| `figma-alignment-and-safe-area-fix.js` | **Applied 2026-09-01.** Hero-arc centring, status bars on 5/5b, tab-counter baseline, tighter Discovery, one CTA baseline at y=808. |
+
+## figma-alignment-and-safe-area-fix.js
+
+**The hero arc was leaning left.** The Hero Gauge is 300pt wide inside a 313pt card
+interior; left-aligned, that is 20pt of left margin against 33pt of right. Nothing in the
+layer tree shows it. The card now centres its cross axis — its other children are already
+full-width, so only the gauge moves.
+
+**Screens 5 and 5b had no status bar.** They were the only two without one, and 5b's
+collapsed header already reserved exactly 59pt for it. On 5 it sits over the hero photo in
+ink, which the image's light upper region carries.
+
+**One CTA baseline: bottom edge at y = 808**, 44pt above the frame bottom and clear of the
+home indicator's reserved zone (818–852). The two directions matter and are easy to get
+backwards:
+
+| Screen | Was | Direction | Why |
+|---|---|---|---|
+| 5 · Details | 794 | **down** | bar sat too high — only 7pt of air above the button |
+| 5b · Nutrition | 794 | **down** | same |
+| 3 · Dish Calculator | 832 | **up** | 14pt *inside* the gesture zone |
+| 6 · Action sheet | 836 | **up** | sheet overflowed the frame by 24pt; last row 3pt from the indicator |
+
+Screen 3's 24pt came from column rhythm (`space.16` → `space.12`, which also matches screen
+2), the TOTAL DISH card's vertical padding, and the bottom group's own gap — not from the
+ingredient row spacing added in the previous pass. It keeps a 14pt content gap.
+
+Also: the "5 items" counter now shares a baseline with the tab labels (it was centred
+against a 30pt column whose label occupies only the top 20pt), and Discovery's chip and
+section gaps tighten to 8 and 12. Chip height stays 36 — that is the Filter Pill spec and
+the tap target.
 
 ## figma-component-and-fade-fix.js
 
