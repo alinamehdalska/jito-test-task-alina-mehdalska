@@ -108,6 +108,17 @@ real rework on this file:
    `glass-plate` behind a transparent content pill).
 8. Screens 2, 3, 5 and 6 are push/modal contexts: sticky CTA, **no tab bar** — this is
    deliberate, not an omission.
+9. **A fixed-height component silently clips instances that outgrow it.** Editing an
+   instance's content (or restoring a gap on it) grows the instance while the *component*
+   stays the old height, so the extra content renders outside the card with no error and no
+   layer-tree symptom. The Recipe Card lost the bottom of its "Fits your calories" chip this
+   way: component 224, instance content 240. **Fix the component, not the instance** — set
+   the component's `layoutSizingVertical = 'HUG'`, then re-measure every row that holds its
+   instances, because hugging changes their height too.
+10. **A bottom fade that starts at the bar's top edge cannot mask anything.** Its first stop
+    is transparent exactly where the content needs to be hidden, so scrolled text stays
+    legible through the glass *and* in the band below it. The ramp must start above the bar
+    and reach full canvas alpha **by** the bar's top edge — see composition rule 5.
 
 ## Definition of done
 

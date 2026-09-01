@@ -238,9 +238,12 @@ One ingredient in a recipe or a calculated dish.
 |---|---|---|---|
 | `default` | `bg.sunken` | `text.secondary` | none |
 | `selected` | `accent.secondary-muted` | `text.primary` | `border.focus` 1pt |
-| `removable` | `bg.sunken` | `text.secondary` | none, + 20pt close target |
+| `removable` | `bg.sunken` | `text.secondary` | none, + 44pt close target |
 
 - Height 32, radius `radius.full`, padding `space.12`, gap `space.8`.
+- The close target is **44pt square with a 16pt glyph** — the frame is the tap area, the
+  icon keeps its optical size. An earlier 20pt figure here contradicted composition rule 7
+  and shipped as a 24pt target on the dish-calculator rows.
 - Optional leading macro dot uses `macro.{m}.indicator` when the chip is
   macro-attributed.
 
@@ -298,30 +301,64 @@ Image-led card for discovery.
 
 | Element | Token |
 |---|---|
-| Photo | named `photo` layer — replace fill with an image paint |
-| Scrim | vertical gradient, black 0 → 0.16 → 0.42 → 0.60, over the bottom 132pt |
-| Title / calories | `text.on-media` |
-| Match tag | `border.on-media` fill 18%, stroke 75% |
+| Photo | named `photo` layer, 170 × 116 — replace fill with an image paint |
+| Content panel | `bg.surface`, padding `space.12`, gap `space.8` |
+| Title | `headline` on `text.primary` |
+| Calories / time | `metric-inline` on `text.primary`, `caption-1` on `text.secondary` |
+| Match tag | `feedback.success-muted` fill, `feedback.success` dot + label |
 
-- 170 × 232, radius `radius.xl`, `elevation.2`.
-- Title and calories sit **on the scrim**, so legibility is guaranteed by the overlay rather
-  than by the photograph — any image can be dropped in without re-checking contrast.
-- The match tag is a thin outline, not a filled badge.
+- 170 wide, radius `radius.xl`, `elevation.2`. **Height hugs its content** — currently 240.
+- Text sits on an opaque panel **below** the photo, not on a scrim over it. Legibility is
+  therefore independent of the image, and any photo can be dropped in without re-checking
+  contrast. (An earlier revision used a bottom scrim with `text.on-media`; the panel
+  replaced it and this table lagged behind.)
+- **Never give this component a fixed height.** At 224 it clipped the bottom of the match
+  tag on every instance whose title ran to two lines — see Figma working agreement 9.
+- The match tag carries a dot **and** a label, so colour is never the sole indicator.
 
 ## 3. Composition rules
 
 1. **Screen margin is `space.20`.** Cards may bleed to `space.16` only in horizontal scrollers.
 2. **Vertical rhythm:** `space.24` between sections, `space.12` within a section,
    `space.8` between tightly-coupled elements.
-3. **Bottom safe-area.** Every scrolling column carries `paddingBottom` — `space.64` on
-   screens with the floating nav, `space.48` otherwise. Without it the last row ends flush
-   against the bar at scroll-end.
-4. **Every primary CTA's bottom edge sits at y = 808** (44pt above the screen bottom),
-   whether it lives in a sticky bar or a bottom group. Form screens differ in height; the
-   button must not.
-5. **Screens with a floating nav carry a 96pt `bottom-fade`** — a transparent-to-canvas
-   gradient behind the bar. A floating bar leaves a 28pt gap at the bottom, and without the
-   fade scrolling content shows through it as a stray sliver.
+3. **Bottom safe-area — three tiers, set by what occupies the bottom of the screen.**
+   Every scrolling column carries `paddingBottom`:
+
+   | Bottom chrome | `paddingBottom` | Screens |
+   |---|---|---|
+   | Floating nav bar | `space.96` | 1, 4 |
+   | Pinned CTA bar | `space.32` | 2, 3, 5, 5b |
+   | Nothing (plain push) | `space.48` | 7, 7b |
+
+   The pinned-CTA tier is smaller on purpose: that bar is opaque and 92–102pt tall, so it
+   *is* the bottom chrome. Stacking a 48pt scroll pad on top of it left ~140pt of dead
+   space. Without any of the three, the last row ends flush against the bar at scroll-end.
+4. **A primary CTA's bottom edge targets y = 808** — 44pt above the screen bottom, which
+   clears the home indicator's reserved zone (818–852) with room to spare. Form screens
+   differ in height; the button should not.
+
+   Measured 2026-09-01, this holds on one screen of four:
+
+   | Screen | CTA bottom | Clearance | |
+   |---|---|---|---|
+   | 2 · Calculator | 808 | 44pt | on target |
+   | 5 · Recipe Details | 794 | 58pt | safe, more generous than the rule |
+   | 5b · Nutrition | 794 | 58pt | safe, more generous than the rule |
+   | 3 · Dish Calculator | **832** | **20pt** | **breaches the home-indicator zone by 14pt** |
+
+   Screen 3 is the one to fix. Its bottom group is 174pt tall — a TOTAL DISH summary card
+   *plus* the CTA — and its content column already ends only 10pt above that group, so
+   raising the button requires reclaiming ~14pt from content above it. That trades directly
+   against the row breathing room added in the same pass, so it is recorded here as a
+   decision rather than taken silently. The cheapest route is the column's inter-section
+   gap (`space.16` → `space.12`, worth 16pt across four gaps).
+5. **Screens with a floating nav carry a `bottom-fade` spanning y 696 → 852** — a
+   transparent-to-canvas gradient that reaches **full canvas alpha at y 756, the bar's own
+   top edge**, and stays solid to the frame bottom. The 60pt ramp above the bar is what
+   makes content dissolve; the solid remainder is what stops it reappearing in the 28pt gap
+   below the floating bar. A fade that merely *sits behind* the bar (starting at 756, ending
+   at 0.86 alpha) does neither — card titles stayed legible through the glass and a second
+   line of them rendered under it, beside the home indicator.
 6. **One elevation level per stacking context.** A card at `elevation.1` never contains
    another `elevation.1` card — nested surfaces use `bg.raised`.
 7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.

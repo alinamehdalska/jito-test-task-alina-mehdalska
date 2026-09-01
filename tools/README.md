@@ -7,6 +7,36 @@ root `README.md`, not application code.
 | Script | Status |
 |---|---|
 | `figma-spacing-and-homebar-fix.js` | **Applied 2026-09-01.** 60 gaps restored, 24 left at zero by design, 7 chips repadded, 10 home indicators, safe-areas set. |
+| `figma-component-and-fade-fix.js` | **Applied 2026-09-01.** Recipe Card overflow, 44pt tap targets, skeleton/real card parity, segmented control, steppers, bottom scroll fade. |
+
+## figma-component-and-fade-fix.js
+
+Ten fixes from a screenshot review. Two were structural rather than cosmetic:
+
+**The Recipe Card was a fixed-height component being outgrown by its instances.** Restoring
+the content gap in the previous pass grew each instance's content from 108 to 124 against a
+component still fixed at 224, so the "Fits your calories" chip rendered *below* the card —
+no error, no layer-tree symptom. Fixing an instance would have masked it; the component now
+hugs, and every row holding its instances was re-measured because hugging changes their
+height too.
+
+**The bottom fade could not mask anything.** It was 393×96 at y = 756 — its transparent
+first stop sat exactly where content needed to disappear, and it only reached 0.86 alpha at
+the very frame bottom. Recipe titles stayed legible through the glass nav and a second line
+of them rendered in the 824–852 band beside the home indicator. It now spans 696 → 852 and
+hits full canvas alpha at 756, the bar's own top edge.
+
+The rest: search-field left padding, ingredient-name alignment (three of four rows carried a
+stray 16pt inset), baseline alignment for number+unit pairs, 24pt segmented-control gaps with
+a label-width indicator, stepper padding, skeleton rows matched to the real product card
+(72 → 88, which removes a 48pt jump on load), 44pt delete targets, 36pt chip rows, step-number
+spacing, meal-header separation, and a real backdrop blur on the add sheet.
+
+### Deviation from the brief
+
+The stepper was asked for `px-6` (24pt). It shipped at **16**. The pill is 52pt tall around
+28pt buttons, so its vertical inset is 12 — 24pt horizontal would have read visibly lopsided,
+and it would have cut the adjacent "Log 1 serving to Diary" CTA from 245 to 197pt.
 
 ## figma-spacing-and-homebar-fix.js
 
