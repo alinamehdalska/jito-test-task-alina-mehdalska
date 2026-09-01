@@ -284,12 +284,18 @@ centre for the number and reads as a gauge rather than a progress donut.
 | Caption | `caption-1`, `text.tertiary` |
 | End labels | `headline` + `caption-2` at each arc terminus |
 
-- Diameter 300, upper semicircle only (`startingAngle` π → 2π).
-- **It is 300 wide inside a 313pt card interior, so its host card must centre its cross
-  axis** (`counterAxisAlignItems: CENTER`). Left-aligned it sits 20pt from the left edge and
-  33pt from the right — a 13pt lean that is invisible in the layer tree and obvious on the
-  canvas. The card's other children (divider, macro column) are already full-width, so
-  centring moves nothing but the gauge.
+- **Diameter 313 — it fills the card interior exactly**, upper semicircle only
+  (`startingAngle` π → 2π). Its terminals, the divider and the macro bars all span the same
+  40 → 353, and the `Consumed` / `Goal` end labels sit flush with the macro rows' left and
+  right edges. Centring alone is not enough here: at the old 300 the remainder was 13pt,
+  which Figma splits **7 left / 6 right** because it rounds to whole points. That 1pt is
+  invisible in isolation, but the 6.5pt inset against a full-width divider directly beneath
+  reads as a lean. A zero remainder removes both.
+- **Widening it means editing the component, not the instance.** Instance children reject
+  `relative-transform` overrides outright, and every child here is pinned `MIN/MIN`, so a
+  bare `resize()` would leave the arc 300 wide and genuinely left-aligned — the very defect
+  it was meant to cure. Scale the component's children explicitly; do **not** use
+  `rescale()`, which would drag the 56pt value off `display.calorie`.
 - **The gradient stops are mapped to the drawn arc, not the bounding box.** A 67% sweep
   ends near x=0.75, so a violet stop at position 1.0 would never be painted — the stops sit
   at 0 / 0.34 / 0.58 / 0.76.
@@ -383,13 +389,26 @@ Image-led card for discovery.
 
    | Screen | Ramp | Solid at | Cuts through |
    |---|---|---|---|
-   | 1 · Dashboard, 6, 8 | 32 | 756 | below the meal header's label (ends 717), so it stays crisp |
-   | 4 · Discovery | 60 | 708 | three-quarters down row 2's photo — the card panel never shows |
+   | 1 · Dashboard, 6, 8 | 25 | 756 | below the meal header's label (ends 725), so it stays crisp |
+   | 4 · Discovery | 24 | 756 | only the last 24pt of row 2's photo |
    | 5, 5b · Details | 60 | 752 | the ingredient list / instruction steps |
 
    The dashboard's ramp is short because its chrome sits at 756 while the header it must
-   spare ends at 717: there is only 39pt to fade in. Widening the ramp there washes out the
+   spare ends at 725: there is only 31pt to fade in. Widening the ramp there washes out the
    header; raising it is impossible without leaving content visible through the glass.
+
+   **Discovery's ramp is short for a different reason, and it is the more useful lesson.** A
+   grid row cannot be *half* shown well: cut it in the photo and the fade must be heavy
+   enough to erase a title panel further down; cut it in the panel and you get washed-out
+   unreadable text. So position the grid rather than lean on the gradient — its second row's
+   photo bottom edge now lands on y 756, the nav bar's own top edge. The whole photo is
+   visible and crisp, the title panel below it is hidden by the *bar* rather than by a
+   gradient, and the fade only has to stop that panel showing through 65% glass. Crisp
+   photo went from 27pt of 116 to 91 of 116.
+
+   Two complete rows will not fit. That needs the grid to start at y 264 against its current
+   389, and the only block big enough to reclaim 125pt is the "Recommended for you" card —
+   the personalisation payload of User Story 2. Not a trade worth making.
 6. **One elevation level per stacking context.** A card at `elevation.1` never contains
    another `elevation.1` card — nested surfaces use `bg.raised`.
 7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.

@@ -10,6 +10,40 @@ root `README.md`, not application code.
 | `figma-component-and-fade-fix.js` | **Applied 2026-09-01.** Recipe Card overflow, 44pt tap targets, skeleton/real card parity, segmented control, steppers, bottom scroll fade. |
 | `figma-alignment-and-safe-area-fix.js` | **Applied 2026-09-01.** Hero-arc centring, status bars on 5/5b, tab-counter baseline, tighter Discovery, one CTA baseline at y=808. |
 | `figma-fade-tuning-and-list-parity.js` | **Applied 2026-09-01.** Opaque CTA pods removed from 5/5b, per-screen fade ramps, ingredient list matched to its counter. |
+| `figma-gauge-width-and-grid-cut.js` | **Applied 2026-09-01.** Hero Gauge widened to the card interior, Discovery grid cut repositioned so its fade can be light. |
+
+## figma-gauge-width-and-grid-cut.js
+
+**The arc was centred and still wrong.** Under `counterAxisAlignItems: CENTER` it measured
+symmetric — but not exactly: `313 − 300 = 13` is odd, and Figma rounds the remainder to
+**7 left / 6 right**. One point is invisible on its own; the 6.5pt inset against a
+full-width divider sitting directly beneath it is not. The gauge now fills the interior, so
+the remainder is zero and its `Consumed` / `Goal` end labels line up with the macro rows.
+
+Two API constraints make this less trivial than it sounds, and both cost a failed run:
+
+- Instance children reject `relative-transform` overrides outright — *"This property cannot
+  be overridden in an instance"*. The restructure has to happen on the **component**; the
+  instance then needs only a root `resize()`.
+- Every child is pinned `MIN/MIN`, so resizing without repositioning them would leave the arc
+  300 wide and genuinely left-aligned — the exact defect being fixed. `figma.rescale()` is
+  not the shortcut either: it scales font sizes, dragging the value off `display-calorie`.
+
+**A grid row cannot be half-shown well.** Cut it in the photo and the fade has to be heavy
+enough to erase a title panel further down — which is what made Discovery's second row look
+like cards with no titles. Cut it in the panel and you get washed-out, unreadable text. The
+answer is to position the cut rather than lean on the gradient: row 2's photo bottom edge now
+lands on y 756, the nav bar's own top edge. The photo is whole and crisp, the bar itself
+hides the panel, and the fade only has to stop that panel showing through 65% glass. Crisp
+photo went from **27pt of 116 to 91 of 116**.
+
+Two complete rows will not fit — that needs the grid to start at y 264 against its current
+389, and the only block big enough to reclaim 125pt is the "Recommended for you" card, which
+is the personalisation payload of User Story 2.
+
+Widening the gauge also added 8pt of height, pushing the dashboard's meal header down into
+its fade ramp, so that ramp was re-tuned in the same pass. It gets **shorter, never higher** —
+the ramp must still finish by the glass bar at 756.
 
 ## figma-fade-tuning-and-list-parity.js
 
