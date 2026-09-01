@@ -22,4 +22,17 @@ It also extends the spacing scale with `80` and `96`, both valid 8pt steps, beca
 safe-area that clears the floating nav *and* the home indicator needs more than the previous
 maximum of 64.
 
+### What it covers
+
+| Area | Change |
+|---|---|
+| Internal padding | Blanket pass — any filled, rounded container wider than 120pt with no horizontal padding gets 16; hugging containers also get 12 vertical. Only ever *sets* a missing value, never re-sets an existing one |
+| Cards, search fields, ingredient rows, product row | Explicit padding and gap fixes |
+| Serving-size chips | 16pt horizontal padding — they had collapsed into circles |
+| Steppers (+/-) | 36pt controls, 12pt cluster gap, 16/8 row padding |
+| Macro bars & metric tags | 8pt dot-to-label, 16pt between stats |
+| Section gaps | Blanket repair of every auto-layout frame left at a zero gap |
+| Bottom safe-area | 96pt on screens with the floating nav (≈ `pb-24`) |
+| Home indicator | 140 × 5 pill, `radius.full`, 8pt from the bottom edge, on all 10 frames |
+
 **Run it, read the returned report, then screenshot every frame.** It is untested.
