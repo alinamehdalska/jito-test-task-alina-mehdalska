@@ -9,6 +9,37 @@ root `README.md`, not application code.
 | `figma-spacing-and-homebar-fix.js` | **Applied 2026-09-01.** 60 gaps restored, 24 left at zero by design, 7 chips repadded, 10 home indicators, safe-areas set. |
 | `figma-component-and-fade-fix.js` | **Applied 2026-09-01.** Recipe Card overflow, 44pt tap targets, skeleton/real card parity, segmented control, steppers, bottom scroll fade. |
 | `figma-alignment-and-safe-area-fix.js` | **Applied 2026-09-01.** Hero-arc centring, status bars on 5/5b, tab-counter baseline, tighter Discovery, one CTA baseline at y=808. |
+| `figma-fade-tuning-and-list-parity.js` | **Applied 2026-09-01.** Opaque CTA pods removed from 5/5b, per-screen fade ramps, ingredient list matched to its counter. |
+
+## figma-fade-tuning-and-list-parity.js
+
+**The white pod.** The CTA bar on both detail screens was an opaque 393×96 block with a top
+shadow. Its button ends at 808, so 44pt of bare white ran beneath it and content above was
+cut hard against its top edge. That dead white is *also* why the buttons read as sitting too
+high — moving them further down would have pushed them into the gesture zone. The bar's fill
+and shadow are gone; the stepper and CTA float on a fade like the nav screens.
+
+**Fade ramps are per screen now, and it matters more than it sounds.** A ramp that reaches
+full opacity halfway down a card's text panel leaves a washed-out white block with
+unreadable text in it. That reads as *"this card has no title"*, not *"this scrolls"* — it
+was reported as missing recipe descriptions. Two constraints pull against each other:
+
+- solid **at or before** the chrome's top edge, or content stays legible through 65% glass;
+- the ramp must not **start** inside something you want read.
+
+| Screen | Ramp | Solid at | Cuts through |
+|---|---|---|---|
+| 1 · Dashboard, 6, 8 | 32 | 756 | below the meal header's label (ends 717) |
+| 4 · Discovery | 60 | 708 | ¾ down row 2's photo — the card panel never shows |
+| 5, 5b · Details | 60 | 752 | ingredient list / instruction steps |
+
+The dashboard's ramp is short because its chrome sits at 756 while the header it must spare
+ends at 717 — only 39pt to fade in. Widening it washes out the header; raising it leaves
+content visible through the glass.
+
+**"5 items" said five and the list held three.** Not a clipping artefact — the rows did not
+exist. Avocado 50 g and lemon juice 10 g are already referenced by the instruction steps,
+and the five amounts sum to ≈477 kcal against the stated 480 per serving.
 
 ## figma-alignment-and-safe-area-fix.js
 

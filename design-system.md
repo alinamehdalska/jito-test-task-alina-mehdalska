@@ -348,7 +348,7 @@ Image-led card for discovery.
    | Screen | How it gets there |
    |---|---|
    | 2 · Calculator | already on target, unchanged |
-   | 5 · Recipe Details | bar moved **down** 742 → 756, height 92 → 96 so it reaches the frame bottom |
+   | 5 · Recipe Details | controls moved **down** 742 → 756; the bar's fill and shadow are gone, they float on the fade |
    | 5b · Nutrition | same |
    | 3 · Dish Calculator | moved **up**; it was the only CTA inside the zone, at 832 |
 
@@ -364,13 +364,32 @@ Image-led card for discovery.
    The floating tab bar's *frame* ends at 824, inside the zone, but its tap targets — the five
    nav columns — end at 811. The bar is deliberately a floating pill with the home indicator
    in the 28pt gap beneath it.
-5. **Screens with a floating nav carry a `bottom-fade` spanning y 696 → 852** — a
-   transparent-to-canvas gradient that reaches **full canvas alpha at y 756, the bar's own
-   top edge**, and stays solid to the frame bottom. The 60pt ramp above the bar is what
-   makes content dissolve; the solid remainder is what stops it reappearing in the 28pt gap
-   below the floating bar. A fade that merely *sits behind* the bar (starting at 756, ending
-   at 0.86 alpha) does neither — card titles stayed legible through the glass and a second
-   line of them rendered under it, beside the home indicator.
+5. **Any screen with floating bottom chrome carries a `bottom-fade`** — a
+   transparent-to-canvas gradient ending at y 852, behind the chrome and above the content.
+   That covers the nav screens *and* the two recipe-detail screens, whose stepper and CTA
+   now float on the fade rather than on an opaque bar.
+
+   Two constraints govern the geometry, and they pull against each other:
+
+   - **It must reach full canvas alpha at or before the chrome's top edge.** Anything still
+     translucent behind 65% glass stays legible through it — the defect the fade exists to
+     prevent.
+   - **The ramp must not start inside something you want read.** It should cut through an
+     image or a neutral band, never a text panel. A ramp that dies halfway down a card's
+     title block leaves a washed-out white panel with unreadable text, which reads as *"this
+     card has no title"* rather than *"this scrolls"*.
+
+   So the ramp is tuned per screen, not shared:
+
+   | Screen | Ramp | Solid at | Cuts through |
+   |---|---|---|---|
+   | 1 · Dashboard, 6, 8 | 32 | 756 | below the meal header's label (ends 717), so it stays crisp |
+   | 4 · Discovery | 60 | 708 | three-quarters down row 2's photo — the card panel never shows |
+   | 5, 5b · Details | 60 | 752 | the ingredient list / instruction steps |
+
+   The dashboard's ramp is short because its chrome sits at 756 while the header it must
+   spare ends at 717: there is only 39pt to fade in. Widening the ramp there washes out the
+   header; raising it is impossible without leaving content visible through the glass.
 6. **One elevation level per stacking context.** A card at `elevation.1` never contains
    another `elevation.1` card — nested surfaces use `bg.raised`.
 7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.

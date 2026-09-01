@@ -119,7 +119,7 @@ the image, so legibility never depends on what the photograph looks like.
 | Summary | Title, ⏱ 15 min, 🍽 2 servings, **480 kcal per serving** |
 | Insight | `✓ Fits your daily plan — This serving fits within your 610 kcal remaining today.` |
 | Macros | Protein / Carbs / Fat with grams **and** percent of daily goal |
-| Ingredients | Icon-well list with amounts |
+| Ingredients | Icon-well list with amounts. **Five rows** — salmon 140 g, brown rice 80 g, baby spinach 60 g, avocado 50 g, lemon juice 10 g — which is what the `5 items` counter states and what the instruction steps reference. They also sum to ≈477 kcal, reconciling with the stated 480 per serving. Only three and a half fit above the fold; the rest is scroll |
 | Section tabs | `Ingredients · Nutrition · Instructions` — scroll-spy anchors shared by both frames, not separate views |
 | **5b — Nutrition** | Per-serving table: calories, protein, carbs, fat, fibre |
 | **5b — Instructions** | Three numbered steps with titles and detail |
