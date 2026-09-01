@@ -11,6 +11,37 @@ root `README.md`, not application code.
 | `figma-alignment-and-safe-area-fix.js` | **Applied 2026-09-01.** Hero-arc centring, status bars on 5/5b, tab-counter baseline, tighter Discovery, one CTA baseline at y=808. |
 | `figma-fade-tuning-and-list-parity.js` | **Applied 2026-09-01.** Opaque CTA pods removed from 5/5b, per-screen fade ramps, ingredient list matched to its counter. |
 | `figma-gauge-width-and-grid-cut.js` | **Applied 2026-09-01.** Hero Gauge widened to the card interior, Discovery grid cut repositioned so its fade can be light. |
+| `figma-tab-split-and-discovery-compaction.js` | **Applied 2026-09-01.** Section tabs become true tab views (new frame 5c), each tab's content completed, Discovery reclaims 20pt. |
+
+## figma-tab-split-and-discovery-compaction.js
+
+**The section tabs were lying.** They were specified as scroll-spy anchors over one long
+page, which is why 5b rendered the nutrition table *and* the cooking instructions together.
+An underline indicator reads as a segmented control, so that looks like a bug whatever the
+intent — the active tab said `Nutrition` while instructions sat directly beneath it. They are
+now true tab views: frames 5, 5b and 5c are the three states, one section each.
+
+**A tab's selected state is four properties, not one** — label `fontName`, label `fills`, the
+indicator's `layoutSizingHorizontal`, *and* the indicator's own `fills`. Setting a subset
+produced a half-lit tab that passed the structural audit: an indicator measuring the correct
+82pt with no paint on it, beside a deselected label still set in Semibold. Only the
+screenshot caught it. Copy the arrays wholesale from a known-good tab — that carries the
+variable bindings and avoids the async bound-paint trap.
+
+**Splitting exposed two content gaps the stacked layout had hidden.** A five-row nutrition
+table and a three-step method each left their own tab roughly half empty. Both were completed
+rather than padded:
+
+- the nutrition panel gains sugars, saturated fat, sodium and cholesterol — the standard
+  fields, with values following from the fat and carbohydrate figures already stated;
+- step 3 was doing two jobs (`Add rice, spinach, salmon and avocado. Finish with a squeeze of
+  lemon.`) and nothing covered slicing the avocado the ingredient list carries, so the method
+  splits into five steps.
+
+**Discovery got its 20pt back.** The previous pass bought a clean grid cut by pushing the
+whole column *down* so row 2's photo edge met the nav bar. Unnecessary — the fade only has to
+be solid where the **title panel** starts (737), not where the bar starts (756). The 19pt of
+plain canvas between them costs nothing, and 20pt at the top of the screen is worth far more.
 
 ## figma-gauge-width-and-grid-cut.js
 

@@ -119,6 +119,18 @@ real rework on this file:
     is transparent exactly where the content needs to be hidden, so scrolled text stays
     legible through the glass *and* in the band below it. The ramp must start above the bar
     and reach full canvas alpha **by** the bar's top edge — see composition rule 5.
+11. **A tab's selected state is four properties, not one.** Label `fontName` **and** label
+    fills **and** the indicator's `layoutSizingHorizontal` **and** the indicator's own
+    `fills`. Copying a subset produces a half-lit tab that passes a structural audit — an
+    indicator that measures the right width but has no paint, next to a deselected label
+    still set in Semibold. Copy the arrays wholesale from a known-good tab rather than
+    rebuilding paints; that carries the variable bindings and sidesteps the async
+    bound-paint trap in item 1.
+12. **Instance children reject `relative-transform` overrides** — *"This property cannot be
+    overridden in an instance"*. Anything that repositions a component's internals must be
+    done on the **component**; the instance then takes only a root `resize()`. And if those
+    children are pinned `MIN/MIN`, resizing without repositioning them leaves the contents
+    at their old size, anchored to one corner.
 
 ## Definition of done
 

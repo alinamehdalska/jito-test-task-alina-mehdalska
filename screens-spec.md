@@ -1,6 +1,6 @@
 # Plate — Screens & Flows Specification
 
-**Deliverable 3 of 3.** Eight iOS frames at **393 × 852pt**, built from the component sets
+**Deliverable 3 of 3.** Eleven iOS frames at **393 × 852pt**, built from the component sets
 in [`design-system.md`](design-system.md).
 
 Safe areas: 59pt top, 34pt bottom. Screen margin 20pt. Floating glass tab bar 353 × 68,
@@ -19,7 +19,8 @@ frame enters the home indicator's reserved zone (818–852).
 | 3 | Dish Calculator | User Story 1b: calories for a multi-ingredient dish |
 | 4 | Recipe Discovery | User Story 2: personalised recipes |
 | 5 | Recipe Details | Decide and log |
-| 5b | Recipe Details — Nutrition & Instructions | Scrolled state |
+| 5b | Recipe Details — Nutrition | The `Nutrition` tab |
+| 5c | Recipe Details — Instructions | The `Instructions` tab |
 | 6 | Add — action sheet | The central nav action |
 | 7 | Diary — empty state | Product realism |
 | 7b | Search — loading state | Product realism |
@@ -120,12 +121,24 @@ the image, so legibility never depends on what the photograph looks like.
 | Insight | `✓ Fits your daily plan — This serving fits within your 610 kcal remaining today.` |
 | Macros | Protein / Carbs / Fat with grams **and** percent of daily goal |
 | Ingredients | Icon-well list with amounts. **Five rows** — salmon 140 g, brown rice 80 g, baby spinach 60 g, avocado 50 g, lemon juice 10 g — which is what the `5 items` counter states and what the instruction steps reference. They also sum to ≈477 kcal, reconciling with the stated 480 per serving. Only three and a half fit above the fold; the rest is scroll |
-| Section tabs | `Ingredients · Nutrition · Instructions` — scroll-spy anchors shared by both frames, not separate views |
-| **5b — Nutrition** | Per-serving table: calories, protein, carbs, fat, fibre |
-| **5b — Instructions** | Three numbered steps with titles and detail |
+| Section tabs | `Ingredients · Nutrition · Instructions` — **true tab views, one section at a time.** Frames 5, 5b and 5c are the three states |
+| **5b — Nutrition** | Per-serving table, nine rows: calories, protein, carbohydrates, sugars, fat, saturated fat, fibre, sodium, cholesterol. The five-row version read as an unfinished panel once it stood on its own tab |
+| **5c — Instructions** | Five numbered steps with titles and detail |
 | Sticky CTA | Servings stepper + `Log 1 serving to Diary` |
 
 Instructions were missing entirely; the recipe could not actually be cooked from the screen.
+
+**Why three frames rather than one scrolled state.** These tabs were originally specified as
+scroll-spy anchors over a single long page, which is why 5b rendered the nutrition table and
+the instructions together. An underline indicator reads as a segmented control, so that looks
+like a bug whatever the intent — the active tab said `Nutrition` while instructions sat
+directly beneath it. They are now true tab views, one section each.
+
+Splitting them exposed two content gaps that the stacked layout had hidden: a five-row
+nutrition table and a three-step method, each of which left its tab half empty. Step 3 was
+also doing two jobs (`Add rice, spinach, salmon and avocado. Finish with a squeeze of
+lemon.`) while nothing covered slicing the avocado the ingredient list carries. Both were
+completed rather than padded.
 
 ---
 

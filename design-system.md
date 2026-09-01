@@ -390,7 +390,7 @@ Image-led card for discovery.
    | Screen | Ramp | Solid at | Cuts through |
    |---|---|---|---|
    | 1 · Dashboard, 6, 8 | 25 | 756 | below the meal header's label (ends 725), so it stays crisp |
-   | 4 · Discovery | 24 | 756 | only the last 24pt of row 2's photo |
+   | 4 · Discovery | 24 | 737 | only the last 24pt of row 2's photo |
    | 5, 5b · Details | 60 | 752 | the ingredient list / instruction steps |
 
    The dashboard's ramp is short because its chrome sits at 756 while the header it must
@@ -406,8 +406,13 @@ Image-led card for discovery.
    gradient, and the fade only has to stop that panel showing through 65% glass. Crisp
    photo went from 27pt of 116 to 91 of 116.
 
+   Note it goes solid at **737, not 756** — at the title panel's top edge rather than the nav
+   bar's. The 19pt of plain canvas between them costs nothing, and buying the cut that way
+   instead of by pushing the grid down returns 20pt of vertical space to the top of the
+   screen, where it is worth far more.
+
    Two complete rows will not fit. That needs the grid to start at y 264 against its current
-   389, and the only block big enough to reclaim 125pt is the "Recommended for you" card —
+   369, and the only block big enough to reclaim 105pt is the "Recommended for you" card —
    the personalisation payload of User Story 2. Not a trade worth making.
 6. **One elevation level per stacking context.** A card at `elevation.1` never contains
    another `elevation.1` card — nested surfaces use `bg.raised`.
