@@ -42,8 +42,8 @@ Prioritise **usability and product logic over decoration.**
 tokens only**. Primitives are scoped `[]` in Figma — invisible in every picker — so the
 semantic layer cannot be bypassed.
 
-**Spacing — the only valid steps:** `0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64`.
-Screen margin 20. `2` is optical-nudge only.
+**Spacing — the only valid steps:** `0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96`.
+Screen margin 20. `2` is optical-nudge only; `80`/`96` are layout-level only (bottom safe-area).
 
 **Radius:** `xs 4 · sm 8 · md 12 · lg 16 · xl 20 · 2xl 24 · 3xl 32 · full`.
 Cards use `xl`, sheets `3xl`, pills/rings `full`.
@@ -90,9 +90,15 @@ real rework on this file:
    `bound: true`.
 2. **Never clone a returned paint to add opacity.** The clone re-stores the placeholder. Put
    translucency on the **node** (`node.opacity`), not the paint.
-3. **Only bind spacing tokens that exist.** `setBoundVariable(prop, undefined)` silently
-   *clears* the property. Binding to `space/14` or `space/10` produced 40 containers with zero
-   padding that looked deliberate in the layer tree. Use a guarded setter that throws.
+3. **Only bind spacing tokens that exist — this applies to `itemSpacing` as much as padding.**
+   `setBoundVariable(prop, undefined)` silently *clears* the property, so an off-grid value
+   produces a container with **zero** gap or padding that still looks deliberate in the layer
+   tree. It has bitten this file twice: first 40 containers lost padding, then a second wave
+   lost their gaps — dots ended up touching their labels (`●32 g`, `●610 kcal left`) and the
+   serving-size chips collapsed into circles because their horizontal padding vanished.
+   **Snap to the grid rather than inventing a step:** 3→4, 5/6/7→8, 10→12, 14→16, 18→16 or 20.
+   Use a guarded setter that throws on a missing token, and after any spacing pass, audit for
+   auto-layout frames with `itemSpacing === 0` and more than one child.
 4. **`resize()` before setting sizing modes** — resize resets them to `FIXED`, which silently
    collapses hugging columns.
 5. **Gradients cannot bind to variables.** Mirror their stops in `accent.gauge-*` /
