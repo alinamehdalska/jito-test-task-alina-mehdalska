@@ -6,7 +6,7 @@ root `README.md`, not application code.
 
 | Script | Status |
 |---|---|
-| `figma-spacing-and-homebar-fix.js` | **Pending — not yet applied.** Written while the MCP was authenticated as a different Figma account and had no edit access to the file. |
+| `figma-spacing-and-homebar-fix.js` | **Applied 2026-09-01.** 60 gaps restored, 24 left at zero by design, 7 chips repadded, 10 home indicators, safe-areas set. |
 
 ## figma-spacing-and-homebar-fix.js
 
@@ -35,4 +35,12 @@ maximum of 64.
 | Bottom safe-area | 96pt on screens with the floating nav (≈ `pb-24`) |
 | Home indicator | 140 × 5 pill, `radius.full`, 8pt from the bottom edge, on all 10 frames |
 
-**Run it, read the returned report, then screenshot every frame.** It is untested.
+**Applied.** Verified by screenshot on all four primary screens.
+
+### Why the blanket pass was replaced
+
+The first draft assigned a gap to every auto-layout frame sitting at zero. Auditing the 84
+affected containers first showed that would have been wrong: cards whose rows are separated
+by **hairline dividers**, and **tight numeric pairs** (a value stacked over its unit), are
+correct at zero. A blanket pass would have floated every divider off its row. Gaps are now
+assigned by child-shape signature — 60 repaired, 24 deliberately untouched.
