@@ -45,15 +45,22 @@ semantic layer cannot be bypassed.
 **Spacing — the only valid steps:** `0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96`.
 Screen margin 20. `2` is optical-nudge only; `80`/`96` are layout-level only (bottom safe-area).
 
-**Radius:** `xs 4 · sm 8 · md 12 · lg 16 · xl 20 · 2xl 24 · 3xl 32 · full`.
-Cards use `xl`, sheets `3xl`, pills/rings `full`.
+**Radius:** `4 · 8 · 12 · 16 · 20 · 24 · 32 · full` — keyed by value, same tone of voice as
+`space/*`. `full` (9999) is the one sentinel. Cards use `radius/20`, sheets `radius/32`,
+pills/rings `radius/full`.
 
 **Type:** SF Pro / SF Pro Rounded (both verified present in the file). 13 styles.
-`display-calorie` 56/58 Heavy is the **dashboard hero only**; in-card figures use
-`metric-card` 28/32 Semibold. One style must not do both jobs.
+`Display Calorie` 56/58 Heavy is the **dashboard hero only**; in-card figures use
+`Metric Card` 28/32 Semibold. One style must not do both jobs.
 
-**Elevation:** four levels, each **two layers** (tight contact + wide ambient), warm-tinted
-with `neutral/900` rather than black. Depth comes from shadow, never from a border.
+**Shadow:** four levels — `Shadow XS · SM · MD · LG` — each **two layers** (tight contact +
+wide ambient), warm-tinted with `neutral/900` rather than black. Depth comes from shadow,
+never from a border.
+
+**Style names are flat and spelled out.** A style grouped as `title/1` renders in the picker
+as a bare `1`, which is what the naming review flagged. Text styles follow the iOS HIG ramp
+(`Large Title`, `Title 1–3`, `Headline`, `Body`, `Callout`, `Subhead`, `Footnote`,
+`Caption 1–2`) plus `Display Calorie` and `Metric Card`. DTCG keeps the kebab slug.
 
 **The macro spine.** Coral = carbs, periwinkle = protein, sky = fat — fixed everywhere.
 Each macro has three roles: `track` (decorative), `indicator` (**≥3:1**, WCAG 1.4.11), and

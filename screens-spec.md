@@ -47,7 +47,7 @@ have I eaten, and what do I do next.
 
 | Region | Content |
 |---|---|
-| Header | "Today" `large-title` + date |
+| Header | "Today" `Large Title` + date |
 | Calorie card | Semicircular gauge. **Remaining leads** at 56pt — it is the number users act on. Consumed (1,240) and Goal (1,850) sit at the arc ends |
 | Macros | Three `Macro Stat` rows — dot, label, **consumed / target**, progress bar |
 | Primary action | `+ Add food` (solid coral) with a secondary scan target |

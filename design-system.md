@@ -34,9 +34,28 @@ never hardcodes a hex value.
 |---|---|---|---|
 | Primitive | `color/coral/400` | `primitive.color.coral.400` | — |
 | Semantic | `accent/primary` | `semantic.accent.primary` | — |
+| Text style | `Title 1` | `typography.title-1` | — |
+| Effect style | `Shadow SM` | `shadow.sm` | — |
 | Component set | `Button` | — | `variant=primary, size=lg` |
 
 Slash-delimited in Figma (produces folder grouping), dot-delimited in DTCG.
+
+**Dimension scales name themselves.** `space/*` and `radius/*` are both keyed by their own
+value — `space/12`, `radius/20` — so a token's name and what it does are the same fact. The
+two scales must not disagree: a `radius/lg` beside a `space/16` is two conventions in one
+picker, and forces a lookup to answer "how big is large?". The single exception is
+`radius/full`, whose 9999 is a sentinel rather than a step.
+
+**Styles are flat and spelled out.** Grouping a text style as `title/1` renders it in the
+picker as a bare `1` — the folder name is not visible at the point of use, so the style
+arrives with no meaning attached. Every text and effect style is therefore a complete
+Title Case phrase: `Title 1`, `Display Calorie`, `Shadow SM`. The DTCG side keeps the
+kebab-case slug, which is the convention there; the two map one-to-one.
+
+Text style names follow the **iOS HIG type ramp** — `Large Title`, `Title 1–3`, `Headline`,
+`Body`, `Callout`, `Subhead`, `Footnote`, `Caption 1–2` — because the product is an iOS app
+and those names are what an engineer building it will already have in their editor.
+`Display Calorie` and `Metric Card` are the two additions the HIG ramp has no slot for.
 
 ### Scope discipline
 
@@ -81,8 +100,8 @@ Primary action affordance.
 
 | Variant | Fill | Label | Border | Shadow |
 |---|---|---|---|---|
-| `primary` | solid `accent.primary` | `text.primary` | none | `elevation.1` |
-| `secondary` | `bg.surface` | `accent.primary-strong` | `border.subtle` 1pt | `elevation.1` |
+| `primary` | solid `accent.primary` | `text.primary` | none | `shadow.xs` |
+| `secondary` | `bg.surface` | `accent.primary-strong` | `border.subtle` 1pt | `shadow.xs` |
 | `tertiary` | transparent | `accent.primary-strong` | none | none |
 | `destructive` | `feedback.danger-surface` | `feedback.danger` | none | none |
 
@@ -132,7 +151,7 @@ Entry point for User Story A. Text search and barcode scan share one control.
 | Container fill | `bg.surface` |
 | Border (rest) | `border.subtle` 1pt |
 | Border (focus) | `border.focus`, 2pt |
-| Shadow | `elevation.1` |
+| Shadow | `shadow.xs` |
 | Placeholder | `text.tertiary` |
 | Value | `text.primary` |
 | Icons | `text.secondary` |
@@ -169,8 +188,8 @@ The system's signature element. Renders one macro's consumed-vs-target as an arc
 |---|---|
 | Track | `macro.{m}.track` |
 | Indicator | `macro.{m}.indicator` |
-| Centre value | `text.primary` (`display-calorie` at `lg`, `title-3` at `sm`) |
-| Centre label | `text.tertiary`, `caption-1` |
+| Centre value | `text.primary` (`Display Calorie` at `lg`, `Title 3` at `sm`) |
+| Centre label | `text.tertiary`, `Caption 1` |
 
 - Stroke `sm` 3pt / `lg` 8pt — deliberately thin, so the number leads and the arc supports.
 - `total` uses `accent.primary` as its indicator.
@@ -203,11 +222,11 @@ Three shapes of the same idea: a calorie figure with macro context.
 |---|---|
 | Fill | `bg.surface` |
 | Nested fill | `bg.raised` |
-| Radius | `radius.xl` (20) |
+| Radius | `radius.20` (20) |
 | Padding | `space.20` |
-| Shadow | `elevation.1` |
-| Title | `text.primary`, `title-2` |
-| Meta | `text.secondary`, `footnote` |
+| Shadow | `shadow.xs` |
+| Title | `text.primary`, `Title 2` |
+| Meta | `text.secondary`, `Footnote` |
 
 - `daily-budget` — **no card chrome.** Hero Gauge plus a horizontal row of three thin macro
   badges, sitting directly on the canvas so nothing competes with the data.
@@ -265,7 +284,7 @@ Smart filters for User Story B.
 | `disabled` | `bg.sunken` | `text.disabled` |
 
 - Height 36, radius `radius.full`, padding `space.16`.
-- Count badge sits trailing, `caption-1`, on `bg.inverse` with `text.inverse`.
+- Count badge sits trailing, `Caption 1`, on `bg.inverse` with `text.inverse`.
 - Selected state carries a checkmark **in addition to** the fill change — colour is
   never the sole indicator.
 
@@ -281,8 +300,8 @@ centre for the number and reads as a gauge rather than a progress donut.
 | Track | `bg.sunken`, 13pt stroke |
 | Sweep | gradient `accent.gauge-start → gauge-mid → gauge-end` |
 | Value | `display.calorie` (56/58 Heavy Rounded), `text.primary` |
-| Caption | `caption-1`, `text.tertiary` |
-| End labels | `headline` + `caption-2` at each arc terminus |
+| Caption | `Caption 1`, `text.tertiary` |
+| End labels | `Headline` + `Caption 2` at each arc terminus |
 
 - **Diameter 313 — it fills the card interior exactly**, upper semicircle only
   (`startingAngle` π → 2π). Its terminals, the divider and the macro bars all span the same
@@ -315,11 +334,11 @@ Image-led card for discovery.
 | Photo | named `photo` layer, 170 × 116 — replace fill with an image paint |
 | Photo scrim | `photo-scrim`, 170 × 24, absolute, bottom-aligned to the photo — `bg.surface` 0% → 100% |
 | Content panel | `bg.surface`, padding `space.12`, gap `space.8` |
-| Title | `headline` on `text.primary` |
-| Calories / time | `metric-inline` on `text.primary`, `caption-1` on `text.secondary` |
+| Title | `Headline` on `text.primary` |
+| Calories / time | `Subhead` on `text.primary`, `Caption 1` on `text.secondary` |
 | Match tag | `feedback.success-muted` fill, `feedback.success` dot + label |
 
-- 170 wide, radius `radius.xl`, `elevation.2`. **Height hugs its content** — currently 240.
+- 170 wide, radius `radius.20`, `shadow.sm`. **Height hugs its content** — currently 240.
 - Text sits on an opaque panel **below** the photo, not on a scrim over it. Legibility is
   therefore independent of the image, and any photo can be dropped in without re-checking
   contrast. (An earlier revision used a bottom scrim with `text.on-media`; the panel
@@ -327,7 +346,7 @@ Image-led card for discovery.
 - **The `photo-scrim` softens the seam, it does not carry text.** The photo's last 24pt
   dissolve into `bg.surface`, reaching full opacity exactly on the photo's bottom edge, so
   there is no edge left to see. Frame 5 gets the same effect geometrically — its content
-  panel overlaps the hero photo by 24 with a `radius.3xl` top — but at 170pt wide that reads
+  panel overlaps the hero photo by 24 with a `radius.32` top — but at 170pt wide that reads
   fussy and costs photo height, so the card matches the *effect* rather than the mechanism.
 - The scrim is `layoutPositioning: 'ABSOLUTE'`; in the card's vertical auto-layout a flow
   child would push the content panel down instead of overlaying the photo.
@@ -426,8 +445,8 @@ Image-led card for discovery.
    Two complete rows will not fit. That needs the grid to start at y 264 against its current
    369, and the only block big enough to reclaim 105pt is the "Recommended for you" card —
    the personalisation payload of User Story 2. Not a trade worth making.
-6. **One elevation level per stacking context.** A card at `elevation.1` never contains
-   another `elevation.1` card — nested surfaces use `bg.raised`.
+6. **One elevation level per stacking context.** A card at `shadow.xs` never contains
+   another `shadow.xs` card — nested surfaces use `bg.raised`.
 7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.
 8. **Macro order is always carbs → protein → fat.** Never re-sorted by value.
 9. **Numbers are tabular** everywhere they can change.
@@ -514,8 +533,8 @@ Consumed against target for one macronutrient.
 | Element | Token |
 |---|---|
 | Dot | `macro.{m}.indicator` |
-| Label | `text.secondary`, `subhead` |
-| Value | `text.primary`, `subhead` Semibold — `78 / 120 g` |
+| Label | `text.secondary`, `Subhead` |
+| Value | `text.primary`, `Subhead` Semibold — `78 / 120 g` |
 | Track / fill | `macro.{m}.track` / `macro.{m}.indicator`, 6pt, `radius.full` |
 
 **Colour is never the only carrier.** Each row states the macro by name and gives both the

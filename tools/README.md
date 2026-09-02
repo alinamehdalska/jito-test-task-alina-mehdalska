@@ -17,7 +17,7 @@ root `README.md`, not application code.
 ## figma-card-photo-scrim.js
 
 **Frame 5 has no gradient.** Its hero photo meets the content panel because the panel
-*overlaps* it by 24pt with a `radius.3xl` top — the softness is geometry, not a fade. The
+*overlaps* it by 24pt with a `radius.32` top — the softness is geometry, not a fade. The
 recipe card had a butt joint instead: photo ends at 116, panel starts at 116, hard line.
 
 At 170pt wide, copying the mechanism would read fussy and cost photo height, so the card
@@ -83,7 +83,7 @@ Two API constraints make this less trivial than it sounds, and both cost a faile
   instance then needs only a root `resize()`.
 - Every child is pinned `MIN/MIN`, so resizing without repositioning them would leave the arc
   300 wide and genuinely left-aligned — the exact defect being fixed. `figma.rescale()` is
-  not the shortcut either: it scales font sizes, dragging the value off `display-calorie`.
+  not the shortcut either: it scales font sizes, dragging the value off `Display Calorie`.
 
 **A grid row cannot be half-shown well.** Cut it in the photo and the fade has to be heavy
 enough to erase a title panel further down — which is what made Discovery's second row look

@@ -297,19 +297,19 @@ large numerics, where its softer terminals suit the ring readouts.
 
 | Token | Size / Line | Weight | Tracking | Use |
 |---|---|---|---|---|
-| `display-calorie` | 56 / 58 | Heavy | −1.6 | Dashboard hero readout only (Rounded, tabular) |
-| `metric-card` | 28 / 32 | Semibold | −0.4 | In-card calorie figures (Rounded, tabular) |
-| `large-title` | 40 / 44 | Bold | −1.0 | Screen titles — expressive |
-| `title-1` | 28 / 34 | Bold | +0.36 | Section heroes |
-| `title-2` | 22 / 28 | Semibold | +0.35 | Card titles |
-| `title-3` | 20 / 25 | Semibold | +0.38 | Subsection headers |
-| `headline` | 17 / 22 | Semibold | −0.43 | List leads, emphasised body |
-| `body` | 17 / 22 | Regular | −0.43 | Default reading size |
-| `callout` | 16 / 21 | Regular | −0.31 | Secondary body |
-| `subhead` | 15 / 20 | Regular | −0.23 | Chips, supporting copy |
-| `footnote` | 13 / 18 | Regular | −0.08 | Metadata |
-| `caption-1` | 12 / 16 | Regular | 0 | Ring and icon labels |
-| `caption-2` | 11 / 13 | Regular | +0.06 | Densest auxiliary text |
+| `Display Calorie` | 56 / 58 | Heavy | −1.6 | Dashboard hero readout only (Rounded, tabular) |
+| `Metric Card` | 28 / 32 | Semibold | −0.4 | In-card calorie figures (Rounded, tabular) |
+| `Large Title` | 40 / 44 | Bold | −1.0 | Screen titles — expressive |
+| `Title 1` | 28 / 34 | Bold | +0.36 | Section heroes |
+| `Title 2` | 22 / 28 | Semibold | +0.35 | Card titles |
+| `Title 3` | 20 / 25 | Semibold | +0.38 | Subsection headers |
+| `Headline` | 17 / 22 | Semibold | −0.43 | List leads, emphasised body |
+| `Body` | 17 / 22 | Regular | −0.43 | Default reading size |
+| `Callout` | 16 / 21 | Regular | −0.31 | Secondary body |
+| `Subhead` | 15 / 20 | Regular | −0.23 | Chips, supporting copy |
+| `Footnote` | 13 / 18 | Regular | −0.08 | Metadata |
+| `Caption 1` | 12 / 16 | Regular | 0 | Ring and icon labels |
+| `Caption 2` | 11 / 13 | Regular | +0.06 | Densest auxiliary text |
 
 Sizes and tracking follow the iOS HIG type ramp so the app inherits Dynamic Type
 behaviour for free. **All numerals use tabular figures** — a calorie count that
