@@ -17,6 +17,31 @@ root `README.md`, not application code.
 | `figma-content-componentisation.js` | **Applied 2026-09-02.** Nutrition rows, instruction steps, and the Dashboard that existed three times. |
 | `figma-phosphor-icons.js` | **Applied 2026-09-02.** 31 hand-drawn glyphs replaced with real Phosphor geometry; two keying collisions caught by screenshot. |
 | `figma-layer-naming.js` | **Applied 2026-09-02.** 332 layers renamed by role; zero generic names left outside instances. |
+| `figma-import-artefacts-fix.js` | **Applied 2026-09-02.** White wrapper boxes, a home indicator hanging off the left edge, and a fade that cut instead of dissolving. |
+
+## figma-import-artefacts-fix.js
+
+Three defects introduced by the icon and Apple-kit imports. None was visible to a
+structural audit; all three came back from a screenshot.
+
+**`createNodeFromSvg` and `createComponentFromNode` return a frame with a white fill.**
+Invisible on a white surface, which is how 22 icons and the home indicator shipped with a
+white box — until one landed on the coral FAB. Clearing the component is not enough:
+instances created while the component still had the fill hold that white as an *override*,
+and an override does not track its component. Both levels need clearing.
+
+**Measure the painted node, not the instance box.** An audit read the home indicator at
+x=127 and called it centred; the rectangle inside it was at x=−13, hanging off the left
+edge of every frame. The same class of error hid a 24pt status-bar offset — the component
+had inherited `padding 24` from the hand-built bar it replaced, and `child.x = 0` does
+nothing inside an auto-layout parent. Three indicators could not be moved at all, because
+they live inside the Dashboard instance and instance children reject `relative-transform`;
+those were fixed on the component.
+
+**A 24pt ramp across a photo edge is a cut, not a fade.** Discovery's fade ran 713 → 737,
+crossing both the photo's bottom edge (721) and its title panel's top in one short step.
+It now lands the solid point *on* the photo edge — transparent at 661, solid at 721 — so
+the dissolve happens entirely within the photo and no part of the panel ever shows.
 
 ## figma-layer-naming.js
 
