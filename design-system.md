@@ -88,9 +88,9 @@ Scoping is the mechanism that makes the right choice the easy one.
 
 ## 2. Components
 
-Sixteen components — twelve variant sets and four standalone, 74 variants in all. Every
-fill, gap, and radius is variable-bound; the token column
-below is the binding contract, not a suggestion.
+Twenty-two components — thirteen variant sets and nine standalone, 101 variants in all.
+Every fill, gap, and radius is variable-bound; the token column below is the binding
+contract, not a suggestion.
 
 ### 2.1 Button
 
@@ -474,7 +474,7 @@ Image-led card for discovery.
 00 · Cover            index and token-pipeline notes
 01 · Foundations      colour ramps, semantic groups, macro spine,
                       type specimen, spacing, radius, elevation
-02 · Components       12 component sets + 4 standalone — 74 variants
+02 · Components       13 component sets + 9 standalone — 101 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
 04 · Screens          10 iOS frames @ 393 × 852 (see screens-spec.md)
 05 · Flows            2 user-story flow maps
