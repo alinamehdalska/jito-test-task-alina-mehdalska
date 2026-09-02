@@ -14,6 +14,32 @@ root `README.md`, not application code.
 | `figma-tab-split-and-discovery-compaction.js` | **Applied 2026-09-01.** Section tabs become true tab views (new frame 5c), each tab's content completed, Discovery reclaims 20pt. |
 | `figma-card-photo-scrim.js` | **Applied 2026-09-01.** Recipe card photo dissolves into the panel; repairs the component's black-seeded surface fill. |
 | `figma-chrome-componentisation.js` | **Applied 2026-09-02.** Six chrome components replace 44 duplicated structures; two needed variant sets, not single components. |
+| `figma-content-componentisation.js` | **Applied 2026-09-02.** Nutrition rows, instruction steps, and the Dashboard that existed three times. |
+
+## figma-content-componentisation.js
+
+**The first fingerprint could not see content rows.** Including TEXT width in the shape
+signature gave every ingredient row a different shape, because rows differ by their words.
+Normalising text to a bare `TEXT` token collapsed them and the repeats appeared: nine
+nutrition rows, five instruction steps, five ingredient rows. Any structural signature that
+includes text width is measuring the copy, not the component.
+
+**Frames 6 and 8 each carried a whole second Dashboard** — 133 descendants against the
+original's 135, all forty text strings identical, nothing extra. This is the review's
+"sixty changes instead of one parent component" argument in its most literal form. A guard
+compared the sorted text of each copy to the original and threw on divergence, so a swap
+could not silently discard a copy that had drifted. Frame 1 then took an instance too:
+without that the component is merely a fourth copy and edits to frame 1 still never reach
+6 and 8. The trade is that the screen *is* the component, and is edited there.
+
+**`layoutMode` is the string `'NONE'` on a plain frame, which is truthy.** Guarding on
+truthiness threw `Can only set layoutPositioning = ABSOLUTE if the parent node has
+layoutMode !== NONE`. The failure applied nothing — the frame still had its original seven
+children and forty texts — which is a useful confirmation that `use_figma` is atomic on
+error and a failed script needs no unwinding.
+
+**Still open:** 105 of 319 text nodes carry no text style. Componentising did not fix that;
+it made it addressable once per row type instead of once per copy.
 
 ## figma-chrome-componentisation.js
 

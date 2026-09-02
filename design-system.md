@@ -571,6 +571,25 @@ components now, so a change lands once rather than up to eleven times.
 | Bottom Fade | 7 | `Context = Nav \| Discovery \| Detail` |
 | Section Tabs | 3 | `Active = Ingredients \| Nutrition \| Instructions` |
 
+### 2.13 Content rows
+
+| Component | Instances | Notes |
+|---|---|---|
+| Nutrition Row | 9 | Label left, value right. Hairline dividers live in the parent card, not the row |
+| Instruction Step | 5 | Index badge, title, body. The number is content — renumber if steps are reordered |
+| Dashboard | 3 | The whole home screen. Frames 6 and 8 present overlays on top of an instance |
+
+**The Dashboard existed three times.** Frames 6 and 8 each carried a full copy — 133
+descendants against the original's 135, all forty text strings identical. That is the
+"sixty edits instead of one" problem in its most literal form, and it is why frame 1 holds
+an instance too: without that step the component is merely a fourth copy, and an edit to
+frame 1 still never reaches the other two. The trade is that the screen **is** the
+component and is edited there rather than on the frame.
+
+A component owns the shape; each instance keeps its own words. Nutrition rows and
+instruction steps carry their text as instance overrides, so nine rows do not all read
+`Calories · 480 kcal`.
+
 **Aurora opacities are load-bearing.** `0.35 / 0.32 / 0.31 / 0.26` is the richest setting at
 which a three-blob overlap still clears 4.6:1 for `text.secondary`; the next step up fails at
 4.44. They are also the reason the four blob fills are the only unbound solid fills on the
