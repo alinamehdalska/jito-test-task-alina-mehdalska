@@ -13,6 +13,46 @@ root `README.md`, not application code.
 | `figma-gauge-width-and-grid-cut.js` | **Applied 2026-09-01.** Hero Gauge widened to the card interior, Discovery grid cut repositioned so its fade can be light. |
 | `figma-tab-split-and-discovery-compaction.js` | **Applied 2026-09-01.** Section tabs become true tab views (new frame 5c), each tab's content completed, Discovery reclaims 20pt. |
 | `figma-card-photo-scrim.js` | **Applied 2026-09-01.** Recipe card photo dissolves into the panel; repairs the component's black-seeded surface fill. |
+| `figma-chrome-componentisation.js` | **Applied 2026-09-02.** Six chrome components replace 44 duplicated structures; two needed variant sets, not single components. |
+
+## figma-chrome-componentisation.js
+
+**Forty-four copies of six things.** Every screen carried its own status bar, home
+indicator, aurora backdrop, fade and — on four of them — its own tab bar. Changing any of
+them meant changing it up to eleven times, which is the concrete version of the review's
+"one parent component prolls changes to all children" argument. They are now six
+components and the screens hold instances.
+
+**The fingerprint lied about the tab bar.** A shape fingerprint over geometry and child
+structure reported one shape across all four tab bars. It recursed three levels and
+compared fill *types*, so it could not see that Dashboard lights `Home` and Discovery
+lights `Discover`. Componentising on that reading would have flattened four navigation
+states into one. Two of the six needed variant sets:
+
+| Component | Property | Why |
+|---|---|---|
+| Tab Bar | `Active=Home\|Discover\|Diary\|Profile` | The lit destination differs per screen |
+| Bottom Fade | `Context=Nav\|Discovery\|Detail` | Ramp is per layout — 121/139/160 |
+| Section Tabs | `Active=Ingredients\|Nutrition\|Instructions` | These are the three tab views |
+
+**The icon colour was on the stroke.** The first Tab Bar build copied `fills` for label and
+icon. Labels switched, icons did not — these icons are stroked outlines whose `fills` array
+is empty, so every variant kept the cloned bar's coral `Home` glyph. Discovery rendered a
+grey "Discover" label next to a coral house. Four variants, correct labels, exactly one
+active each: the structural audit passed. The screenshot did not.
+
+**Baseline first, or the check is worthless.** Measurements were recorded before the pass
+and re-run after: all seven fade geometries matched exactly (`drift: []`), the hero gauge
+held 313 x 204.49, and all eleven frames stayed 393 x 852 at y=0.
+
+### Found in passing
+
+The section-tab active indicator is `coral/400` (#F0986A), which measures **2.26:1** on
+surface — under the 3:1 non-text floor this file's own contract sets for indicators, and
+the same 400-tint trap already documented for the gauge and macro bars. State is also
+carried by label weight and colour, so it is not colour-alone, but the underline is the
+primary affordance. Flagged, not changed: moving it to `coral/600` alters the look and
+wants a decision.
 
 ## figma-card-photo-scrim.js
 

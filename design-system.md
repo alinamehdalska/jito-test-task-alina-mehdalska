@@ -81,7 +81,8 @@ Scoping is the mechanism that makes the right choice the easy one.
 
 ## 2. Components
 
-Six component sets. Every fill, gap, and radius is variable-bound; the token column
+Sixteen components — twelve variant sets and four standalone, 74 variants in all. Every
+fill, gap, and radius is variable-bound; the token column
 below is the binding contract, not a suggestion.
 
 ### 2.1 Button
@@ -466,7 +467,7 @@ Image-led card for discovery.
 00 · Cover            index and token-pipeline notes
 01 · Foundations      colour ramps, semantic groups, macro spine,
                       type specimen, spacing, radius, elevation
-02 · Components       10 component sets — 61 variants
+02 · Components       12 component sets + 4 standalone — 74 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
 04 · Screens          10 iOS frames @ 393 × 852 (see screens-spec.md)
 05 · Flows            2 user-story flow maps
@@ -516,6 +517,12 @@ that is the point of the treatment.
 richest patch of aurora, tertiary measures 3.55:1 — acceptable for large text but short of AA
 for an 11pt label. Secondary measures 5.36:1.
 
+**Variant: `Active = Home | Discover | Diary | Profile`.** The lit destination is set on the
+instance, not by editing it. Two properties carry the state, and the second is easy to miss:
+the label's `fills` **and the icon's `strokes`** — these glyphs are stroked outlines with an
+empty `fills` array, so a state copy that only moves fills produces a grey label beside a
+coloured glyph, which passes a structural audit unchanged.
+
 > **Implementation note — bound paints.** `setBoundVariableForPaint` returns a paint whose
 > colour resolves **asynchronously**. Two consequences, both of which shipped a dark tab bar
 > before being caught:
@@ -550,6 +557,47 @@ consumed figure and the target, so the information survives without colour perce
 `positive` (`feedback.success-surface`) is reserved for calorie/macro fit. `neutral`
 (`bg.sunken`) carries attributes — time, diet, protein. Used on recipe cards and in the
 Discover recommendation header so the app always says *why* something is suggested.
+
+### 2.12 Screen chrome
+
+Five structures repeated on every screen and were maintained by hand on each. They are
+components now, so a change lands once rather than up to eleven times.
+
+| Component | Instances | Notes |
+|---|---|---|
+| Status Bar | 11 | 393 × 59, pinned top. Static by design — chrome, not content |
+| Home Indicator | 11 | 140 × 5, `radius.full`, 8pt off the bottom. Marks the reserved gesture zone y 818–852 that no content may enter |
+| Aurora Backdrop | 8 | 393 × 852, four blobs at the canvas layer |
+| Bottom Fade | 7 | `Context = Nav \| Discovery \| Detail` |
+| Section Tabs | 3 | `Active = Ingredients \| Nutrition \| Instructions` |
+
+**Aurora opacities are load-bearing.** `0.35 / 0.32 / 0.31 / 0.26` is the richest setting at
+which a three-blob overlap still clears 4.6:1 for `text.secondary`; the next step up fails at
+4.44. They are also the reason the four blob fills are the only unbound solid fills on the
+Screens page — `bg.aurora-*` tokens mirror them, but rebinding changes the paint and so
+demands a re-measure. Left as-is, deliberately.
+
+**Bottom Fade cannot be one component.** The ramp has to satisfy two constraints that pull
+apart: solid **at or before** the chrome's top edge, or content stays legible through 65%
+glass; and it must not **start** inside something that has to be read. Where the chrome sits
+and what sits above it differs per layout, so the ramp does:
+
+| Context | Height | Solid at | Ramp |
+|---|---|---|---|
+| Nav — Dashboard, 6, 8 | 121 | 756 | 25 |
+| Discovery | 139 | 737 | 24 |
+| Detail — 5, 5b, 5c | 160 | 752 | 60 |
+
+**Section Tabs carries four properties, not one** — label `fontName`, label `fills`, the
+indicator's `layoutSizingHorizontal`, and the indicator's own `fills`. Copying a subset
+yields an indicator measuring the right width with no paint on it, beside a deselected label
+still set in Semibold. The three variants were cloned from the three working states rather
+than rebuilt, which carries the bindings and avoids constructing a paint at all.
+
+> **Open:** the active indicator is `coral/400`, which measures **2.26:1** on surface —
+> below the 3:1 non-text floor this document sets for indicators in §2.3. State is also
+> carried by label weight and colour, so it is not colour-alone, but the underline is the
+> primary affordance. `coral/600` would clear it at the cost of the lighter look.
 
 ### Ingredient rows (Recipe Details)
 

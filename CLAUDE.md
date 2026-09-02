@@ -28,8 +28,8 @@ Prioritise **usability and product logic over decoration.**
 |---|---|
 | `README.md` | Overview, UX rationale, AI-native workflow, photo credits, limitations |
 | `branding-strategy.md` | Brand personality, colour derivation, type, tone, full contrast matrix |
-| `design-system.md` | Token architecture, 11 component specs, composition rules, Figma traps |
-| `screens-spec.md` | 10 frames, both user stories, navigation, accessibility |
+| `design-system.md` | Token architecture, 16 component specs, composition rules, Figma traps |
+| `screens-spec.md` | 11 frames, both user stories, navigation, accessibility |
 | `tokens.json` | **Source of truth.** W3C DTCG. Counts live here, not in prose |
 
 **Figma:** `lzCgTFcfrlE8qGqYbBTh7l` — pages `00 Cover · 01 Foundations · 02 Components ·
