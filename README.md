@@ -16,7 +16,7 @@ calculator mobile app, produced with an AI-native workflow using Claude Code.
 | 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens & Flows* page — 8 frames |
 
 **Figma file:** https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l
-(Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6))
+(Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6) · [Moodboard](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=163-214))
 **Video walkthrough:** _<!-- paste your Loom / Google Drive link here -->_
 
 ---
@@ -112,6 +112,13 @@ design. Instead of eyeballing colours, Claude Code:
   blush `#FBEAE8`, lavender-grey `#DEDDE4`.
 
 Those five numbers are measurements of the reference, not opinions about it.
+
+Colour is only half of what a reference set is for. The **`06 · Moodboard`** page holds
+sixteen interface references, each carrying a note that records two things: what the
+reference actually does, and where that decision landed in Plate. Three are kept as
+counter-examples — traffic-light colour coding, four competing statistics panels, and
+delivery-app red — where the note says what was rejected and why. A board that only records
+agreement is a mood; one that records refusals is an argument.
 
 ### 2. Ramps generated in OKLCH
 

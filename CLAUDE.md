@@ -33,7 +33,7 @@ Prioritise **usability and product logic over decoration.**
 | `tokens.json` | **Source of truth.** W3C DTCG. Counts live here, not in prose |
 
 **Figma:** `lzCgTFcfrlE8qGqYbBTh7l` — pages `00 Cover · 01 Foundations · 02 Components ·
-03 Stylescape · 04 Screens · 05 Flows`.
+03 Stylescape · 04 Screens · 05 Flows · 06 Moodboard`.
 **Reference/brief file:** `G4Zl3VtgSh7nRAJ3rcC1vy` (the brief itself is image nodes `4:3` / `4:6`).
 
 ## Design system contract
@@ -163,7 +163,10 @@ From the brief, and easy to miss:
 ## Open items
 
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
-- GitHub repo public, then `git push`.
 - Replace the Loom placeholder in `README.md`.
-- 16 stray `photo_*` rectangles sit on the Screens page — not mine, left untouched pending a
-  decision.
+- **A clickable prototype is expected.** Jito confirmed it: *"немає ніякого сенсу в статичних
+  скрінах коли є можливість швидко робити прототип"*. Figma prototype first, coded app after.
+- 105 of 319 text nodes on `04 · Screens` carry no text style; 33 solid fills are unbound
+  (32 aurora blobs plus the modal scrim, all of which have tokens already). Both are for the
+  atomicity pass — the aurora opacities carry a measured 4.6:1, so they cannot be rebound
+  without re-measuring.
