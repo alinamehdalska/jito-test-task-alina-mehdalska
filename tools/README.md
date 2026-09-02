@@ -16,6 +16,27 @@ root `README.md`, not application code.
 | `figma-chrome-componentisation.js` | **Applied 2026-09-02.** Six chrome components replace 44 duplicated structures; two needed variant sets, not single components. |
 | `figma-content-componentisation.js` | **Applied 2026-09-02.** Nutrition rows, instruction steps, and the Dashboard that existed three times. |
 | `figma-phosphor-icons.js` | **Applied 2026-09-02.** 31 hand-drawn glyphs replaced with real Phosphor geometry; two keying collisions caught by screenshot. |
+| `figma-layer-naming.js` | **Applied 2026-09-02.** 332 layers renamed by role; zero generic names left outside instances. |
+
+## figma-layer-naming.js
+
+**After componentising, not before.** Every rename inside a component propagates, so 332
+renames covered a tree that would have needed far more beforehand — and naming first would
+have meant naming twice, because the rebuild changes the tree.
+
+**Name the role, not the value.** The first pass derived names from the text a frame
+contained and produced `610-stack`, `142g-row`, `1850-stack`. Those are worse than `Frame`:
+they look informative and go stale the moment the number changes. The second pass prefers
+the label over the number and, where every string in the subtree is a value, describes the
+job instead — `kcal-left-stack`, `carbs-row`, `carbs-chip`.
+
+**Leaf nodes are named from geometry**, since they have no text to read: a rectangle 2pt
+tall and wide is a `divider`, 8pt is a `track`, a small square is a `dot`. An icon frame
+with no text takes its glyph — `scan-target`.
+
+**Text layers are not a naming problem.** Figma names them after their own content and
+keeps that in sync; `TEXT:610` is the tool working correctly, and renaming it fights Figma.
+The audit excludes them.
 
 ## figma-phosphor-icons.js
 
