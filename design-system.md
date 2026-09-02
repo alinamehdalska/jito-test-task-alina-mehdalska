@@ -607,6 +607,31 @@ drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of thi
 respectively — which grows the target without moving a pixel of what is drawn, because the
 contents stay centred and the section-tab underline is padded from above only.
 
+### 2.12b Effects, and one deliberate exception
+
+Depth is a system decision, so every drop shadow resolves to `Shadow XS · SM · MD · LG`.
+Two things are correctly outside that:
+
+- **Layer blurs.** The aurora blobs carry a 150–165 blur. A blur is not elevation; there is
+  no effect style for it and there should not be one.
+- **The glass plate.** Its shadow is authored inline at alpha `0.20` and `0.09` rather than
+  bound to a style, because the node sits at `0.65` opacity and that multiplies the alphas
+  down. Binding it to a shared style halves the shadow — which happened once during this
+  pass, and the docs are the only reason it was caught.
+
+### 2.12c Orphan lines
+
+A wrapped line ending in a single short word is a defect in a UI label and a matter of
+taste in prose. Labels were rewritten until the tail carries at least two words:
+`"These recipes fit your remaining calories and macros for today."` became
+`"Matched against the calories and macros you have left."` and now sets on one line.
+
+Two dish titles and three instruction bodies still break to a short tail. They are left
+alone on purpose: `Lemon Herb Salmon Bowl` is 22 characters on a 170pt card and will wrap
+whatever is done to it, and rewriting recipe method to control a line break makes the copy
+worse to win a typographic nicety. Figma has no balanced-wrap; the honest fix would be a
+shorter dish name, which is a content decision rather than a system one.
+
 ### 2.13 Icon
 
 **Phosphor Icons, regular weight** — [phosphor-icons/core](https://github.com/phosphor-icons/core),
