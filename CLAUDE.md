@@ -89,6 +89,8 @@ Each was measured. Changing one without re-measuring will break accessibility.
 | `text.tertiary` is **large-text only** | 3.6:1 | Never for body copy |
 | Focus ring `periwinkle/600`, 2pt | 3.87:1 | `periwinkle/500` measured 2.82 and failed WCAG 2.4.11 |
 | **Colour never carries meaning alone** | — | Every macro shows a dot **and** a name **and** consumed/target values |
+| Section-tab indicator is `accent.primary-strong` | 6.04:1 | `accent.primary` is the 400-tint and measured 2.23 — under the 3:1 non-text floor. The underline is the primary affordance and has to clear it alone |
+| Meal macros reconcile with the header | P78 · C142 · F41 | The per-meal P/C/F must sum to the dashboard totals **and** reproduce each meal's own kcal. They did not: P summed to 66 against a stated 78 |
 
 **Gradient is rationed** to four uses: aurora canvas, calorie gauge sweep, recipe-card scrim,
 bottom fade under the floating nav. Primary buttons are solid.

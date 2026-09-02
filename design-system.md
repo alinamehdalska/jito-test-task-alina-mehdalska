@@ -669,10 +669,13 @@ yields an indicator measuring the right width with no paint on it, beside a dese
 still set in Semibold. The three variants were cloned from the three working states rather
 than rebuilt, which carries the bindings and avoids constructing a paint at all.
 
-> **Open:** the active indicator is `coral/400`, which measures **2.26:1** on surface —
-> below the 3:1 non-text floor this document sets for indicators in §2.3. State is also
-> carried by label weight and colour, so it is not colour-alone, but the underline is the
-> primary affordance. `coral/600` would clear it at the cost of the lighter look.
+**The active indicator is `accent.primary-strong`, not `accent.primary`.** It was the
+lighter tint, which measured **2.23:1** on surface — below the 3:1 non-text floor this
+document sets for indicators in §2.3, and the same 400-tint trap already documented for the
+gauge and the macro bars. State is also carried by label weight and colour, so it was never
+colour-alone, but the underline is the primary affordance and had to clear the floor on its
+own. It now measures **6.04:1** on surface and 5.85:1 on canvas. The underline reads a shade
+deeper; that is the whole cost.
 
 ### Ingredient rows (Recipe Details)
 
