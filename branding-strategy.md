@@ -307,8 +307,10 @@ large numerics, where its softer terminals suit the ring readouts.
 | `Body` | 17 / 22 | Regular | −0.43 | Default reading size |
 | `Callout` | 16 / 21 | Regular | −0.31 | Secondary body |
 | `Subhead` | 15 / 20 | Regular | −0.23 | Chips, supporting copy |
+| `Subhead Emphasized` | 15 / 20 | Semibold | −0.23 | Paired numeric values — "142 / 220 g" |
 | `Footnote` | 13 / 18 | Regular | −0.08 | Metadata |
 | `Caption 1` | 12 / 16 | Regular | 0 | Ring and icon labels |
+| `Caption 1 Emphasized` | 12 / 16 | Semibold | 0 | Emphatic labels in dense controls |
 | `Caption 2` | 11 / 13 | Regular | +0.06 | Densest auxiliary text |
 
 Sizes and tracking follow the iOS HIG type ramp so the app inherits Dynamic Type

@@ -57,6 +57,13 @@ Text style names follow the **iOS HIG type ramp** — `Large Title`, `Title 1–
 and those names are what an engineer building it will already have in their editor.
 `Display Calorie` and `Metric Card` are the two additions the HIG ramp has no slot for.
 
+**The ramp carries Emphasized weights, because the screens do.** An audit found 105 text
+nodes on the Screens page with no style at all, and 81 of them were Semibold at 15/20 or
+12/16 — sizes the ramp had only in Regular. They were not mislabelled; the system was
+missing a row. The HIG defines an Emphasized weight at every size, so `Subhead Emphasized`
+and `Caption 1 Emphasized` were added and every unstyled node now points at a style. Adding
+the two changed nothing visually: they were authored to match what was already rendering.
+
 ### Scope discipline
 
 | Token group | Figma scopes | Effect |
@@ -484,7 +491,7 @@ Semantic variables also carry `WEB` and `iOS` code syntax
 (`var(--plate-accent-primary)` / `Color.accentPrimary`), so Dev Mode hands engineers
 the real token name rather than a hex value.
 
-**Styles:** 13 text styles and 4 effect styles, generated from the same `tokens.json`.
+**Styles:** 15 text styles and 4 effect styles, generated from the same `tokens.json`.
 
 ### 2.9 Tab Bar (glass)
 

@@ -49,7 +49,9 @@ Screen margin 20. `2` is optical-nudge only; `80`/`96` are layout-level only (bo
 `space/*`. `full` (9999) is the one sentinel. Cards use `radius/20`, sheets `radius/32`,
 pills/rings `radius/full`.
 
-**Type:** SF Pro / SF Pro Rounded (both verified present in the file). 13 styles.
+**Type:** SF Pro / SF Pro Rounded (both verified present in the file). 15 styles — the HIG
+ramp carries an **Emphasized** weight at every size it is used at, so `Subhead Emphasized`
+and `Caption 1 Emphasized` exist rather than leaving Semibold text unstyled.
 `Display Calorie` 56/58 Heavy is the **dashboard hero only**; in-card figures use
 `Metric Card` 28/32 Semibold. One style must not do both jobs.
 
