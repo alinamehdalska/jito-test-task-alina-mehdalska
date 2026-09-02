@@ -64,6 +64,10 @@ as a bare `1`, which is what the naming review flagged. Text styles follow the i
 (`Large Title`, `Title 1–3`, `Headline`, `Body`, `Callout`, `Subhead`, `Footnote`,
 `Caption 1–2`) plus `Display Calorie` and `Metric Card`. DTCG keeps the kebab slug.
 
+**Control sizes — four heights, no fifth:** `56` FAB · `52` primary/sticky CTA · `44`
+standard button and the touch-target floor · `36` chip. 44 is a *target*, not a look: a
+36pt chip is legal when its row supplies the target. See design-system.md 2.12a.
+
 **Icons:** Phosphor regular (MIT), one 22-glyph `Icon` variant set built from the real
 path data. Regular weight is **fill-based, not stroked** — colour lives on `fills`, and
 state logic that switches `strokes` silently does nothing.

@@ -578,6 +578,35 @@ components now, so a change lands once rather than up to eleven times.
 | Bottom Fade | 7 | `Context = Nav \| Discovery \| Detail` |
 | Section Tabs | 3 | `Active = Ingredients \| Nutrition \| Instructions` |
 
+### 2.12a Control sizes and touch targets
+
+Every interactive control resolves to one of four heights. The scale is short on purpose:
+a fifth size is a decision someone has to justify, and unjustified sizes are how a system
+drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of this file found.
+
+| Height | Role | Where |
+|---|---|---|
+| **56** | Floating action button | `log-fab`, one per screen with a tab bar |
+| **52** | Primary and sticky CTA | `Button size=lg` — "Log 1 serving to Diary", "Save dish to Diary" |
+| **44** | Standard button | `Button size=md`, icon buttons, list-row actions |
+| **36** | Chip and filter pill | `Filter Pill`, `Ingredient Chip` |
+
+**Where each may be used, and where it may not**
+
+- **56** is reserved for the FAB. It is the only control allowed to overlap the tab bar,
+  and there is never more than one on a screen.
+- **52** is one per screen, and only for the action the screen exists to perform. A second
+  52 on the same screen means the screen has two primary actions and needs rethinking.
+- **44** is the floor for anything tappable, per iOS HIG. It is a *target*, not a look: a
+  36pt chip is legal because its row gives it 44 of vertical target, and a 24pt icon is
+  legal inside a 44pt frame.
+- **36** never appears alone — only as a chip inside a row that supplies the target.
+
+**Two targets were smaller than they looked.** Tab bar items were a 41pt cluster inside a
+68pt bar, and section tabs were a 30pt strip. Both now fill their container — 68 and 44
+respectively — which grows the target without moving a pixel of what is drawn, because the
+contents stay centred and the section-tab underline is padded from above only.
+
 ### 2.13 Icon
 
 **Phosphor Icons, regular weight** — [phosphor-icons/core](https://github.com/phosphor-icons/core),
