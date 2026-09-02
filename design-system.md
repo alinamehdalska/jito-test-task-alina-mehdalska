@@ -685,6 +685,18 @@ Two adjustments were needed and both are worth knowing:
   black: it is a hardware cutout where the screen is off, not a themed surface, and it is
   one of only two things on the Screens page exempt from the binding audit.
 
+**The canvas is a gradient and the aurora carries it.** `bg.canvas` is documented as
+white → `sand/100`, top to bottom, and the `canvas-gradient-start` / `-end` tokens exist for
+it — but the frames were painted flat `sand/100` and the gradient had never been applied.
+The consequence was visible rather than theoretical: the four blobs span y −155 to 640, so
+below 640 there was no atmosphere at all, and 212pt of dead flat colour sat under every
+screen looking like a pod welded to the bottom edge. The gradient now lives on the Aurora
+Backdrop component, which puts it under every screen that uses one.
+
+Frames 5, 5b and 5c have no aurora — their surface is white, because a photo occupies the
+top and the content panel below it is `bg.surface`. Their fade therefore lands on **white**;
+landing it on `sand/100` painted a warm band belonging to nothing above it.
+
 **Aurora opacities are load-bearing.** `0.35 / 0.32 / 0.31 / 0.26` is the richest setting at
 which a three-blob overlap still clears 4.6:1 for `text.secondary`; the next step up fails at
 4.44. They are also the reason the four blob fills are the only unbound solid fills on the

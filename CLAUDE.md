@@ -88,16 +88,21 @@ Each was measured. Changing one without re-measuring will break accessibility.
 |---|---|---|
 | Primary CTA is **solid coral with an ink label** | 6.16:1 | White-on-coral fails at *every* tint of this hue. `coral/700` + white passes (6.04) but abandons the warm accent |
 | Gauge sweep and macro indicators use the **600-tints** | 3.85–4.08:1 | The prettier 400-tints measure ~2.1:1 and fail the non-text floor |
-| Aurora opacities `0.35 / 0.32 / 0.31 / 0.26` | 4.6:1 worst case | This is the **richest** setting where a three-blob overlap still clears AA for `text.secondary`. Raising it fails at 4.44 |
-| Glass tab bar 65% + blur 28; **inactive nav = `text.secondary`** | 5.36:1 | `text.tertiary` measures 3.55 behind 65% glass — short of AA for an 11pt label |
+| Aurora opacities `0.35 / 0.32 / 0.31 / 0.26` | 4.78:1 worst case | The **richest** setting where a blob overlap still clears AA for `text.secondary`. Raising it fails. Measured against the canvas gradient; on the flat sand it had been 4.6 |
+| Glass tab bar 65% + blur 28; **inactive nav = `text.secondary`** | 5.63:1 | `text.tertiary` measures 3.79 behind 65% glass — still short of AA for an 11pt label |
 | `text.tertiary` is **large-text only** | 3.6:1 | Never for body copy |
 | Focus ring `periwinkle/600`, 2pt | 3.87:1 | `periwinkle/500` measured 2.82 and failed WCAG 2.4.11 |
 | **Colour never carries meaning alone** | — | Every macro shows a dot **and** a name **and** consumed/target values |
 | Section-tab indicator is `accent.primary-strong` | 6.04:1 | `accent.primary` is the 400-tint and measured 2.23 — under the 3:1 non-text floor. The underline is the primary affordance and has to clear it alone |
 | Meal macros reconcile with the header | P78 · C142 · F41 | The per-meal P/C/F must sum to the dashboard totals **and** reproduce each meal's own kcal. They did not: P summed to 66 against a stated 78 |
 
-**Gradient is rationed** to four uses: aurora canvas, calorie gauge sweep, recipe-card scrim,
-bottom fade under the floating nav. Primary buttons are solid.
+**The canvas is a gradient, not a flat fill.** `bg.canvas` is white → `sand/100` top to
+bottom, held on the Aurora Backdrop component. It was specified from the start and never
+applied: the frames were flat `sand/100`, so the blobs simply stopped at y=640 and 212pt
+of dead colour followed — read as a pod welded to the bottom of every screen.
+
+**Gradient is rationed** to five uses: canvas, aurora blobs, calorie gauge sweep,
+recipe-card scrim, bottom fade under the floating nav. Primary buttons are solid.
 
 **No shame language.** No red for being over budget (amber at most); `feedback.danger` is
 reserved for destructive actions. No body imagery — food, hands, kitchens only.
