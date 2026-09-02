@@ -15,6 +15,28 @@ root `README.md`, not application code.
 | `figma-card-photo-scrim.js` | **Applied 2026-09-01.** Recipe card photo dissolves into the panel; repairs the component's black-seeded surface fill. |
 | `figma-chrome-componentisation.js` | **Applied 2026-09-02.** Six chrome components replace 44 duplicated structures; two needed variant sets, not single components. |
 | `figma-content-componentisation.js` | **Applied 2026-09-02.** Nutrition rows, instruction steps, and the Dashboard that existed three times. |
+| `figma-phosphor-icons.js` | **Applied 2026-09-02.** 31 hand-drawn glyphs replaced with real Phosphor geometry; two keying collisions caught by screenshot. |
+
+## figma-phosphor-icons.js
+
+**The complaint was provenance, not quality.** A labelled contact sheet of all 31 distinct
+glyphs showed most were coherent and well drawn; only the fish, the grains and the servings
+glyph were genuinely weak. What was missing was a named source. The set is now Phosphor
+regular (MIT), built from the project's real path data via `createNodeFromSvg`, as a
+22-variant `Icon` component set.
+
+**Phosphor regular is fill-based; the old glyphs were stroked.** Colour moves from `strokes`
+to `fills`, and the binding has to be carried across rather than re-picked. It also
+invalidates any state logic that switched icon strokes — the Tab Bar's `Active` variant had
+to be re-pointed at fills.
+
+**Path-data length is not a glyph identity.** Glyphs were keyed by the character count of
+their `d` attribute — cheap, and it silently collided. `x` and `minus` produce the same
+length, so every stepper decrement arrived as a cross and the serving controls read
+`× 1 +`; a second collision turned the "Fits your daily plan" check into a plus. The swap
+tally reported plausible counts throughout and nothing in the structure looked wrong. Both
+were caught by screenshot and repaired by **position** instead of by glyph: a stepper is
+`[decrement, value, increment]`, so whatever sits left of the increment is a minus.
 
 ## figma-content-componentisation.js
 

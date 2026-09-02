@@ -64,6 +64,10 @@ as a bare `1`, which is what the naming review flagged. Text styles follow the i
 (`Large Title`, `Title 1–3`, `Headline`, `Body`, `Callout`, `Subhead`, `Footnote`,
 `Caption 1–2`) plus `Display Calorie` and `Metric Card`. DTCG keeps the kebab slug.
 
+**Icons:** Phosphor regular (MIT), one 22-glyph `Icon` variant set built from the real
+path data. Regular weight is **fill-based, not stroked** — colour lives on `fills`, and
+state logic that switches `strokes` silently does nothing.
+
 **The macro spine.** Coral = carbs, periwinkle = protein, sky = fat — fixed everywhere.
 Each macro has three roles: `track` (decorative), `indicator` (**≥3:1**, WCAG 1.4.11), and
 `label` (**≥4.5:1**).

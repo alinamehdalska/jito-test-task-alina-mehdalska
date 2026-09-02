@@ -578,7 +578,27 @@ components now, so a change lands once rather than up to eleven times.
 | Bottom Fade | 7 | `Context = Nav \| Discovery \| Detail` |
 | Section Tabs | 3 | `Active = Ingredients \| Nutrition \| Instructions` |
 
-### 2.13 Content rows
+### 2.13 Icon
+
+**Phosphor Icons, regular weight** — [phosphor-icons/core](https://github.com/phosphor-icons/core),
+MIT. One `Icon` component set, 22 glyphs, built from the project's own SVG path data so the
+geometry is the real thing rather than a redrawing of it.
+
+| Group | Glyphs |
+|---|---|
+| Navigation | `house` `compass` `notebook` `user` |
+| Controls | `plus` `minus` `x` `check` `caret-left` `caret-right` |
+| Actions | `magnifying-glass` `scan` `sliders-horizontal` `heart` `star` |
+| Content | `clock` `circle-half` `fish` `grains` `leaf` `avocado` `bowl-food` |
+
+- Drawn on a 256 viewBox, placed at **24 × 24**; the tap target around them is 44.
+- Default fill is `text.secondary`; instances override to `accent.primary-strong` when
+  active, `text.primary` in ink contexts.
+- **Regular weight is fill-based, not stroked.** Colour lives on `fills`. Any state logic
+  that switches icon `strokes` will change nothing — that mistake left a coral `house`
+  beside a grey `Discover` label and passed a structural audit.
+
+### 2.13a Content rows
 
 | Component | Instances | Notes |
 |---|---|---|
