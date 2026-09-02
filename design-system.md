@@ -572,8 +572,8 @@ components now, so a change lands once rather than up to eleven times.
 
 | Component | Instances | Notes |
 |---|---|---|
-| Status Bar | 11 | 393 × 59, pinned top. Static by design — chrome, not content |
-| Home Indicator | 11 | 140 × 5, `radius.full`, 8pt off the bottom. Marks the reserved gesture zone y 818–852 that no content may enter |
+| Status Bar | 11 | **Apple Design Resources**, "Status bar · iPhone", resized from the 402pt device to our 393. Carries the Dynamic Island |
+| Home Indicator | 11 | **Apple Design Resources**, resized 144 → 140. Marks the reserved gesture zone y 818–852 that no content may enter |
 | Aurora Backdrop | 8 | 393 × 852, four blobs at the canvas layer |
 | Bottom Fade | 7 | `Context = Nav \| Discovery \| Detail` |
 | Section Tabs | 3 | `Active = Ingredients \| Nutrition \| Instructions` |
@@ -670,6 +670,20 @@ component and is edited there rather than on the frame.
 A component owns the shape; each instance keeps its own words. Nutrition rows and
 instruction steps carry their text as instance overrides, so nine rows do not all read
 `Calories · 480 kcal`.
+
+**Native chrome comes from Apple, not from us.** The status bar and home indicator were
+hand-built to spec, which was accurate and unattributable — the review's actual complaint
+about icons applies identically here. They are now instances of Apple Design Resources.
+Two adjustments were needed and both are worth knowing:
+
+- The kit ships the **402pt device** (iPhone 16 Pro); these frames are 393 (15 Pro). The
+  status bar reflows correctly because Apple builds it as auto-layout with `Time` and
+  `Levels` on FILL either side of a fixed Dynamic Island — the 9pt difference is absorbed
+  by the two ends, not by squashing the middle.
+- Its internals carry Apple's own colour variables. Time and indicators are **rebound to
+  `text.primary`** so the bar stays inside this token system. The Dynamic Island keeps its
+  black: it is a hardware cutout where the screen is off, not a themed surface, and it is
+  one of only two things on the Screens page exempt from the binding audit.
 
 **Aurora opacities are load-bearing.** `0.35 / 0.32 / 0.31 / 0.26` is the richest setting at
 which a three-blob overlap still clears 4.6:1 for `text.secondary`; the next step up fails at

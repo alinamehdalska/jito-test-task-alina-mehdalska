@@ -68,6 +68,10 @@ as a bare `1`, which is what the naming review flagged. Text styles follow the i
 standard button and the touch-target floor · `36` chip. 44 is a *target*, not a look: a
 36pt chip is legal when its row supplies the target. See design-system.md 2.12a.
 
+**Native chrome:** Apple Design Resources — status bar and home indicator are instances,
+resized from the kit's 402pt device to our 393. Time and indicators rebound to
+`text.primary`; the Dynamic Island stays black because it is a hardware cutout.
+
 **Icons:** Phosphor regular (MIT), one 22-glyph `Icon` variant set built from the real
 path data. Regular weight is **fill-based, not stroked** — colour lives on `fills`, and
 state logic that switches `strokes` silently does nothing.
