@@ -1,0 +1,13 @@
+# macOS
+.DS_Store
+
+# Node / prototype build artefacts
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+.vercel/
+
+# Raw photo exports feeding prototype/scripts/build-images.ts (WebP outputs are committed)
+prototype/assets-src/
