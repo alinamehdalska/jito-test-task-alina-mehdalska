@@ -210,7 +210,8 @@ real rework on this file:
 From the brief, and easy to miss:
 
 - Everything must be verifiable **in incognito**. The Figma file and the GitHub repo must both
-  be publicly link-shared, or the submission is discarded.
+  be publicly link-shared, or the submission is discarded; the Vercel deployment must stay
+  free of deployment protection for the same reason.
 - All deliverables **in English**.
 - A **video walkthrough** covering all three parts (branding, design system, screens).
 
@@ -221,9 +222,9 @@ From the brief, and easy to miss:
 - **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
   points, no dangling destinations and no unreachable frames.
 - **Coded prototype — done** (2026-09-03): both user stories end to end, 52 unit tests,
-  34 Playwright tests including axe on every route. **Still open:** connect the repo to Vercel
-  (Root Directory `prototype`), paste the production URL into `README.md` and
-  `prototype/README.md`, and verify it in incognito.
+  34 Playwright tests including axe on every route. Deployed at https://jito-test-task-alina-mehdalska.vercel.app
+  (Vercel, Root Directory `prototype`, rebuilt from `main` on every push); deep links return
+  200 through `prototype/vercel.json`.
 - Figma follow-ups the prototype surfaced: the product calculator frame's three inconsistent
   numbers (59 kcal/100 g · 142 kcal · macros summing to 123 — the code uses 73 / 124), and
   frame 5's macro row ordered protein-first against composition rule 8.

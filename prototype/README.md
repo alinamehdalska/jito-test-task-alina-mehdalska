@@ -3,7 +3,7 @@
 The eleven Figma frames of [Plate](../README.md), running. React 19 + TypeScript, Vite,
 Tailwind v4, React Router — and one input the Figma file shares: [`../tokens.json`](../tokens.json).
 
-- **Live:** _added after the Vercel deploy_
+- **Live:** https://jito-test-task-alina-mehdalska.vercel.app — Vercel, Root Directory `prototype`, built from `main` on every push
 - **Figma:** [`lzCgTFcfrlE8qGqYbBTh7l`](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l) — page `04 · Screens`
 - On a viewport of 768px and up the app renders inside an iPhone 15 Pro outline; below that it
   fills the screen and follows the device's safe areas, so it is also usable on a real phone.
