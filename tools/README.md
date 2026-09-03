@@ -18,6 +18,36 @@ root `README.md`, not application code.
 | `figma-phosphor-icons.js` | **Applied 2026-09-02.** 31 hand-drawn glyphs replaced with real Phosphor geometry; two keying collisions caught by screenshot. |
 | `figma-layer-naming.js` | **Applied 2026-09-02.** 332 layers renamed by role; zero generic names left outside instances. |
 | `figma-import-artefacts-fix.js` | **Applied 2026-09-02.** White wrapper boxes, a home indicator hanging off the left edge, and a fade that cut instead of dissolving. |
+| `figma-consistency-sweep.js` | **Applied 2026-09-03.** All seven pages to zero on typography, spacing, radii and naming; stale stylescape thumbnails removed. |
+
+## figma-consistency-sweep.js
+
+**The Stylescape held a rebuilt copy of a design that no longer existed.** Board 03 showed
+four hand-built screen thumbnails at 0.62 scale, and they accounted for almost everything
+wrong with that page: 120 of its 121 unstyled text nodes, all 124 off-grid spacing values
+(14.88, 12.4, 7.44 — every one a 0.62× of a real number), radii of 2.48 and 6199.38, and
+`photo (placeholder)` rectangles never filled. They were also four screens when the product
+has eleven, drawn before the Phosphor icons, the Apple chrome and the canvas gradient.
+
+They are now 1:1 clones of the live screens. Scaling was the wrong instinct: `rescale()`
+rewrites font sizes, which detaches every text style — precisely how the originals came to
+have 120 unstyled nodes. The board grows to 1796×1280 instead.
+
+**Images do not survive between `use_figma` calls.** Rendering each screen with
+`exportAsync` + `createImage` is the tidier answer, and it failed: the hash returned, the
+fill was assigned, and by the next call `fills` was empty. An image nothing references when
+the call ends is not retained, and doing export and attach in one call did not change it.
+Treat `createImage` as unavailable, like the documented `createImageAsync`.
+
+**Exemptions have to be named, or the sweep lies.** Three things fail a naive audit and
+should: the `glass-plate` shadow (authored inline because node opacity 0.65 divides it), the
+aurora blobs (unbound fills carrying measured opacities), and the `Dynamic Island` (black
+because it is a hardware cutout). One fails it wrongly: Apple's status bar internals are
+vendor geometry, not ours to snap to a grid.
+
+**Two sizes of one logotype.** "Plate" was 128pt on the cover and 108pt on the brand-core
+stylescape — the same mark at two arbitrary sizes, which is exactly what the sweep was for.
+It now has one named `Wordmark` style.
 
 ## figma-import-artefacts-fix.js
 

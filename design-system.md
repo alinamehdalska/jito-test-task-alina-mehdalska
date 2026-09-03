@@ -491,7 +491,10 @@ Semantic variables also carry `WEB` and `iOS` code syntax
 (`var(--plate-accent-primary)` / `Color.accentPrimary`), so Dev Mode hands engineers
 the real token name rather than a hex value.
 
-**Styles:** 15 text styles and 4 effect styles, generated from the same `tokens.json`.
+**Styles:** 16 text styles and 4 effect styles. Fifteen are the type ramp; the sixteenth is
+`Wordmark` — 128pt Bold, the Plate logotype. It is a brand asset rather than a step on the
+ramp, and it exists as a style for one reason: the mark was set at 128 on the cover and 108
+on the brand-core stylescape, which is the same logotype at two arbitrary sizes.
 
 ### 2.9 Tab Bar (glass)
 
@@ -606,6 +609,21 @@ drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of thi
 68pt bar, and section tabs were a 30pt strip. Both now fill their container — 68 and 44
 respectively — which grows the target without moving a pixel of what is drawn, because the
 contents stay centred and the section-tab underline is padded from above only.
+
+### 2.12d What the consistency audit exempts
+
+A sweep that flags everything is a sweep nobody runs. Four things fail a naive audit; three
+of them should, and the file documents why:
+
+| Exempt | Why |
+|---|---|
+| `glass-plate` shadow | Authored inline at 0.20 / 0.09 because node opacity 0.65 divides the alphas. Binding it to a shared style halves the shadow |
+| aurora `blob` fills | Unbound solids carrying measured opacities — 4.78:1 worst case for `text.secondary` |
+| `Dynamic Island` | Black because it is a hardware cutout where the screen is off, not a themed surface |
+| Apple status bar internals | Vendor geometry — `padding 2.33 / 9` is Apple's, not ours to snap to a 4pt grid |
+
+Everything else resolves: 0 unstyled text, 0 off-grid spacing, 0 off-scale radii and 0
+type-named layers across all seven pages.
 
 ### 2.12b Effects, and one deliberate exception
 
