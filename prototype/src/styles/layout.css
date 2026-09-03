@@ -11,7 +11,10 @@
 
   --screen-tabbar-h: 68px;
   --screen-tabbar-lift: 28px;
-  --screen-fab: 56px;
+  --screen-tab-item-w: 52px;
+  --screen-cta-h: 96px;
+  --screen-sheet-row-h: 68px;
+  --screen-home-indicator-w: 140px;
 
   --screen-fade-nav: 121px;
   --screen-fade-discovery: 191px;
@@ -24,6 +27,15 @@
   --screen-card-photo-h: 116px;
   --screen-hero-photo-h: 286px;
 
+  /* Where content may start and end. On a phone the OS supplies the insets; inside the
+     desktop device frame the fake status bar and home indicator take their place. */
+  --screen-top-inset: env(safe-area-inset-top, 0px);
+  --screen-bottom-inset: env(safe-area-inset-bottom, 0px);
+  --screen-tabbar-bottom: max(var(--screen-tabbar-lift), var(--screen-bottom-inset));
+  --screen-toast-y: calc(var(--screen-top-inset) + 15px);
+  /* Composition rule 3: content ends 32 above a pinned CTA bar, 96 under the floating nav. */
+  --screen-inset-cta: calc(var(--screen-cta-h) + var(--plate-space-32));
+
   /* iPhone 15 Pro bezel, mirrored from tools/figma-device-mockups.js */
   --device-bezel: 16px;
   --device-w: 425px;
@@ -32,4 +44,19 @@
   --device-screen-r: 55px;
   --device-island-w: 126px;
   --device-island-h: 37px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --screen-top-inset: var(--screen-status-h);
+    --screen-bottom-inset: 0px;
+  }
+}
+
+/* The scroll region is a phone screen: no visible scrollbar, but wheel and keys still scroll. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

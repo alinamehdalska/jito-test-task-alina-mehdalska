@@ -162,11 +162,11 @@ describe('the repository tokens.json', () => {
 
   it('has the documented shape and counts', () => {
     const all = flattenTokens(repoTokens as Parameters<typeof flattenTokens>[0]);
-    expect(all).toHaveLength(237);
-    expect(parsed.semantic.filter((t) => t.type === 'color')).toHaveLength(51);
+    expect(all).toHaveLength(240);
+    expect(parsed.semantic.filter((t) => t.type === 'color')).toHaveLength(52);
     expect(parsed.typography).toHaveLength(15);
     expect(parsed.shadow).toHaveLength(4);
-    expect(parsed.dark).toHaveLength(43);
+    expect(parsed.dark).toHaveLength(44);
   });
 
   it('keeps every semantic token an alias', () => {

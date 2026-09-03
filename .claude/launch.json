@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "prototype-dev",
+      "runtimeExecutable": "/Users/arsen/.nvm/versions/node/v22.22.2/bin/node",
+      "runtimeArgs": ["prototype/node_modules/vite/bin/vite.js", "prototype", "--port", "5173", "--strictPort"],
+      "port": 5173
+    },
+    {
+      "name": "prototype-preview",
+      "runtimeExecutable": "/Users/arsen/.nvm/versions/node/v22.22.2/bin/node",
+      "runtimeArgs": ["prototype/node_modules/vite/bin/vite.js", "preview", "prototype", "--port", "4173", "--strictPort"],
+      "port": 4173
+    }
+  ]
+}

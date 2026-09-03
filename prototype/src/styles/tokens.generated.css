@@ -1,4 +1,4 @@
-/* GENERATED from ../tokens.json (fingerprint af188565) by scripts/build-tokens.ts — do not edit. */
+/* GENERATED from ../tokens.json (fingerprint 7cc931c1) by scripts/build-tokens.ts — do not edit. */
 
 :root {
   color-scheme: light;
@@ -100,6 +100,7 @@
   --plate-size-52: 52px;
   --plate-size-56: 56px;
   --plate-blur-glass: 28px;
+  --plate-blur-scrim: 10px;
   --plate-motion-duration-press: 120ms;
   --plate-motion-duration-state: 200ms;
   --plate-motion-duration-sheet: 320ms;
@@ -139,6 +140,7 @@
   --plate-bg-aurora-peach: var(--plate-color-coral-200);
   --plate-bg-aurora-lavender: var(--plate-color-periwinkle-200);
   --plate-bg-aurora-blue: var(--plate-color-sky-200);
+  --plate-bg-aurora-pink: var(--plate-color-blush-200);
   --plate-text-primary: var(--plate-color-neutral-900);
   --plate-text-secondary: var(--plate-color-neutral-700);
   --plate-text-tertiary: var(--plate-color-neutral-600);
@@ -231,6 +233,7 @@
   --plate-bg-aurora-peach: var(--plate-color-coral-800);
   --plate-bg-aurora-lavender: var(--plate-color-periwinkle-800);
   --plate-bg-aurora-blue: var(--plate-color-sky-800);
+  --plate-bg-aurora-pink: var(--plate-color-blush-800);
 }
 
 @theme inline {
@@ -268,6 +271,7 @@
   --radius-32: var(--plate-radius-32);
   --radius-full: var(--plate-radius-full);
   --blur-glass: var(--plate-blur-glass);
+  --blur-scrim: var(--plate-blur-scrim);
   --font-text: var(--plate-font-family-text);
   --font-rounded: var(--plate-font-family-rounded);
   --shadow-xs: var(--plate-shadow-xs);
@@ -284,6 +288,7 @@
   --color-bg-aurora-peach: var(--plate-bg-aurora-peach);
   --color-bg-aurora-lavender: var(--plate-bg-aurora-lavender);
   --color-bg-aurora-blue: var(--plate-bg-aurora-blue);
+  --color-bg-aurora-pink: var(--plate-bg-aurora-pink);
   --color-text-primary: var(--plate-text-primary);
   --color-text-secondary: var(--plate-text-secondary);
   --color-text-tertiary: var(--plate-text-tertiary);
