@@ -24,6 +24,45 @@ root `README.md`, not application code.
 | `figma-prototype-wiring.js` | **Applied 2026-09-03.** 48 reactions across 11 frames, two flow starting points, and the tab bar screen 7 never had. |
 | `figma-device-mockups.js` | **Applied 2026-09-03.** Eleven screens presented in iPhone 15 Pro mockups on a new `07 · Presentation` page. |
 | `figma-status-scrim.js` | **Applied 2026-09-03.** Screen 5's status bar made legible over its hero photo; alpha solved for 4.5:1 against any image. |
+| `figma-token-additions.js` | **Applied 2026-09-03.** 15 variables mirrored from `tokens.json` (control sizes, glass blur, motion, `text/inverse-secondary`), `feedback/success` re-solved to 4.81:1, the toast's detail line rebound. |
+
+## figma-token-additions.js
+
+The coded prototype generates its Tailwind theme from `tokens.json`, and the first thing
+that generator surfaced was everything the design had been keeping in prose. The four
+control heights of `design-system.md` §2.12a, the tab bar's blur of 28, the three motion
+durations of `branding-strategy.md` §8 — none was a token, so in code each would have been a
+magic number. They are tokens now (`size/*`, `control/*`, `blur/glass`, `motion/duration/*`),
+and because the repo's contract is that `tokens.json` and the Figma collections come from one
+source, this script mirrors them into the file.
+
+**Two colours were re-solved while measuring, not while styling.** Re-computing every pair the
+prototype renders found two that the original matrix had never checked:
+
+| Pair | Was | Now |
+|---|---|---|
+| `feedback/success` on `feedback/success-surface` — the `610 kcal left` badge (11pt), the `Fits your calories` chips (12pt), the `Fits your daily plan` banner (15pt) | `#30815E` · **4.22:1** | `#2C7757` · **4.81:1** |
+| The toast's detail line on `bg/inverse` (`73:335`, Caption 2) | `text/tertiary` · **3.55:1** | `text/inverse-secondary` · **8.24:1** |
+
+The green had passed at 4.74:1 — on white, where it never appears as text. Darkening it one
+step keeps it visibly the same green and clears AA on every surface it actually sits on; the
+semantic `feedback/success` aliases the primitive, so all nine consumers updated with it.
+The toast line needed a token that did not exist: there was no "secondary text on an inverse
+surface", which is why `text/tertiary` had been pressed into the job. `text/inverse-secondary`
+is `neutral/300` in Light — the value Dark mode already uses for `text/secondary` — and
+`neutral/700` in Dark.
+
+**Rejected:** setting the chip labels in `text/primary` and keeping the green for the dot
+alone. It passes, but it changes how every fit chip reads, and the fix that keeps the design
+is one hex value.
+
+**Durations have no picker.** Figma has no scope for a number that means milliseconds, so
+`motion/duration/*` are created with `scopes: []` — documentation-level mirrors that stay out
+of every picker, exactly like the colour primitives.
+
+Verified after running: binding audit unchanged at 44 unbound solids (32 aurora blobs, 11
+Dynamic Islands, 1 modal scrim — all documented exemptions); frames 4, 5 and 8 screenshot-read
+with the new green and the lighter toast line.
 
 ## figma-status-scrim.js
 

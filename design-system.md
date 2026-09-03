@@ -364,7 +364,7 @@ Image-led card for discovery.
 | Content panel | `bg.surface`, padding `space.12`, gap `space.8` |
 | Title | `Headline` on `text.primary` |
 | Calories / time | `Subhead` on `text.primary`, `Caption 1` on `text.secondary` |
-| Match tag | `feedback.success-muted` fill, `feedback.success` dot + label |
+| Match tag | `feedback.success-surface` fill, `feedback.success` dot + label |
 
 - 170 wide, radius `radius.20`, `shadow.sm`. **Height hugs its content** — currently 240.
 - Text sits on an opaque panel **below** the photo, not on a scrim over it. Legibility is
@@ -624,6 +624,12 @@ drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of thi
   36pt chip is legal because its row gives it 44 of vertical target, and a 24pt icon is
   legal inside a 44pt frame.
 - **36** never appears alone — only as a chip inside a row that supplies the target.
+
+**The four heights are tokens, not prose.** `primitive.size.24 · 36 · 44 · 52 · 56` hold the
+values (24 is the icon glyph that sits inside a 44 target) and `semantic.control.icon · chip ·
+button · cta · fab` say which control gets which. Components — in Figma and in the coded
+prototype — consume `control/*`; a fifth height would have to be added to the scale first,
+which is the friction the short scale is meant to create.
 
 **Two targets were smaller than they looked.** Tab bar items were a 41pt cluster inside a
 68pt bar, and section tabs were a 30pt strip. Both now fill their container — 68 and 44

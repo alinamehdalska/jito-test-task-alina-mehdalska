@@ -1,0 +1,465 @@
+/* GENERATED from ../tokens.json (fingerprint af188565) by scripts/build-tokens.ts — do not edit. */
+
+:root {
+  color-scheme: light;
+
+  /* primitive — the raw scales; no Tailwind utility is minted for these */
+  --plate-color-coral-50: #FFF4EF;
+  --plate-color-coral-100: #FFE7DC;
+  --plate-color-coral-200: #FFD1BA;
+  --plate-color-coral-300: #FEB691;
+  --plate-color-coral-400: #F0986A;
+  --plate-color-coral-500: #DB7E49;
+  --plate-color-coral-600: #C06530;
+  --plate-color-coral-700: #9B4D1E;
+  --plate-color-coral-800: #723610;
+  --plate-color-coral-900: #4A2006;
+  --plate-color-periwinkle-50: #F6F6FF;
+  --plate-color-periwinkle-100: #EBEBFF;
+  --plate-color-periwinkle-200: #D9D8FF;
+  --plate-color-periwinkle-300: #C3C1FF;
+  --plate-color-periwinkle-400: #ABA7F2;
+  --plate-color-periwinkle-500: #948EDF;
+  --plate-color-periwinkle-600: #7C76C4;
+  --plate-color-periwinkle-700: #615C9F;
+  --plate-color-periwinkle-800: #464175;
+  --plate-color-periwinkle-900: #2B284C;
+  --plate-color-sky-50: #F0F8FE;
+  --plate-color-sky-100: #E1EFF9;
+  --plate-color-sky-200: #C9E0F1;
+  --plate-color-sky-300: #ACCEE7;
+  --plate-color-sky-400: #8DB7D5;
+  --plate-color-sky-500: #72A0C1;
+  --plate-color-sky-600: #5A87A7;
+  --plate-color-sky-700: #446B86;
+  --plate-color-sky-800: #2F4D62;
+  --plate-color-sky-900: #1B303F;
+  --plate-color-blush-50: #FEF4F3;
+  --plate-color-blush-100: #F9E8E6;
+  --plate-color-blush-200: #F1D5D1;
+  --plate-color-blush-300: #E6BEB9;
+  --plate-color-blush-400: #D4A39E;
+  --plate-color-blush-500: #BF8B85;
+  --plate-color-blush-600: #A5736E;
+  --plate-color-blush-700: #845955;
+  --plate-color-blush-800: #603F3C;
+  --plate-color-blush-900: #3E2725;
+  --plate-color-sand-50: #FDFCFA;
+  --plate-color-sand-100: #F9F6F3;
+  --plate-color-sand-200: #F2EFEA;
+  --plate-color-sand-300: #E6E2DD;
+  --plate-color-sand-400: #D4D0CA;
+  --plate-color-sand-500: #BAB7B1;
+  --plate-color-sand-600: #95928C;
+  --plate-color-sand-700: #6E6B67;
+  --plate-color-sand-800: #4C4A46;
+  --plate-color-sand-900: #2F2E2B;
+  --plate-color-neutral-50: #FBFBFC;
+  --plate-color-neutral-100: #EDECF0;
+  --plate-color-neutral-200: #DCDBE2;
+  --plate-color-neutral-300: #C9C7D1;
+  --plate-color-neutral-400: #B1AFBB;
+  --plate-color-neutral-500: #9A98A5;
+  --plate-color-neutral-600: #82808C;
+  --plate-color-neutral-700: #6E645C;
+  --plate-color-neutral-800: #51473F;
+  --plate-color-neutral-900: #362B23;
+  --plate-color-static-white: #FFFFFF;
+  --plate-color-static-black: #000000;
+  --plate-color-feedback-success: #2C7757;
+  --plate-color-feedback-success-pale: #E0F7EA;
+  --plate-color-feedback-warning: #A36700;
+  --plate-color-feedback-warning-pale: #FFEDD9;
+  --plate-color-feedback-danger: #B4453C;
+  --plate-color-feedback-danger-pale: #FFEBE8;
+  --plate-space-0: 0px;
+  --plate-space-2: 2px;
+  --plate-space-4: 4px;
+  --plate-space-8: 8px;
+  --plate-space-12: 12px;
+  --plate-space-16: 16px;
+  --plate-space-20: 20px;
+  --plate-space-24: 24px;
+  --plate-space-32: 32px;
+  --plate-space-40: 40px;
+  --plate-space-48: 48px;
+  --plate-space-64: 64px;
+  --plate-space-80: 80px;
+  --plate-space-96: 96px;
+  --plate-radius-4: 4px;
+  --plate-radius-8: 8px;
+  --plate-radius-12: 12px;
+  --plate-radius-16: 16px;
+  --plate-radius-20: 20px;
+  --plate-radius-24: 24px;
+  --plate-radius-32: 32px;
+  --plate-radius-full: 9999px;
+  --plate-size-24: 24px;
+  --plate-size-36: 36px;
+  --plate-size-44: 44px;
+  --plate-size-52: 52px;
+  --plate-size-56: 56px;
+  --plate-blur-glass: 28px;
+  --plate-motion-duration-press: 120ms;
+  --plate-motion-duration-state: 200ms;
+  --plate-motion-duration-sheet: 320ms;
+  --plate-font-family-text: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Inter Variable", system-ui, sans-serif;
+  --plate-font-family-rounded: ui-rounded, "SF Pro Rounded", "Nunito Variable", -apple-system, system-ui, sans-serif;
+  --plate-font-weight-regular: 400;
+  --plate-font-weight-medium: 500;
+  --plate-font-weight-semibold: 600;
+  --plate-font-weight-bold: 700;
+  --plate-font-weight-heavy: 800;
+  --plate-font-size-11: 11px;
+  --plate-font-size-12: 12px;
+  --plate-font-size-13: 13px;
+  --plate-font-size-15: 15px;
+  --plate-font-size-16: 16px;
+  --plate-font-size-17: 17px;
+  --plate-font-size-20: 20px;
+  --plate-font-size-22: 22px;
+  --plate-font-size-28: 28px;
+  --plate-font-size-34: 34px;
+  --plate-font-size-40: 40px;
+  --plate-font-size-48: 48px;
+  --plate-font-size-56: 56px;
+  --plate-shadow-xs: 0px 1px 2px 0px rgb(54 43 35 / 0.03), 0px 4px 12px -2px rgb(54 43 35 / 0.05);
+  --plate-shadow-sm: 0px 2px 4px -1px rgb(54 43 35 / 0.03), 0px 8px 20px -4px rgb(54 43 35 / 0.07);
+  --plate-shadow-md: 0px 4px 8px -2px rgb(54 43 35 / 0.04), 0px 16px 32px -8px rgb(54 43 35 / 0.09);
+  --plate-shadow-lg: 0px 8px 16px -4px rgb(54 43 35 / 0.05), 0px 24px 48px -12px rgb(54 43 35 / 0.11);
+
+  /* semantic — every value is an alias, so a mode only has to remap primitives */
+  --plate-bg-canvas: var(--plate-color-sand-100);
+  --plate-bg-surface: var(--plate-color-static-white);
+  --plate-bg-raised: var(--plate-color-sand-50);
+  --plate-bg-sunken: var(--plate-color-sand-200);
+  --plate-bg-inverse: var(--plate-color-neutral-900);
+  --plate-bg-canvas-gradient-start: var(--plate-color-static-white);
+  --plate-bg-canvas-gradient-end: var(--plate-color-sand-100);
+  --plate-bg-aurora-peach: var(--plate-color-coral-200);
+  --plate-bg-aurora-lavender: var(--plate-color-periwinkle-200);
+  --plate-bg-aurora-blue: var(--plate-color-sky-200);
+  --plate-text-primary: var(--plate-color-neutral-900);
+  --plate-text-secondary: var(--plate-color-neutral-700);
+  --plate-text-tertiary: var(--plate-color-neutral-600);
+  --plate-text-disabled: var(--plate-color-neutral-500);
+  --plate-text-inverse: var(--plate-color-static-white);
+  --plate-text-inverse-secondary: var(--plate-color-neutral-300);
+  --plate-text-on-media: var(--plate-color-static-white);
+  --plate-accent-primary: var(--plate-color-coral-400);
+  --plate-accent-primary-hover: var(--plate-color-coral-500);
+  --plate-accent-primary-muted: var(--plate-color-coral-100);
+  --plate-accent-primary-strong: var(--plate-color-coral-700);
+  --plate-accent-secondary: var(--plate-color-periwinkle-400);
+  --plate-accent-secondary-muted: var(--plate-color-periwinkle-100);
+  --plate-accent-cta-gradient-start: var(--plate-color-coral-300);
+  --plate-accent-cta-gradient-end: var(--plate-color-coral-500);
+  --plate-accent-gauge-start: var(--plate-color-coral-400);
+  --plate-accent-gauge-mid: var(--plate-color-coral-600);
+  --plate-accent-gauge-end: var(--plate-color-periwinkle-600);
+  --plate-macro-carbs-track: var(--plate-color-coral-100);
+  --plate-macro-carbs-indicator: var(--plate-color-coral-600);
+  --plate-macro-carbs-label: var(--plate-color-coral-700);
+  --plate-macro-carbs-surface: var(--plate-color-coral-50);
+  --plate-macro-protein-track: var(--plate-color-periwinkle-100);
+  --plate-macro-protein-indicator: var(--plate-color-periwinkle-600);
+  --plate-macro-protein-label: var(--plate-color-periwinkle-700);
+  --plate-macro-protein-surface: var(--plate-color-periwinkle-50);
+  --plate-macro-fat-track: var(--plate-color-sky-100);
+  --plate-macro-fat-indicator: var(--plate-color-sky-600);
+  --plate-macro-fat-label: var(--plate-color-sky-700);
+  --plate-macro-fat-surface: var(--plate-color-sky-50);
+  --plate-feedback-success: var(--plate-color-feedback-success);
+  --plate-feedback-success-surface: var(--plate-color-feedback-success-pale);
+  --plate-feedback-warning: var(--plate-color-feedback-warning);
+  --plate-feedback-warning-surface: var(--plate-color-feedback-warning-pale);
+  --plate-feedback-danger: var(--plate-color-feedback-danger);
+  --plate-feedback-danger-surface: var(--plate-color-feedback-danger-pale);
+  --plate-border-subtle: var(--plate-color-sand-300);
+  --plate-border-strong: var(--plate-color-neutral-300);
+  --plate-border-interactive: var(--plate-color-neutral-600);
+  --plate-border-focus: var(--plate-color-periwinkle-600);
+  --plate-border-on-media: var(--plate-color-static-white);
+  --plate-control-icon: var(--plate-size-24);
+  --plate-control-chip: var(--plate-size-36);
+  --plate-control-button: var(--plate-size-44);
+  --plate-control-cta: var(--plate-size-52);
+  --plate-control-fab: var(--plate-size-56);
+}
+
+:root[data-theme="dark"] {
+  --plate-bg-canvas: var(--plate-color-neutral-900);
+  --plate-bg-surface: var(--plate-color-neutral-800);
+  --plate-bg-raised: var(--plate-color-neutral-700);
+  --plate-bg-sunken: var(--plate-color-neutral-900);
+  --plate-bg-inverse: var(--plate-color-neutral-50);
+  --plate-text-primary: var(--plate-color-neutral-50);
+  --plate-text-secondary: var(--plate-color-neutral-300);
+  --plate-text-tertiary: var(--plate-color-neutral-400);
+  --plate-text-disabled: var(--plate-color-neutral-600);
+  --plate-text-inverse: var(--plate-color-neutral-900);
+  --plate-text-inverse-secondary: var(--plate-color-neutral-700);
+  --plate-accent-primary-muted: var(--plate-color-coral-800);
+  --plate-accent-primary-strong: var(--plate-color-coral-300);
+  --plate-accent-secondary-muted: var(--plate-color-periwinkle-800);
+  --plate-macro-carbs-track: var(--plate-color-coral-800);
+  --plate-macro-carbs-indicator: var(--plate-color-coral-400);
+  --plate-macro-carbs-label: var(--plate-color-coral-300);
+  --plate-macro-carbs-surface: var(--plate-color-coral-900);
+  --plate-macro-protein-track: var(--plate-color-periwinkle-800);
+  --plate-macro-protein-indicator: var(--plate-color-periwinkle-400);
+  --plate-macro-protein-label: var(--plate-color-periwinkle-300);
+  --plate-macro-protein-surface: var(--plate-color-periwinkle-900);
+  --plate-macro-fat-track: var(--plate-color-sky-800);
+  --plate-macro-fat-indicator: var(--plate-color-sky-400);
+  --plate-macro-fat-label: var(--plate-color-sky-300);
+  --plate-macro-fat-surface: var(--plate-color-sky-900);
+  --plate-feedback-success: var(--plate-color-feedback-success-pale);
+  --plate-feedback-success-surface: var(--plate-color-neutral-800);
+  --plate-feedback-warning: var(--plate-color-feedback-warning-pale);
+  --plate-feedback-warning-surface: var(--plate-color-neutral-800);
+  --plate-feedback-danger: var(--plate-color-feedback-danger-pale);
+  --plate-feedback-danger-surface: var(--plate-color-neutral-800);
+  --plate-border-subtle: var(--plate-color-neutral-700);
+  --plate-border-strong: var(--plate-color-neutral-600);
+  --plate-border-interactive: var(--plate-color-neutral-400);
+  --plate-border-focus: var(--plate-color-periwinkle-400);
+  --plate-bg-canvas-gradient-start: var(--plate-color-neutral-900);
+  --plate-bg-canvas-gradient-end: var(--plate-color-neutral-800);
+  --plate-text-on-media: var(--plate-color-static-white);
+  --plate-border-on-media: var(--plate-color-static-white);
+  --plate-bg-aurora-peach: var(--plate-color-coral-800);
+  --plate-bg-aurora-lavender: var(--plate-color-periwinkle-800);
+  --plate-bg-aurora-blue: var(--plate-color-sky-800);
+}
+
+@theme inline {
+  --color-*: initial;
+  --spacing-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --text-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --blur-*: initial;
+
+  --spacing-0: var(--plate-space-0);
+  --spacing-2: var(--plate-space-2);
+  --spacing-4: var(--plate-space-4);
+  --spacing-8: var(--plate-space-8);
+  --spacing-12: var(--plate-space-12);
+  --spacing-16: var(--plate-space-16);
+  --spacing-20: var(--plate-space-20);
+  --spacing-24: var(--plate-space-24);
+  --spacing-32: var(--plate-space-32);
+  --spacing-40: var(--plate-space-40);
+  --spacing-48: var(--plate-space-48);
+  --spacing-64: var(--plate-space-64);
+  --spacing-80: var(--plate-space-80);
+  --spacing-96: var(--plate-space-96);
+  --radius-4: var(--plate-radius-4);
+  --radius-8: var(--plate-radius-8);
+  --radius-12: var(--plate-radius-12);
+  --radius-16: var(--plate-radius-16);
+  --radius-20: var(--plate-radius-20);
+  --radius-24: var(--plate-radius-24);
+  --radius-32: var(--plate-radius-32);
+  --radius-full: var(--plate-radius-full);
+  --blur-glass: var(--plate-blur-glass);
+  --font-text: var(--plate-font-family-text);
+  --font-rounded: var(--plate-font-family-rounded);
+  --shadow-xs: var(--plate-shadow-xs);
+  --shadow-sm: var(--plate-shadow-sm);
+  --shadow-md: var(--plate-shadow-md);
+  --shadow-lg: var(--plate-shadow-lg);
+  --color-bg-canvas: var(--plate-bg-canvas);
+  --color-bg-surface: var(--plate-bg-surface);
+  --color-bg-raised: var(--plate-bg-raised);
+  --color-bg-sunken: var(--plate-bg-sunken);
+  --color-bg-inverse: var(--plate-bg-inverse);
+  --color-bg-canvas-gradient-start: var(--plate-bg-canvas-gradient-start);
+  --color-bg-canvas-gradient-end: var(--plate-bg-canvas-gradient-end);
+  --color-bg-aurora-peach: var(--plate-bg-aurora-peach);
+  --color-bg-aurora-lavender: var(--plate-bg-aurora-lavender);
+  --color-bg-aurora-blue: var(--plate-bg-aurora-blue);
+  --color-text-primary: var(--plate-text-primary);
+  --color-text-secondary: var(--plate-text-secondary);
+  --color-text-tertiary: var(--plate-text-tertiary);
+  --color-text-disabled: var(--plate-text-disabled);
+  --color-text-inverse: var(--plate-text-inverse);
+  --color-text-inverse-secondary: var(--plate-text-inverse-secondary);
+  --color-text-on-media: var(--plate-text-on-media);
+  --color-accent-primary: var(--plate-accent-primary);
+  --color-accent-primary-hover: var(--plate-accent-primary-hover);
+  --color-accent-primary-muted: var(--plate-accent-primary-muted);
+  --color-accent-primary-strong: var(--plate-accent-primary-strong);
+  --color-accent-secondary: var(--plate-accent-secondary);
+  --color-accent-secondary-muted: var(--plate-accent-secondary-muted);
+  --color-accent-cta-gradient-start: var(--plate-accent-cta-gradient-start);
+  --color-accent-cta-gradient-end: var(--plate-accent-cta-gradient-end);
+  --color-accent-gauge-start: var(--plate-accent-gauge-start);
+  --color-accent-gauge-mid: var(--plate-accent-gauge-mid);
+  --color-accent-gauge-end: var(--plate-accent-gauge-end);
+  --color-macro-carbs-track: var(--plate-macro-carbs-track);
+  --color-macro-carbs-indicator: var(--plate-macro-carbs-indicator);
+  --color-macro-carbs-label: var(--plate-macro-carbs-label);
+  --color-macro-carbs-surface: var(--plate-macro-carbs-surface);
+  --color-macro-protein-track: var(--plate-macro-protein-track);
+  --color-macro-protein-indicator: var(--plate-macro-protein-indicator);
+  --color-macro-protein-label: var(--plate-macro-protein-label);
+  --color-macro-protein-surface: var(--plate-macro-protein-surface);
+  --color-macro-fat-track: var(--plate-macro-fat-track);
+  --color-macro-fat-indicator: var(--plate-macro-fat-indicator);
+  --color-macro-fat-label: var(--plate-macro-fat-label);
+  --color-macro-fat-surface: var(--plate-macro-fat-surface);
+  --color-feedback-success: var(--plate-feedback-success);
+  --color-feedback-success-surface: var(--plate-feedback-success-surface);
+  --color-feedback-warning: var(--plate-feedback-warning);
+  --color-feedback-warning-surface: var(--plate-feedback-warning-surface);
+  --color-feedback-danger: var(--plate-feedback-danger);
+  --color-feedback-danger-surface: var(--plate-feedback-danger-surface);
+  --color-border-subtle: var(--plate-border-subtle);
+  --color-border-strong: var(--plate-border-strong);
+  --color-border-interactive: var(--plate-border-interactive);
+  --color-border-focus: var(--plate-border-focus);
+  --color-border-on-media: var(--plate-border-on-media);
+  --spacing-control-icon: var(--plate-control-icon);
+  --spacing-control-chip: var(--plate-control-chip);
+  --spacing-control-button: var(--plate-control-button);
+  --spacing-control-cta: var(--plate-control-cta);
+  --spacing-control-fab: var(--plate-control-fab);
+}
+
+@utility type-display-calorie {
+  font-family: var(--plate-font-family-rounded);
+  font-size: 56px;
+  font-weight: var(--plate-font-weight-heavy);
+  line-height: 58px;
+  letter-spacing: -1.6px;
+}
+
+@utility type-metric-card {
+  font-family: var(--plate-font-family-rounded);
+  font-size: 28px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 32px;
+  letter-spacing: -0.4px;
+}
+
+@utility type-large-title {
+  font-family: var(--plate-font-family-text);
+  font-size: 40px;
+  font-weight: var(--plate-font-weight-bold);
+  line-height: 44px;
+  letter-spacing: -1.0px;
+}
+
+@utility type-title-1 {
+  font-family: var(--plate-font-family-text);
+  font-size: 28px;
+  font-weight: var(--plate-font-weight-bold);
+  line-height: 34px;
+  letter-spacing: 0.36px;
+}
+
+@utility type-title-2 {
+  font-family: var(--plate-font-family-text);
+  font-size: 22px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 28px;
+  letter-spacing: 0.35px;
+}
+
+@utility type-title-3 {
+  font-family: var(--plate-font-family-text);
+  font-size: 20px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 25px;
+  letter-spacing: 0.38px;
+}
+
+@utility type-headline {
+  font-family: var(--plate-font-family-text);
+  font-size: 17px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 22px;
+  letter-spacing: -0.43px;
+}
+
+@utility type-body {
+  font-family: var(--plate-font-family-text);
+  font-size: 17px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 22px;
+  letter-spacing: -0.43px;
+}
+
+@utility type-callout {
+  font-family: var(--plate-font-family-text);
+  font-size: 16px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 21px;
+  letter-spacing: -0.31px;
+}
+
+@utility type-subhead {
+  font-family: var(--plate-font-family-text);
+  font-size: 15px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 20px;
+  letter-spacing: -0.23px;
+}
+
+@utility type-subhead-emphasized {
+  font-family: var(--plate-font-family-text);
+  font-size: 15px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 20px;
+  letter-spacing: -0.23px;
+}
+
+@utility type-footnote {
+  font-family: var(--plate-font-family-text);
+  font-size: 13px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 18px;
+  letter-spacing: -0.08px;
+}
+
+@utility type-caption-1 {
+  font-family: var(--plate-font-family-text);
+  font-size: 12px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 16px;
+  letter-spacing: 0.0px;
+}
+
+@utility type-caption-1-emphasized {
+  font-family: var(--plate-font-family-text);
+  font-size: 12px;
+  font-weight: var(--plate-font-weight-semibold);
+  line-height: 16px;
+  letter-spacing: 0.0px;
+}
+
+@utility type-caption-2 {
+  font-family: var(--plate-font-family-text);
+  font-size: 11px;
+  font-weight: var(--plate-font-weight-regular);
+  line-height: 13px;
+  letter-spacing: 0.06px;
+}
+
+@utility duration-press {
+  transition-duration: var(--plate-motion-duration-press);
+}
+
+@utility duration-state {
+  transition-duration: var(--plate-motion-duration-state);
+}
+
+@utility duration-sheet {
+  transition-duration: var(--plate-motion-duration-sheet);
+}

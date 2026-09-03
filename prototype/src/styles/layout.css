@@ -1,0 +1,35 @@
+/* Screen geometry. These are measurements of the Figma frames (393 × 852, iPhone 15 Pro),
+   not design tokens: a token is a decision the designer can retune, whereas these
+   describe the device. Consumed as Tailwind's `h-(--screen-tabbar-h)` syntax. */
+
+:root {
+  --screen-w: 393px;
+  --screen-h: 852px;
+  --screen-status-h: 59px;
+  --screen-home-h: 34px;
+  --screen-margin: 20px;
+
+  --screen-tabbar-h: 68px;
+  --screen-tabbar-lift: 28px;
+  --screen-fab: 56px;
+
+  --screen-fade-nav: 121px;
+  --screen-fade-discovery: 191px;
+  --screen-fade-detail: 160px;
+
+  --screen-gauge-d: 313px;
+  --screen-gauge-stroke: 13px;
+
+  --screen-card-w: 170px;
+  --screen-card-photo-h: 116px;
+  --screen-hero-photo-h: 286px;
+
+  /* iPhone 15 Pro bezel, mirrored from tools/figma-device-mockups.js */
+  --device-bezel: 16px;
+  --device-w: 425px;
+  --device-h: 884px;
+  --device-r: 71px;
+  --device-screen-r: 55px;
+  --device-island-w: 126px;
+  --device-island-h: 37px;
+}

@@ -1,0 +1,43 @@
+/* Global base styles. Tailwind's preflight runs first; this layer only adds what the
+   design system decides for every screen: canvas colour, ink, type, tabular
+   numerals and the focus ring measured at 3.87:1 (border.focus, 2pt, 2pt offset). */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--plate-bg-canvas);
+  }
+
+  body {
+    color: var(--plate-text-primary);
+    font-family: var(--plate-font-family-text);
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--plate-border-focus);
+    outline-offset: 2px;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

@@ -52,6 +52,11 @@ Screen margin 20. `2` is optical-nudge only; `80`/`96` are layout-level only (bo
 `space/*`. `full` (9999) is the one sentinel. Cards use `radius/20`, sheets `radius/32`,
 pills/rings `radius/full`.
 
+**Control sizes are tokens too:** `primitive.size.24 · 36 · 44 · 52 · 56` keyed by value, and
+`semantic.control.icon / chip / button / cta / fab` naming which control gets which. Components
+consume `control/*`, never `size/*`. `blur/glass` (28) and `motion/duration/press · state ·
+sheet` (120 / 200 / 320 ms) live beside them, so the coded prototype has no magic numbers.
+
 **Type:** SF Pro / SF Pro Rounded (both verified present in the file). 16 styles — the HIG
 ramp carries an **Emphasized** weight at every size it is used at, so `Subhead Emphasized`
 and `Caption 1 Emphasized` exist rather than leaving Semibold text unstyled.
@@ -99,6 +104,8 @@ Each was measured. Changing one without re-measuring will break accessibility.
 | Section-tab indicator is `accent.primary-strong` | 6.04:1 | `accent.primary` is the 400-tint and measured 2.23 — under the 3:1 non-text floor. The underline is the primary affordance and has to clear it alone |
 | Screen 5's status band carries a **white scrim**, alpha 0.62 at the glyph band | 5.14:1 | The only status bar sitting on a photo instead of the canvas; unaided it measured ~4.2:1. 0.578 is the solved floor for 4.5:1 over a *black* photo, so the number holds for any image, not just this one |
 | Meal macros reconcile with the header | P78 · C142 · F41 | The per-meal P/C/F must sum to the dashboard totals **and** reproduce each meal's own kcal. They did not: P summed to 66 against a stated 78 |
+| `feedback.success` is **`#2C7757`**, not the original `#30815E` | 4.81:1 on `success-surface` | The original measured 4.22 on the surface it actually sits on (badge 11pt, chips 12pt, banner 15pt); on white alone it had passed at 4.74, which is how it slipped through |
+| The toast's detail line is **`text.inverse-secondary`** (`neutral/300`) | 8.24:1 | It had been `text.tertiary` on `bg.inverse` — 3.55:1 for 11pt text. There was no token for secondary text on an inverse surface; now there is, and it is the value Dark mode already uses for `text.secondary` |
 
 **The canvas is a gradient, not a flat fill.** `bg.canvas` is white → `sand/100` top to
 bottom, held on the Aurora Backdrop component. It was specified from the start and never

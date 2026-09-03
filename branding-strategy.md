@@ -268,7 +268,20 @@ figure uses `sand/100` — the **darkest end** of the background gradient, i.e. 
 | `macro.carbs.label` `#9B4D1E` | `macro.carbs.surface` `#FFF4EF` | **5.6:1** | AA |
 | `macro.protein.label` `#615C9F` | `macro.protein.surface` `#F6F6FF` | **5.52:1** | AA |
 | `macro.fat.label` `#446B86` | `macro.fat.surface` `#F0F8FE` | **5.3:1** | AA |
-| `feedback.success` `#30815E` | `bg.surface` `#FFFFFF` | **4.74:1** | AA |
+| `feedback.success` `#2C7757` | `bg.surface` `#FFFFFF` | **5.41:1** | AA |
+| `feedback.success` `#2C7757` | `feedback.success-surface` `#E0F7EA` | **4.81:1** | AA |
+| `text.inverse-secondary` `#C9C7D1` | `bg.inverse` `#362B23` | **8.24:1** | AAA |
+| `accent.primary` `#F0986A` | `bg.inverse` `#362B23` | **6.16:1** | AA |
+
+**Two pairs were re-solved on 2026-09-03**, when the coded prototype re-measured every
+combination it renders. `feedback.success` had been `#30815E`: 4.74:1 on white, but only
+**4.22:1** on its own `success-surface`, which is where it actually appears — the
+`610 kcal left` badge at 11pt, the `Fits your calories` chips at 12pt and the
+`Fits your daily plan` banner at 15pt. Darkening it one step to `#2C7757` clears AA on every
+surface it sits on and is visually the same green. And the toast's detail line had been
+`text.tertiary` on `bg.inverse`, **3.55:1** for 11pt text; there was no token for secondary
+text on an inverse surface, so `text.inverse-secondary` (`neutral/300`, the value Dark mode
+already uses for `text.secondary`) now exists for exactly that job.
 
 **Non-text contrast** (WCAG 1.4.11 — 3:1 for meaningful graphics):
 
