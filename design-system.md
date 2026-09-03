@@ -298,6 +298,14 @@ Smart filters for User Story B.
 
 ---
 
+**The pill is as wide as its label.** It was fixed at 120pt, which is narrower than
+`Under 400 kcal` at 15pt plus its 16pt padding — the label overflowed by 2pt without a
+count and the badge sat 34–56pt outside the pill with one. All six variants hug.
+
+**Selected uses `accent.primary-muted`, not a macro tint.** It was periwinkle/100, which
+is the protein colour: selection would have been borrowing a meaning the macro spine
+already owns. Ink on the coral tint measures 11.6:1, `accent.primary-strong` 5.1:1.
+
 ### 2.7 Hero Gauge
 
 The dashboard focal point. A thin semicircular arc rather than a full ring — it frees the
@@ -609,6 +617,16 @@ drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of thi
 68pt bar, and section tabs were a 30pt strip. Both now fill their container — 68 and 44
 respectively — which grows the target without moving a pixel of what is drawn, because the
 contents stay centred and the section-tab underline is padded from above only.
+
+### 2.11a Reason Chip — and why an unused component is a liability
+
+`Reason Chip` existed with exactly the variants the product needed — `tone=positive` for
+"Fits your calories", `tone=neutral` for "Tight fit" and "High protein" — and nothing
+instanced it. The Recipe Card carried its own hand-built copy instead, and the five filter
+chips on Discovery were plain frames with padding 12 beside a Filter Pill specifying 16.
+
+That is worse than having no component. Two implementations of one idea drift apart
+silently, and the one on the library page is the one nobody sees. Both are instances now.
 
 ### 2.12d What the consistency audit exempts
 

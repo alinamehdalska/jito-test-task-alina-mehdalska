@@ -19,6 +19,40 @@ root `README.md`, not application code.
 | `figma-layer-naming.js` | **Applied 2026-09-02.** 332 layers renamed by role; zero generic names left outside instances. |
 | `figma-import-artefacts-fix.js` | **Applied 2026-09-02.** White wrapper boxes, a home indicator hanging off the left edge, and a fade that cut instead of dissolving. |
 | `figma-consistency-sweep.js` | **Applied 2026-09-03.** All seven pages to zero on typography, spacing, radii and naming; stale stylescape thumbnails removed. |
+| `figma-component-parity.js` | **Applied 2026-09-03.** Filter Pill overflow, six black-seeded paints, hand-built copies of components that already existed. |
+
+## figma-component-parity.js
+
+**I dismissed a true finding as noise.** The previous sweep reported `Under 400 kcal
+rightOver: 2` and `count rightOver: 34` on the Filter Pill, and I wrote them off as
+artefacts of measuring a component set. They were real: the pill was FIXED at 120pt while
+its content needed 138–192, so the label ran past the edge in every variant and the count
+badge sat outside the pill. An overflow report is a claim about pixels, and the way to
+settle it is to look.
+
+**Six black-seeded bound paints were still latent** in Filter Pill, Ingredient Chip and
+Calorie Card — bound to a variable, seeded `#000000`, rendering black on the library page
+while every instance resolved correctly. Third occurrence of working agreement 1 in this
+file.
+
+**Four components were reaching past the semantic layer** to `color/static/white` and
+`color/periwinkle/100`. Primitives are scoped `[]` so components cannot pick them; these
+predate that. One exception is legitimate and now documented — `Swatch / Primitive` exists
+to display the primitive layer.
+
+**Two components existed and were used nowhere.** The five Discovery filter chips were
+plain frames with padding 12 beside a Filter Pill specifying 16, and the Recipe Card
+carried a hand-built match tag while Reason Chip sat unused with exactly the variants
+needed. A component nobody instances is a drawing on the library page, and the copy on the
+screen drifts from it silently.
+
+**Selection borrowed a macro colour.** `selected` was periwinkle/100 — the protein tint —
+where everything else signals active with the primary accent. Moved to
+`accent/primary-muted`: 11.6:1 for ink, 5.1:1 for accent-strong.
+
+**The library page had no background**, which is how this round started: light components
+on Figma's dark canvas read as dark text on dark. Every page now carries the app canvas,
+and Screens a step deeper so frames keep an edge against their own gradient.
 
 ## figma-consistency-sweep.js
 
