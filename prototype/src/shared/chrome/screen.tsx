@@ -15,6 +15,8 @@ interface ScreenProps {
   readonly bottomInset?: BottomInset | undefined;
   /** Fixed chrome — tab bar, sticky CTA, fades — rendered as siblings of the scroll region. */
   readonly chrome?: ReactNode;
+  /** Off for screens that draw under the status bar themselves (the recipe hero). */
+  readonly topInset?: boolean | undefined;
   readonly children: ReactNode;
 }
 

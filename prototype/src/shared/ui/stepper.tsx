@@ -15,6 +15,8 @@ interface StepperProps {
   /** Lets the number be typed, which a stepper alone cannot express exactly. */
   readonly editable?: boolean | undefined;
   readonly inputId?: string | undefined;
+  /** `circles` is the calculators' row control; `pill` is the compact one beside a CTA. */
+  readonly variant?: 'circles' | 'pill' | undefined;
   readonly className?: string | undefined;
 }
 
@@ -23,9 +25,10 @@ interface StepButtonProps {
   readonly label: string;
   readonly onClick: () => void;
   readonly disabled: boolean;
+  readonly variant: 'circles' | 'pill';
 }
 
-function StepButton({ icon, label, onClick, disabled }: StepButtonProps) {
+function StepButton({ icon, label, onClick, disabled, variant }: StepButtonProps) {
   return (
     <button
       type="button"
@@ -34,9 +37,13 @@ function StepButton({ icon, label, onClick, disabled }: StepButtonProps) {
       onClick={onClick}
       className="flex size-control-button shrink-0 items-center justify-center rounded-full text-text-primary transition-transform duration-press ease-out active:scale-98 disabled:opacity-40"
     >
-      <span className="flex size-control-chip items-center justify-center rounded-full bg-bg-sunken">
-        <Icon name={icon} className="size-20" />
-      </span>
+      {variant === 'circles' ? (
+        <span className="flex size-control-chip items-center justify-center rounded-full bg-bg-sunken">
+          <Icon name={icon} className="size-20" />
+        </span>
+      ) : (
+        <Icon name={icon} className="size-16" />
+      )}
     </button>
   );
 }
@@ -93,6 +100,7 @@ export function Stepper({
   unit,
   editable = false,
   inputId,
+  variant = 'circles',
   className,
 }: StepperProps) {
   const generatedId = useId();
@@ -100,10 +108,19 @@ export function Stepper({
   const clamp = (next: number) => Math.min(max ?? Number.POSITIVE_INFINITY, Math.max(min, next));
 
   return (
-    <div role="group" aria-label={label} className={cn('flex items-center gap-12', className)}>
+    <div
+      role="group"
+      aria-label={label}
+      className={cn(
+        'flex items-center',
+        variant === 'pill' ? 'h-control-cta gap-4 rounded-full bg-bg-sunken px-4' : 'gap-12',
+        className,
+      )}
+    >
       <StepButton
         icon="minus"
         label={`Decrease ${label}`}
+        variant={variant}
         disabled={value <= min}
         onClick={() => {
           onChange(clamp(value - step));
@@ -121,13 +138,16 @@ export function Stepper({
             }}
           />
         ) : (
-          <span className="min-w-32 text-center">{value}</span>
+          <span className={cn('text-center', variant === 'pill' ? 'min-w-16' : 'min-w-32')}>
+            {value}
+          </span>
         )}
         {unit && <span>{unit}</span>}
       </span>
       <StepButton
         icon="plus"
         label={`Increase ${label}`}
+        variant={variant}
         disabled={max !== undefined && value >= max}
         onClick={() => {
           onChange(clamp(value + step));
