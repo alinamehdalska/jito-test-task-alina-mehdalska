@@ -1,0 +1,54 @@
+name: prototype
+
+on:
+  push:
+    paths: ['prototype/**', 'tokens.json', '.github/workflows/prototype.yml']
+  pull_request:
+    paths: ['prototype/**', 'tokens.json', '.github/workflows/prototype.yml']
+
+defaults:
+  run:
+    working-directory: prototype
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: prototype/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: prototype/.nvmrc
+          cache: pnpm
+          cache-dependency-path: prototype/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm tokens:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: prototype/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: prototype/.nvmrc
+          cache: pnpm
+          cache-dependency-path: prototype/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: prototype/playwright-report
+          retention-days: 7

@@ -77,17 +77,17 @@ export function DishScreen() {
               </div>
               <dl className="flex items-center justify-between">
                 {MACRO_ORDER.map((macro) => (
-                  <div key={macro} className="flex items-center gap-8">
-                    <span
-                      aria-hidden="true"
-                      className={cn('size-8 rounded-full', MACRO_DOT_CLASS[macro])}
-                    />
-                    <span className="flex flex-col">
-                      <dd className="type-caption-1-emphasized text-text-primary">
-                        {formatGrams(total[macro])}
-                      </dd>
-                      <dt className="type-caption-2 text-text-tertiary">{MACRO_LABEL[macro]}</dt>
-                    </span>
+                  <div key={macro} className="flex flex-col">
+                    <dd className="flex items-center gap-8 type-caption-1-emphasized text-text-primary">
+                      <span
+                        aria-hidden="true"
+                        className={cn('size-8 rounded-full', MACRO_DOT_CLASS[macro])}
+                      />
+                      {formatGrams(total[macro])}
+                    </dd>
+                    <dt className="pl-16 type-caption-2 text-text-tertiary">
+                      {MACRO_LABEL[macro]}
+                    </dt>
                   </div>
                 ))}
               </dl>
