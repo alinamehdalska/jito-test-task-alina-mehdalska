@@ -154,7 +154,19 @@ real rework on this file:
     still set in Semibold. Copy the arrays wholesale from a known-good tab rather than
     rebuilding paints; that carries the variable bindings and sidesteps the async
     bound-paint trap in item 1.
-12. **Instance children reject `relative-transform` overrides** — *"This property cannot be
+12. **Prototype links are per-page.** A reaction on a component on `02 · Components`
+    cannot point at a frame on `04 · Screens`, so interactions cannot be authored once on
+    the Tab Bar or Section Tabs component and inherited. Every reaction lives on a
+    Screens-page node, and the tab bar is wired three times over. Two payload shapes are
+    rejected outright: singular `{ action: … }` (*"update the `actions` field instead"*)
+    and any `ON_DRAG` trigger paired with `BACK` **or** a `NODE` navigate. A rejection
+    aborts the write loop partway, so resolve every node lookup **before** the first
+    `setReactionsAsync`, and re-run the whole pass to repair — the setter overwrites.
+13. **Frames cannot scroll with fixed chrome here.** `scrollBehavior` is absent from this
+    Plugin API build, and `numberOfFixedChildren` puts fixed children **on top of**
+    scrolling ones — so the aurora backdrop cannot be both fixed and behind the content.
+    `overflowDirection` stays `NONE` on all 11 frames; scrolling is the coded prototype's job.
+14. **Instance children reject `relative-transform` overrides** — *"This property cannot be
     overridden in an instance"*. Anything that repositions a component's internals must be
     done on the **component**; the instance then takes only a root `resize()`. And if those
     children are pinned `MIN/MIN`, resizing without repositioning them leaves the contents
@@ -185,9 +197,12 @@ From the brief, and easy to miss:
 
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
 - Replace the Loom placeholder in `README.md`.
-- **A clickable prototype is expected.** Jito confirmed it: *"немає ніякого сенсу в статичних
-  скрінах коли є можливість швидко робити прототип"*. Figma prototype first, coded app after.
-- 105 of 319 text nodes on `04 · Screens` carry no text style; 33 solid fills are unbound
-  (32 aurora blobs plus the modal scrim, all of which have tokens already). Both are for the
-  atomicity pass — the aurora opacities carry a measured 4.6:1, so they cannot be rebound
-  without re-measuring.
+- **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
+  points, no dangling destinations and no unreachable frames. **Coded prototype still open.**
+  Jito asked for it: *"немає ніякого сенсу в статичних скрінах коли є можливість швидко
+  робити прототип"*. Note that building it makes this file's "no application code, no build"
+  statement false and activates `~/.claude/react.md`'s lint → typecheck → test → build gate.
+- ~~105 of 319 text nodes carry no text style~~ — **closed.** `04 · Screens` now measures
+  323 text nodes, 0 unstyled. The remaining 44 unbound solid fills are all documented
+  exemptions and not work items: 32 aurora `blob` fills (measured opacities — rebinding
+  needs a re-measure), 11 `Dynamic Island` fills (hardware cutout), 1 modal scrim.

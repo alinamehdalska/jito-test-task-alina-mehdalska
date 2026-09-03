@@ -168,8 +168,51 @@ confirms without interrupting, and the undo makes logging feel safe to do quickl
 ## Navigation
 
 `Home · Discover · Add · Diary · Profile`, consistent across every screen that carries it.
-The active item is marked by **both** icon and label colour. Screens 2, 3, 5 and 6 are
-push/modal contexts and intentionally carry a sticky CTA instead of the bar.
+The active item is marked by **both** icon and label colour.
+
+The bar belongs to the three **root destinations** — 1 Dashboard, 4 Discovery, 7 Diary —
+and to 8, which is the dashboard wearing a toast. Screens 2, 3, 5 / 5b / 5c and 7b are
+**push contexts**: a sticky CTA replaces the bar. Screen 6 is a **modal** over the
+dashboard, so the bar is present but dimmed behind the scrim and inert.
+
+> Screen 7 carried no bar until the prototype pass, which is what surfaced it: as a root
+> destination with no way out, it dead-ended the flow. It now carries the same three chrome
+> layers as every other root screen at identical geometry — `Context=Nav` fade at y=731,
+> glass plate and `Active=Diary` bar at y=756.
+
+## Prototype
+
+Two flows, one per user story. Figma prototype links are **per-page**, so every reaction
+lives on the Screens page rather than on the Tab Bar and Section Tabs components — see
+`tools/README.md` → *figma-prototype-wiring.js*.
+
+**US1 · Log a meal** — starts at 1 Dashboard
+
+```
+1 ──[Add food]──▶ 2 Product ──[Add … to Diary]──▶ 8 Logged ──after 3s──▶ 1
+1 ──[+ FAB]────▶ 6 Add sheet ─┬─[Add a product]──▶ 7b Search ──after 1.2s──▶ 2
+                              ├─[Scan a barcode]─▶ 2 Product
+                              └─[Create a dish]──▶ 3 Dish ──[Save dish]──▶ 8
+2 ⇄ 3   Product / Dish segment switches between the two calculators
+6       tap the scrim to dismiss · 7 Diary ──[+ Add food]──▶ 6
+```
+
+**US2 · Find a recipe that fits** — starts at 4 Recipe Discovery
+
+```
+4 ──[any Recipe Card]──▶ 5 Details ──[Log 1 serving]──▶ 8 Logged
+5 ⇄ 5b ⇄ 5c            section tabs switch view without leaving the recipe
+5 / 5b / 5c ──[back]──▶ whichever screen you arrived from
+```
+
+**Transitions.** Push-left for forward navigation, dissolve for modals, confirmations and
+tab-view switches, instant for the tab bar — a tab switch that animates reads as a page
+change. Back carets use Figma's `BACK` action rather than a fixed destination, because
+screen 2 is reachable from three different places and only `BACK` returns to the right one;
+the close **X** is a separate action that dismisses to the dashboard.
+
+**Deliberately inert.** Profile has no screen. Heart, scan and the filter pills are states,
+not destinations. All four recipe cards resolve to the one detail screen that exists.
 
 ## Accessibility
 

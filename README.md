@@ -13,10 +13,13 @@ calculator mobile app, produced with an AI-native workflow using Claude Code.
 |---|---|---|
 | 1 | Branding & stylescape | [`branding-strategy.md`](branding-strategy.md) + Figma *Stylescape* section |
 | 2 | Design system | [`tokens.json`](tokens.json) · [`design-system.md`](design-system.md) + Figma variables & components |
-| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens & Flows* page — 8 frames |
+| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens* page — 11 frames, wired as a clickable prototype |
 
 **Figma file:** https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l
 (Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6) · [Moodboard](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=163-214))
+**Clickable prototype:**
+[US1 · Log a meal](https://www.figma.com/proto/lzCgTFcfrlE8qGqYbBTh7l?node-id=67-130&starting-point-node-id=67-130) ·
+[US2 · Find a recipe that fits](https://www.figma.com/proto/lzCgTFcfrlE8qGqYbBTh7l?node-id=71-107&starting-point-node-id=71-107)
 **Video walkthrough:** _<!-- paste your Loom / Google Drive link here -->_
 
 ---
@@ -228,8 +231,16 @@ mislabel it.
 
 Stated plainly, because pretending otherwise would be the wrong signal:
 
-- **Screens are static specifications.** No prototype wiring and no motion implementation —
-  motion is specified in `branding-strategy.md` §8 but not built.
+- **The prototype navigates; it does not scroll.** All 48 links are wired, but the dashboard's
+  meal list and the fourth row of recipe cards stay below the fold. Figma splits a frame's
+  children into one scrolling and one fixed section, and *fixed children always render on top
+  of scrolling ones* — the aurora backdrop needs to be fixed **and** behind the content, which
+  that model cannot express. `scrollBehavior` is absent from the Plugin API build in use.
+  Scrolling belongs to the coded prototype.
+- **Motion is specified, not built.** `branding-strategy.md` §8 defines the motion language;
+  the prototype uses only Figma's own push, dissolve and timed transitions.
+- **Profile has no screen**, so its tab item is deliberately inert, and all four recipe cards
+  resolve to the single detail screen that exists.
 - **Ingredient and navigation icons are hand-drawn SVG**, not SF Symbols. Production would
   use the real symbol set; these exist so the screens read correctly without external assets.
 - **19 gradient paints are not variable-bound**, because Figma cannot bind gradients. Their

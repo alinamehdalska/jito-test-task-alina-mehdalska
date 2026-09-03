@@ -21,6 +21,61 @@ root `README.md`, not application code.
 | `figma-consistency-sweep.js` | **Applied 2026-09-03.** All seven pages to zero on typography, spacing, radii and naming; stale stylescape thumbnails removed. |
 | `figma-component-parity.js` | **Applied 2026-09-03.** Filter Pill overflow, six black-seeded paints, hand-built copies of components that already existed. |
 | `figma-ring-retirement.js` | **Applied 2026-09-03.** Circular macro ring deleted, Hero Gauge synced to the product, Home Indicator rebuilt. |
+| `figma-prototype-wiring.js` | **Applied 2026-09-03.** 48 reactions across 11 frames, two flow starting points, and the tab bar screen 7 never had. |
+
+## figma-prototype-wiring.js
+
+**Figma prototype links are per-page.** That single fact decided the shape of this pass.
+The atomic version — put the tab bar's four destinations on the Tab Bar *component* once
+and let every instance inherit — is unavailable, because a reaction on page `02 · Components`
+cannot point at a frame on `04 · Screens`. So all 48 reactions live on Screens-page nodes,
+and the tab bar is wired three times over, once per instance. The duplication is a platform
+limit rather than a design decision, and the coded prototype will express it once.
+
+**Screen 7 was the one root tab destination with no tab bar.** `screens-spec.md` names 2, 3,
+5 and 6 as the only screens that omit it, so this was an omission, not a decision — and it
+dead-ended the prototype on Diary. It now carries the same three chrome layers as every
+other root screen at identical geometry: `Context=Nav` fade at y=731, glass plate and
+`Active=Diary` bar at y=756. Reusing the same fade variant is what preserves the measured
+5.63:1 for an 11pt label behind 65% glass: the ramp reaches full canvas alpha *by* the bar's
+top edge, so at the bar's own y the base is the same canvas colour on every screen.
+
+### Two API shapes that are rejected
+
+| Payload | Result |
+|---|---|
+| `{ action: {...} }` (singular) | *"Please update the `actions` field instead of the `action` field"* |
+| `ON_DRAG` + `BACK`, and `ON_DRAG` + a `NODE` navigate | *"Reaction at index 0 was invalid"* — drag-to-dismiss on the add sheet is not expressible, so the scrim tap carries dismissal alone |
+
+The first failure aborted the write loop partway, leaving the file half-wired. `setReactionsAsync`
+overwrites, so re-running the whole pass was the repair; that is why the script resolves every
+lookup *before* it writes anything, and why `one()` throws on an ambiguous name rather than
+taking `[0]` — a silent index would have wired the close X as the back caret on both
+calculator screens.
+
+### What is deliberately inert
+
+Profile has no screen, so its tab item does nothing. The heart, scan and filter-pill
+controls are states rather than destinations. All four recipe cards resolve to the one
+detail screen that exists; wiring only the salmon bowl would be literally truer and read as
+three broken cards.
+
+### Scrolling: attempted, reverted
+
+The dashboard's `today-stack` is 1109pt in an 852pt frame, so meal cards 2 and 3 sit below
+the fold, and the root `README.md` already claims content "scrolls beneath" the glass bar.
+`overflowDirection = 'VERTICAL'` is one line — pinning the chrome is not possible here:
+
+- `scrollBehavior` does not exist in this Plugin API build; it throws *"no such property"*
+  on both `FRAME` and `INSTANCE`.
+- `numberOfFixedChildren`, the fallback, splits children into one scrolling and one fixed
+  section, and per the API docs **"fixed children are always on top of scrolling children"**.
+  The aurora backdrop must be fixed — otherwise 316pt of dead canvas trails the blobs, the
+  exact defect an earlier round fixed — *and* behind the content. That frame cannot be
+  expressed.
+
+Both frames were reverted to `overflowDirection = 'NONE'`. Scrolling belongs to the coded
+prototype, where it is free.
 
 ## figma-ring-retirement.js
 
