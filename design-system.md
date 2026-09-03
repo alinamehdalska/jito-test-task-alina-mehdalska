@@ -28,6 +28,11 @@ consume, and the only layer that changes between light and dark.
 **Components** compose semantic tokens. A component never references a primitive and
 never hardcodes a hex value.
 
+The same three tiers hold in code. The coded prototype generates its Tailwind theme from
+`tokens.json` and mints utility classes only for the semantic layer — a primitive colour has
+no class to reach for — and its linter refuses hex literals and arbitrary values. The
+component-by-component mapping is in [`prototype/README.md`](prototype/README.md).
+
 ### Naming
 
 | Layer | Figma | DTCG | Example |

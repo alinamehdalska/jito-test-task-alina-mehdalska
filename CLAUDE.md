@@ -2,16 +2,21 @@
 
 ## What this repo is
 
-A **design deliverable**, not an application. It is the submission for the Jito UX/UI test
-task: branding, a design system, and key screens for **Plate**, a calorie-tracking mobile app.
+The submission for the Jito UX/UI test task: branding, a design system, and key screens for
+**Plate**, a calorie-tracking mobile app — plus, since 2026-09-03, a **coded prototype** of
+those screens in [`prototype/`](prototype/README.md).
 
-There is no application code, no package manager, no build, lint, typecheck or test step.
+The root is a design deliverable: markdown, `tokens.json`, the Figma file and the scripts in
+`tools/`. `prototype/` is application code — Vite + React 19 + TypeScript + Tailwind v4 — and
+it generates its Tailwind theme from the same `tokens.json` that generates the Figma variables.
 
-> **Note on the global config.** `~/.claude/CLAUDE.md` imports `java.md` and `react.md` and
-> defines a "run lint → typecheck → test → build before commit" workflow. **Neither stack is
-> in use here and that workflow does not apply.** The verification steps for this repo are in
-> *Definition of done* below. Everything else in the global config — scope discipline, honest
-> reporting, no secrets, conventional commits — still applies.
+> **Note on the global config.** `~/.claude/CLAUDE.md` imports `java.md` and `react.md`.
+> `react.md` **applies inside `prototype/`**, including its lint → typecheck → test → build
+> gate before every commit (`pnpm lint && pnpm typecheck && pnpm test && pnpm build`, plus
+> `pnpm test:e2e` when screens change). `java.md` does not apply anywhere. Run the prototype
+> on Node 22.22 via nvm and pnpm via corepack — see `prototype/README.md`. Everything else in
+> the global config — scope discipline, honest reporting, no secrets, conventional commits —
+> applies to the whole repo.
 
 ## Designer persona
 
@@ -193,8 +198,12 @@ real rework on this file:
    regressions here passed structural checks while visibly broken.
 4. **Binding audit** on the Screens page: solid fills and strokes should be 100%
    variable-bound; gradients counted separately.
-5. Keep `tokens.json` and the Figma variables in sync — both are generated from one source.
-6. Conventional commit, imperative subject, body explaining *why*. Do not push without asking.
+5. Keep `tokens.json` and the Figma variables in sync — both are generated from one source,
+   and so is `prototype/src/styles/tokens.generated.css`: run `pnpm tokens` after any token
+   change (the drift test fails otherwise) and mirror new variables into Figma with a script.
+6. For anything under `prototype/`: the `react.md` gate, then a Playwright screenshot readback
+   of every screen you touched at 393 × 852 next to the Figma frame — the same rule as 3.
+7. Conventional commit, imperative subject, body explaining *why*. Do not push without asking.
 
 ## Submission requirements — pass/fail
 
@@ -210,10 +219,14 @@ From the brief, and easy to miss:
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
 - Replace the Loom placeholder in `README.md`.
 - **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
-  points, no dangling destinations and no unreachable frames. **Coded prototype still open.**
-  Jito asked for it: *"немає ніякого сенсу в статичних скрінах коли є можливість швидко
-  робити прототип"*. Note that building it makes this file's "no application code, no build"
-  statement false and activates `~/.claude/react.md`'s lint → typecheck → test → build gate.
+  points, no dangling destinations and no unreachable frames.
+- **Coded prototype — done** (2026-09-03): both user stories end to end, 52 unit tests,
+  34 Playwright tests including axe on every route. **Still open:** connect the repo to Vercel
+  (Root Directory `prototype`), paste the production URL into `README.md` and
+  `prototype/README.md`, and verify it in incognito.
+- Figma follow-ups the prototype surfaced: the product calculator frame's three inconsistent
+  numbers (59 kcal/100 g · 142 kcal · macros summing to 123 — the code uses 73 / 124), and
+  frame 5's macro row ordered protein-first against composition rule 8.
 - ~~105 of 319 text nodes carry no text style~~ — **closed.** `04 · Screens` now measures
   323 text nodes, 0 unstyled. The remaining 44 unbound solid fills are all documented
   exemptions and not work items: 32 aurora `blob` fills (measured opacities — rebinding

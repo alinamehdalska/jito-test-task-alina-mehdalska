@@ -25,6 +25,20 @@ root `README.md`, not application code.
 | `figma-device-mockups.js` | **Applied 2026-09-03.** Eleven screens presented in iPhone 15 Pro mockups on a new `07 · Presentation` page. |
 | `figma-status-scrim.js` | **Applied 2026-09-03.** Screen 5's status bar made legible over its hero photo; alpha solved for 4.5:1 against any image. |
 | `figma-token-additions.js` | **Applied 2026-09-03.** 15 variables mirrored from `tokens.json` (control sizes, glass blur, motion, `text/inverse-secondary`), `feedback/success` re-solved to 4.81:1, the toast's detail line rebound. |
+| `figma-aurora-pink-and-scrim-blur.js` | **Applied 2026-09-03.** Two more mirrors from `tokens.json`: `bg/aurora-pink` for the fourth blob and `blur/scrim` for the sheet's backdrop. |
+
+## figma-aurora-pink-and-scrim-blur.js
+
+Two tokens the coded prototype's shell stage added to `tokens.json` after the first mirror
+had run. The aurora has four blobs but only three semantic tokens — peach, lavender, blue —
+and the fourth, blush/200 at 26%, had been painted straight from the primitive. The coded
+backdrop consumes semantic tokens only, so `bg/aurora-pink` now exists (blush/800 in Dark, by
+analogy with its siblings). `blur/scrim` is the 10pt backdrop blur behind the Add sheet, which
+frame 6 carries as an unbound effect.
+
+Scopes are copied from the sibling each belongs beside (`bg/aurora-blue`, `blur/glass`)
+rather than chosen anew. No node is rebound: both are mirrors of paint that cannot bind to a
+variable, as the aurora and scrim exemptions in the audit record.
 
 ## figma-token-additions.js
 

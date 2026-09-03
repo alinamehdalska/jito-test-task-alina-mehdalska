@@ -222,6 +222,11 @@ the close **X** is a separate action that dismisses to the dashboard.
 **Deliberately inert.** Profile has no screen. Heart, scan and the filter pills are states,
 not destinations. All four recipe cards resolve to the one detail screen that exists.
 
+**The coded prototype** in [`prototype/`](prototype/README.md) runs the same eleven frames as
+routes, with what Figma cannot express here: content scrolling under the floating chrome,
+live totals that move when something is logged, and the motion language from
+`branding-strategy.md` §8.
+
 ## Accessibility
 
 - Macros always pair colour with a **label and a numeric value**, never colour alone.
