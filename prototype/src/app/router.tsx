@@ -4,6 +4,7 @@ import { ErrorScreen } from '@/app/error-screen';
 import { PushPlaceholder, TabPlaceholder } from '@/app/placeholder-screen';
 import { RootLayout } from '@/app/root-layout';
 import { TabLayout } from '@/app/tab-layout';
+import { DashboardScreen, DiaryScreen } from '@/features/diary';
 import { ProfileScreen } from '@/features/profile/profile-screen';
 
 export const routeObjects: RouteObject[] = [
@@ -15,12 +16,12 @@ export const routeObjects: RouteObject[] = [
       {
         element: <TabLayout />,
         children: [
-          { index: true, element: <TabPlaceholder title="Today" stage="the diary stage" /> },
+          { index: true, element: <DashboardScreen /> },
           {
             path: 'discover',
             element: <TabPlaceholder title="Discover" stage="the discovery stage" />,
           },
-          { path: 'diary', element: <TabPlaceholder title="Diary" stage="the diary stage" /> },
+          { path: 'diary', element: <DiaryScreen /> },
           { path: 'profile', element: <ProfileScreen /> },
         ],
       },

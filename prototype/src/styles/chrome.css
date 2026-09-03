@@ -87,3 +87,12 @@
     }
   }
 }
+
+/* Hero Gauge sweep and Macro Stat fill move at the state duration; both are decorative
+   next to their numbers, so reduced-motion (base.css) may drop them. */
+@utility gauge-sweep {
+  transition: stroke-dasharray var(--plate-motion-duration-sheet) ease-out;
+}
+@utility macro-fill {
+  transition: width var(--plate-motion-duration-state) ease-out;
+}

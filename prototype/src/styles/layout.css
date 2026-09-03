@@ -22,6 +22,10 @@
 
   --screen-gauge-d: 313px;
   --screen-gauge-stroke: 13px;
+  --screen-gauge-h: 204px;
+  --screen-gauge-arc-h: 163px;
+  --screen-gauge-text-bottom: 8px;
+  --screen-macro-track-h: 6px;
 
   --screen-card-w: 170px;
   --screen-card-photo-h: 116px;
