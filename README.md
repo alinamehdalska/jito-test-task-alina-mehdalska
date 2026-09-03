@@ -72,7 +72,9 @@ premium feel. The rules that carry it:
   with content scrolling beneath it.
 - **Two calorie scales, not one.** The dashboard hero is 56pt Heavy; figures inside cards
   use a lighter 28pt Semibold so they sit in the hierarchy instead of shouting over it.
-- **Gradient is rationed to one place: the calorie gauge**, where the sweep encodes progress.
+- **Gradient is rationed to five uses** — the canvas gradient, the aurora blobs, the calorie gauge sweep, the **photo scrim**
+(the recipe card's panel seam and screen 5's status band), and the bottom fade beneath
+the floating nav. Primary buttons are solid.
   The CTA gradient was removed in the product pass — decoration on the most-used control made
   the interface read softer than it should.
 - **Colour never carries meaning alone.** Every macro states its name and its

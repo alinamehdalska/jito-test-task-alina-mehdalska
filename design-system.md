@@ -378,7 +378,7 @@ Image-led card for discovery.
   fussy and costs photo height, so the card matches the *effect* rather than the mechanism.
 - The scrim is `layoutPositioning: 'ABSOLUTE'`; in the card's vertical auto-layout a flow
   child would push the content panel down instead of overlaying the photo.
-- **It is one of the four rationed gradients and cannot bind to a variable.** Its stops are
+- **It is one of the five rationed gradients and cannot bind to a variable.** Its stops are
   `bg.surface`'s Light value at 0% and 100% alpha, hardcoded like the aurora and the
   bottom-fade. In Dark mode `bg.surface` becomes `neutral/800`, so the scrim would need its
   stops re-authored; binding audits count it separately.

@@ -364,8 +364,9 @@ text. At the originally-tried strength the same overlap measured 4.44:1 for `tex
 and 2.98:1 for `text.tertiary`, both failures. Scaled to 77% they measure **4.6:1 and 3.09:1**,
 with `text.primary` at 10.97:1.
 
-**Gradient.** Four sanctioned uses and no others: the aurora canvas, the calorie gauge sweep,
-the recipe-card scrim, and the bottom fade beneath the floating nav. Primary buttons are
+**Gradient.** Five sanctioned uses and no others: the canvas, the aurora blobs, the calorie
+gauge sweep, the **photo scrim** — the recipe card's panel seam and screen 5's status band —
+and the bottom fade beneath the floating nav. Primary buttons are
 solid — decoration on the most-used control made the interface read softer than it should.
 Figma cannot bind gradients to variables, so each is mirrored by `accent.gauge-*` and
 `bg.aurora-*` tokens holding the same values.

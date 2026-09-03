@@ -23,6 +23,33 @@ root `README.md`, not application code.
 | `figma-ring-retirement.js` | **Applied 2026-09-03.** Circular macro ring deleted, Hero Gauge synced to the product, Home Indicator rebuilt. |
 | `figma-prototype-wiring.js` | **Applied 2026-09-03.** 48 reactions across 11 frames, two flow starting points, and the tab bar screen 7 never had. |
 | `figma-device-mockups.js` | **Applied 2026-09-03.** Eleven screens presented in iPhone 15 Pro mockups on a new `07 · Presentation` page. |
+| `figma-status-scrim.js` | **Applied 2026-09-03.** Screen 5's status bar made legible over its hero photo; alpha solved for 4.5:1 against any image. |
+
+## figma-status-scrim.js
+
+Screen 5 is the only frame whose status bar sits on a **photograph** rather than the canvas
+gradient. `9:41` and the signal/wifi/battery glyphs are `text.primary` — dark ink over
+salmon, roughly 4.2:1 and close to illegible. It surfaced while building the device
+mockups, which is the useful part: presenting a screen at size is a different test from
+auditing it, and six rounds of structural audits had walked past it.
+
+**The alpha is solved, not chosen.** Worst case beneath a white scrim is a black photo,
+where the composited channel is just the alpha (`a·1 + (1−a)·0`). So the alpha needed for
+4.5:1 *is* the required sRGB value — and any value at or above it holds for **any image**,
+not merely this salmon bowl. For `text.primary` at rgb(54, 43, 35) the floor is **0.578**;
+the scrim runs **0.62** at the glyph band, giving a guaranteed **5.14:1**.
+
+It ramps `0.74 → 0.62 → 0` over 104pt, holding full strength past the glyphs (y 24–37) and
+fading out well below them. A hard stop at y=59 would read as a band welded across the
+photo — the same defect the bottom fade was fixed for once already (working agreement 10).
+
+The gradient's transform is borrowed from the bottom fade rather than hand-rolled, and its
+stops were **read back to confirm position 0 is the top edge** — a flipped axis would put
+the opaque end under the content panel, where it would do nothing while still looking
+plausible in the layer tree.
+
+The alternative was a light status-bar variant for photo-hero screens. The scrim won
+because it keeps the chrome identical on all 11 frames: one status bar, one ink.
 
 ## figma-device-mockups.js
 

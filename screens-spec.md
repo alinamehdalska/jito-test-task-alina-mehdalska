@@ -116,7 +116,7 @@ the image, so legibility never depends on what the photograph looks like.
 
 | Region | Content |
 |---|---|
-| Hero | Edge-to-edge photograph, minimal overlaid back and save controls |
+| Hero | Edge-to-edge photograph, minimal overlaid back and save controls. A **white `status-scrim`** covers the top 104pt above the photo and below all chrome — see below |
 | Summary | Title, ⏱ 15 min, 🍽 2 servings, **480 kcal per serving** |
 | Insight | `✓ Fits your daily plan — This serving fits within your 610 kcal remaining today.` |
 | Macros | Protein / Carbs / Fat with grams **and** percent of daily goal |
@@ -127,6 +127,14 @@ the image, so legibility never depends on what the photograph looks like.
 | Sticky CTA | Servings stepper + `Log 1 serving to Diary` |
 
 Instructions were missing entirely; the recipe could not actually be cooked from the screen.
+
+**Why the hero needs a scrim.** This is the only screen whose status bar sits on a photograph
+rather than on the canvas gradient, and `9:41` plus the signal/wifi/battery glyphs are
+`text.primary` — dark ink measuring roughly 4.2:1 over the salmon, close to illegible. The
+scrim's alpha is **solved, not chosen**: 0.578 is the floor at which white composited over a
+*black* photo still clears 4.5:1 for this ink, so 0.62 at the glyph band guarantees
+**5.14:1 for any image**, not just this one. It ramps 0.74 → 0.62 → 0 across 104pt, clearing
+the glyphs by y=44, so there is no band edge to see.
 
 **Why three frames rather than one scrolled state.** These tabs were originally specified as
 scroll-spy anchors over a single long page, which is why 5b rendered the nutrition table and

@@ -97,6 +97,7 @@ Each was measured. Changing one without re-measuring will break accessibility.
 | Focus ring `periwinkle/600`, 2pt | 3.87:1 | `periwinkle/500` measured 2.82 and failed WCAG 2.4.11 |
 | **Colour never carries meaning alone** | — | Every macro shows a dot **and** a name **and** consumed/target values |
 | Section-tab indicator is `accent.primary-strong` | 6.04:1 | `accent.primary` is the 400-tint and measured 2.23 — under the 3:1 non-text floor. The underline is the primary affordance and has to clear it alone |
+| Screen 5's status band carries a **white scrim**, alpha 0.62 at the glyph band | 5.14:1 | The only status bar sitting on a photo instead of the canvas; unaided it measured ~4.2:1. 0.578 is the solved floor for 4.5:1 over a *black* photo, so the number holds for any image, not just this one |
 | Meal macros reconcile with the header | P78 · C142 · F41 | The per-meal P/C/F must sum to the dashboard totals **and** reproduce each meal's own kcal. They did not: P summed to 66 against a stated 78 |
 
 **The canvas is a gradient, not a flat fill.** `bg.canvas` is white → `sand/100` top to
@@ -104,8 +105,9 @@ bottom, held on the Aurora Backdrop component. It was specified from the start a
 applied: the frames were flat `sand/100`, so the blobs simply stopped at y=640 and 212pt
 of dead colour followed — read as a pod welded to the bottom of every screen.
 
-**Gradient is rationed** to five uses: canvas, aurora blobs, calorie gauge sweep,
-recipe-card scrim, bottom fade under the floating nav. Primary buttons are solid.
+**Gradient is rationed** to five uses: canvas, aurora blobs, calorie gauge sweep, **photo
+scrim** (recipe-card panel seam *and* screen 5's status band), bottom fade under the
+floating nav. Primary buttons are solid.
 
 **No shame language.** No red for being over budget (amber at most); `feedback.danger` is
 reserved for destructive actions. No body imagery — food, hands, kitchens only.
@@ -199,10 +201,6 @@ From the brief, and easy to miss:
 ## Open items
 
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
-- **Screen 5's status bar is close to illegible.** `9:41` and the signal/wifi/battery
-  glyphs are `text.primary` over the salmon photo; every other screen puts that chrome on
-  the canvas gradient. Needs a decision — a light status-bar variant for photo-hero
-  screens, or a short scrim under the top 59pt — then a re-measure.
 - Replace the Loom placeholder in `README.md`.
 - **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
   points, no dangling destinations and no unreachable frames. **Coded prototype still open.**
