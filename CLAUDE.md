@@ -33,7 +33,10 @@ Prioritise **usability and product logic over decoration.**
 | `tokens.json` | **Source of truth.** W3C DTCG. Counts live here, not in prose |
 
 **Figma:** `lzCgTFcfrlE8qGqYbBTh7l` — pages `00 Cover · 01 Foundations · 02 Components ·
-03 Stylescape · 04 Screens · 05 Flows · 06 Moodboard`.
+03 Stylescape · 04 Screens · 05 Flows · 06 Moodboard · 07 Presentation`.
+`07` holds iPhone 15 Pro mockups of all 11 screens — **script-generated clones**, not the
+live frames: bezelling the originals would nest every prototype destination. Regenerate
+with `tools/figma-device-mockups.js` rather than editing it by hand.
 **Reference/brief file:** `G4Zl3VtgSh7nRAJ3rcC1vy` (the brief itself is image nodes `4:3` / `4:6`).
 
 ## Design system contract
@@ -196,6 +199,10 @@ From the brief, and easy to miss:
 ## Open items
 
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
+- **Screen 5's status bar is close to illegible.** `9:41` and the signal/wifi/battery
+  glyphs are `text.primary` over the salmon photo; every other screen puts that chrome on
+  the canvas gradient. Needs a decision — a light status-bar variant for photo-hero
+  screens, or a short scrim under the top 59pt — then a re-measure.
 - Replace the Loom placeholder in `README.md`.
 - **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
   points, no dangling destinations and no unreachable frames. **Coded prototype still open.**
