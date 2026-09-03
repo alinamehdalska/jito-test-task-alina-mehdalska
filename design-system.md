@@ -88,7 +88,7 @@ Scoping is the mechanism that makes the right choice the easy one.
 
 ## 2. Components
 
-Twenty-two components — thirteen variant sets and nine standalone, 101 variants in all.
+Twenty-one components — twelve variant sets and nine standalone, 93 variants in all.
 Every fill, gap, and radius is variable-bound; the token column below is the binding
 contract, not a suggestion.
 
@@ -179,41 +179,45 @@ type SearchInputProps = {
 }
 ```
 
-### 2.3 Macro Progress Ring
+### 2.3 Macro Stat — the linear bar that replaced the ring
 
-The system's signature element. Renders one macro's consumed-vs-target as an arc.
-
-**Anatomy:** track circle → indicator arc → centre value → centre label
+One macro's consumed-vs-target as a horizontal bar: dot, name, `consumed / target`, and a
+track beneath.
 
 | Property | Values |
 |---|---|
-| `macro` | `carbs` · `protein` · `fat` · `total` |
-| `size` | `sm` (64pt) · `lg` (160pt) |
+| `macro` | `carbs` · `protein` · `fat` |
 
-8 variants.
+3 variants, 313 × 34.
 
 | Element | Token |
 |---|---|
+| Dot | `macro.{m}.indicator` |
+| Name | `text.primary`, `Subhead` |
+| Value | `text.primary`, `Subhead Emphasized` |
 | Track | `macro.{m}.track` |
-| Indicator | `macro.{m}.indicator` |
-| Centre value | `text.primary` (`Display Calorie` at `lg`, `Title 3` at `sm`) |
-| Centre label | `text.tertiary`, `Caption 1` |
+| Fill | `macro.{m}.indicator` |
 
-- Stroke `sm` 3pt / `lg` 8pt — deliberately thin, so the number leads and the arc supports.
-- `total` uses `accent.primary` as its indicator.
-- **Over-target does not turn red.** The arc completes and a second, inset arc draws
-  the excess in `feedback.warning`.
-- Indicator tints are the 600-step, which clear 3:1 (WCAG 1.4.11). The 400-tints do not.
+- Indicator tints are the 600-step, which clear 3:1 (WCAG 1.4.11). The 400-tints measure
+  ~2.1 and do not.
+- **Colour never carries the meaning alone.** Every bar shows a dot *and* a name *and*
+  consumed/target as text.
+- **Over-target does not turn red.** The fill completes and the excess draws in
+  `feedback.warning`; `feedback.danger` is reserved for destructive actions.
 
-**Accessibility:** the ring is `aria-hidden`; the value and label carry the meaning as
-text. Never the only representation of a number.
+> **Removed: `Macro Progress Ring`.** The system shipped with a circular version — eight
+> variants, `macro` × `size` — and by the end it appeared in exactly one place: an unused
+> `Calorie Card` variant modelling an older dashboard. Every live screen had moved to the
+> linear bar, because at 64pt a ring gives a number about 30pt of width and the value has to
+> shrink to fit, while a bar gives it the full row and puts the target beside it. The ring is
+> deleted rather than deprecated: a component nobody instances is a drawing on the library
+> page, and it drifts from the product unobserved.
 
 ```ts
-type MacroRingProps = {
-  macro: 'carbs' | 'protein' | 'fat' | 'total'
+type MacroStatProps = {
+  macro: 'carbs' | 'protein' | 'fat'
   consumed: number
   target: number
-  size?: 'sm' | 'lg'
   unit?: 'g' | 'kcal'
 }
 ```
@@ -236,8 +240,11 @@ Three shapes of the same idea: a calorie figure with macro context.
 | Title | `text.primary`, `Title 2` |
 | Meta | `text.secondary`, `Footnote` |
 
-- `daily-budget` — **no card chrome.** Hero Gauge plus a horizontal row of three thin macro
-  badges, sitting directly on the canvas so nothing competes with the data.
+- `daily-budget` — the dashboard hero: `bg.surface` card at `radius.20`, Hero Gauge above a
+  hairline, then three `Macro Stat` bars. It described something else entirely until this
+  pass — no card chrome, and three macro *rings* — because the screen had moved on and the
+  component had not. It is now built from the live card rather than towards it, and the
+  Dashboard holds an instance of it, which is the only thing that keeps the two in step.
 - `meal-entry` — floating card: thumbnail, dish name left-aligned, macro grams as small dot
   indicators, calories pushed to the right edge.
 - `product-result` — name, brand, per-100g kcal, macro chips. Search result.
@@ -336,6 +343,11 @@ centre for the number and reads as a gauge rather than a progress donut.
   at 0 / 0.34 / 0.58 / 0.76.
 - The arc is decorative: the value is always present as text, so the light start stop is
   permitted below 3:1. The mid and end stops clear it anyway.
+
+**The gauge leads with what is left.** It showed consumed as the centre figure while every
+instance showed remaining — the master had been left behind. The product counts down, which
+is the whole no-shame position, so the centre is `610 · kcal left` and the two termini carry
+`1,240 Consumed` and `1,850 Goal`.
 
 ### 2.8 Recipe Card
 
@@ -482,7 +494,7 @@ Image-led card for discovery.
 00 · Cover            index and token-pipeline notes
 01 · Foundations      colour ramps, semantic groups, macro spine,
                       type specimen, spacing, radius, elevation
-02 · Components       13 component sets + 9 standalone — 101 variants
+02 · Components       12 component sets + 9 standalone — 93 variants
 03 · Stylescape       brand core · UI atmosphere · product in context
 04 · Screens          10 iOS frames @ 393 × 852 (see screens-spec.md)
 05 · Flows            2 user-story flow maps

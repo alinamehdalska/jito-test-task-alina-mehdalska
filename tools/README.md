@@ -20,6 +20,32 @@ root `README.md`, not application code.
 | `figma-import-artefacts-fix.js` | **Applied 2026-09-02.** White wrapper boxes, a home indicator hanging off the left edge, and a fade that cut instead of dissolving. |
 | `figma-consistency-sweep.js` | **Applied 2026-09-03.** All seven pages to zero on typography, spacing, radii and naming; stale stylescape thumbnails removed. |
 | `figma-component-parity.js` | **Applied 2026-09-03.** Filter Pill overflow, six black-seeded paints, hand-built copies of components that already existed. |
+| `figma-ring-retirement.js` | **Applied 2026-09-03.** Circular macro ring deleted, Hero Gauge synced to the product, Home Indicator rebuilt. |
+
+## figma-ring-retirement.js
+
+**"Unused" was not quite true.** The ring had three instances, all inside
+`Calorie Card variant=daily-budget` — a variant nothing on any screen used. The brief was
+right about the outcome and wrong about the path: deleting the ring first would have left a
+broken variant behind.
+
+Meanwhile the live dashboard built its hero card **by hand** from Hero Gauge + Macro Stat,
+353×411 on `bg.surface` at radius 20, while the variant described 353×312 with no card
+chrome and three rings. The two had described the same thing differently for weeks and
+nothing could catch it, because neither referenced the other. The variant is now rebuilt
+*from* the live card — cloned, not edited towards — and the Dashboard holds an instance of
+it, which is the only arrangement that keeps them in step.
+
+**The gauge master had been left behind too**, showing consumed as the centre figure while
+every instance showed remaining. The product counts down; the master now says so.
+
+**A bounding box that disagrees with what is painted.** The Home Indicator instance reported
+x=266.5 while its rectangle painted at 126.5 — exactly its own width apart, which is what let
+an audit call it centred while it hung off the left edge. Nudging only moves the
+disagreement; the component was rebuilt from a fresh rectangle and all twelve instances
+repointed. Three of them live inside the Dashboard component and could not be moved at the
+instance level at all, `relative-transform` being non-overridable, so they were fixed at the
+component.
 
 ## figma-component-parity.js
 
