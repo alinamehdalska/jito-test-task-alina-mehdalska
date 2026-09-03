@@ -4,6 +4,7 @@ import { ErrorScreen } from '@/app/error-screen';
 import { PushPlaceholder, TabPlaceholder } from '@/app/placeholder-screen';
 import { RootLayout } from '@/app/root-layout';
 import { TabLayout } from '@/app/tab-layout';
+import { DishScreen, ProductScreen, SearchScreen } from '@/features/calculator';
 import { DashboardScreen, DiaryScreen } from '@/features/diary';
 import { ProfileScreen } from '@/features/profile/profile-screen';
 
@@ -25,18 +26,9 @@ export const routeObjects: RouteObject[] = [
           { path: 'profile', element: <ProfileScreen /> },
         ],
       },
-      {
-        path: 'add/search',
-        element: <PushPlaceholder title="Add food" stage="the calculator stage" />,
-      },
-      {
-        path: 'add/product/:productId?',
-        element: <PushPlaceholder title="Add food" stage="the calculator stage" />,
-      },
-      {
-        path: 'add/dish',
-        element: <PushPlaceholder title="Create a dish" stage="the calculator stage" />,
-      },
+      { path: 'add/search', element: <SearchScreen /> },
+      { path: 'add/product/:productId?', element: <ProductScreen /> },
+      { path: 'add/dish', element: <DishScreen /> },
       {
         path: 'recipes/:slug',
         element: <PushPlaceholder title="Recipe" stage="the discovery stage" />,

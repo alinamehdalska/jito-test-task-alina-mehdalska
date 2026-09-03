@@ -37,8 +37,13 @@
   --screen-bottom-inset: env(safe-area-inset-bottom, 0px);
   --screen-tabbar-bottom: max(var(--screen-tabbar-lift), var(--screen-bottom-inset));
   --screen-toast-y: calc(var(--screen-top-inset) + 15px);
-  /* Composition rule 3: content ends 32 above a pinned CTA bar, 96 under the floating nav. */
+  /* Composition rule 3: content ends 32 above a pinned CTA bar, 96 under the floating nav.
+     The calculators pin a total block above their CTA, so their bars are taller — measured
+     from frames 2 (total-stack at y=706) and 3 (total-dish-stack at y=646). */
+  --screen-cta-bottom: 44px;
   --screen-inset-cta: calc(var(--screen-cta-h) + var(--plate-space-32));
+  --screen-inset-cta-product: calc(146px + var(--plate-space-32));
+  --screen-inset-cta-dish: calc(206px + var(--plate-space-32));
 
   /* iPhone 15 Pro bezel, mirrored from tools/figma-device-mockups.js */
   --device-bezel: 16px;
