@@ -95,10 +95,12 @@ const buildDevice = async (screenId, caption, rail) => {
 // share a left edge because they are children of one vertical stack, not because they
 // were nudged to match.
 //   board padding 96 · row gap 96 · label-to-rail 32 · device gap 48 · caption gap 16
+// 2026-09-04: four frames added by figma-ux-red-flags.js, which also re-clones every
+// existing device from its live frame so the board never lags the Screens page.
 const PLAN = [
-  ['row-1', 'Log a meal',             [['67:130', '1 · Dashboard'], ['73:100', '6 · Add — action sheet'], ['69:113', '2 · Calculator — Product'], ['70:106', '3 · Dish Calculator']]],
+  ['row-1', 'Log a meal',             [['67:130', '1 · Dashboard'], ['297:1106', '9 · Edit entry'], ['73:100', '6 · Add — action sheet'], ['69:113', '2 · Calculator — Product'], ['70:106', '3 · Dish Calculator']]],
   ['row-2', 'Find a recipe that fits',[['71:107', '4 · Recipe Discovery'], ['72:98', '5 · Recipe Details'], ['72:189', '5b · Nutrition'], ['144:209', '5c · Instructions']]],
-  ['row-3', 'States',                 [['81:209', '7b · Search — loading'], ['73:212', '7 · Diary — empty state'], ['73:252', '8 · Logged — confirmation']]]
+  ['row-3', 'States',                 [['81:209', '7b · Search — loading'], ['298:1416', '7c · Search — no results'], ['73:212', '7 · Diary — empty state'], ['73:252', '8 · Logged — confirmation'], ['295:987', '1b · Dashboard — over budget'], ['297:2822', '4b · Discovery — planning tomorrow']]]
 ];
 
 // Figma text styles carry type but NOT colour, so every label created here defaults to an

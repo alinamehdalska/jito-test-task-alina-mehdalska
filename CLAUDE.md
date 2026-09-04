@@ -39,7 +39,7 @@ Prioritise **usability and product logic over decoration.**
 
 **Figma:** `lzCgTFcfrlE8qGqYbBTh7l` — pages `00 Cover · 01 Foundations · 02 Components ·
 03 Stylescape · 04 Screens · 05 Flows · 06 Moodboard · 07 Presentation`.
-`07` holds iPhone 15 Pro mockups of all 11 screens — **script-generated clones**, not the
+`07` holds iPhone 15 Pro mockups of all 15 screens — **script-generated clones**, not the
 live frames: bezelling the originals would nest every prototype destination. Regenerate
 with `tools/figma-device-mockups.js` rather than editing it by hand.
 **Reference/brief file:** `G4Zl3VtgSh7nRAJ3rcC1vy` (the brief itself is image nodes `4:3` / `4:6`).
@@ -103,7 +103,9 @@ Each was measured. Changing one without re-measuring will break accessibility.
 | Gauge sweep and macro indicators use the **600-tints** | 3.85–4.08:1 | The prettier 400-tints measure ~2.1:1 and fail the non-text floor |
 | Aurora opacities `0.35 / 0.32 / 0.31 / 0.26` | 4.78:1 worst case | The **richest** setting where a blob overlap still clears AA for `text.secondary`. Raising it fails. Measured against the canvas gradient; on the flat sand it had been 4.6 |
 | Glass tab bar 65% + blur 28; **inactive nav = `text.secondary`** | 5.63:1 | `text.tertiary` measures 3.79 behind 65% glass — still short of AA for an 11pt label |
-| `text.tertiary` is **large-text only** | 3.6:1 | Never for body copy |
+| `text.tertiary` is **large-text only** | 3.6:1 | Never for body copy. **Enforced 2026-09-04:** 149 nodes under 20pt rebound to `text.secondary`; 0 remain on `04 · Screens` |
+| Over budget: sweep completes, **amber arc inset from the goal end**, `390 · over today's goal` | 4.67:1 surface · 3.35:1 worst track | Never a minus sign, never red. Frame 1b is the reference; the code had rendered `-390 kcal left` |
+| Every log action **names its meal and day** | — | `Breakfast · Today ▾` — subtitle on 2/3/7b, `Log to` row on 5/5b/5c. Inferring both was the audit's third high flag |
 | Focus ring `periwinkle/600`, 2pt | 3.87:1 | `periwinkle/500` measured 2.82 and failed WCAG 2.4.11 |
 | **Colour never carries meaning alone** | — | Every macro shows a dot **and** a name **and** consumed/target values |
 | Section-tab indicator is `accent.primary-strong` | 6.04:1 | `accent.primary` is the 400-tint and measured 2.23 — under the 3:1 non-text floor. The underline is the primary affordance and has to clear it alone |
@@ -182,13 +184,20 @@ real rework on this file:
 13. **Frames cannot scroll with fixed chrome here.** `scrollBehavior` is absent from this
     Plugin API build, and `numberOfFixedChildren` puts fixed children **on top of**
     scrolling ones — so the aurora backdrop cannot be both fixed and behind the content.
-    `overflowDirection` stays `NONE` on all 11 frames; scrolling is the coded prototype's job.
+    `overflowDirection` stays `NONE` on all 15 frames; scrolling is the coded prototype's job.
 14. **Instance children reject `relative-transform` overrides** — *"This property cannot be
     overridden in an instance"*. Anything that repositions a component's internals must be
     done on the **component**; the instance then takes only a root `resize()`. And if those
     children are pinned `MIN/MIN`, resizing without repositioning them leaves the contents
     at their old size, anchored to one corner.
-
+15. **`figma.createAutoLayout()` frames are born with a white fill.** Clear `fills` on every
+    layout container that is not meant to be a surface, or it renders as a white plate — the
+    header title-stack shipped that way once and only the screenshot caught it.
+16. **Cloning a frame that is a flow starting point clones the starting point.** De-duplicate
+    `page.flowStartingPoints` by `nodeId` before assigning, or the setter throws *"duplicate
+    input nodeIds"* — and takes every reaction set earlier in the same atomic call with it.
+17. **Swapping `fontName` between two text nodes detaches both text styles.** Re-apply the
+    style afterwards; the file's "0 unstyled" audit is the only thing that notices.
 ## Definition of done
 
 1. `python3 -c "import json; json.load(open('tokens.json'))"` plus a DTCG shape check —
@@ -219,16 +228,22 @@ From the brief, and easy to miss:
 
 - Figma link-sharing → *Anyone with the link can view* (MCP cannot set this).
 - Replace the Loom placeholder in `README.md`.
-- **Figma prototype — done** (2026-09-03): 48 reactions, 11 frames, two flow starting
-  points, no dangling destinations and no unreachable frames.
+- **Figma prototype — done** (2026-09-03, extended 2026-09-04): 62 reactions, 15 frames,
+  five flow starting points (two user stories + three states), no dangling destinations and
+  no unreachable frames.
+- **UX audit red flags — Figma side done** (2026-09-04, `tools/figma-ux-red-flags.js`):
+  frames 1b, 4b, 7c and 9, the meal picker on six frames, number-led reason chips, the
+  calculator's numbers, one diary verb, and the tertiary rebind. **The coded prototype has
+  not been mirrored yet** — it still renders `-390 kcal left`, opens Discover on an empty
+  grid, infers the meal, and has no edit sheet. Mirror it next; Figma leads.
 - **Coded prototype — done** (2026-09-03): both user stories end to end, 52 unit tests,
   34 Playwright tests including axe on every route. Deployed at https://jito-test-task-alina-mehdalska.vercel.app
   (Vercel, Root Directory `prototype`, rebuilt from `main` on every push); deep links return
   200 through `prototype/vercel.json`.
-- Figma follow-ups the prototype surfaced: the product calculator frame's three inconsistent
-  numbers (59 kcal/100 g · 142 kcal · macros summing to 123 — the code uses 73 / 124), and
-  frame 5's macro row ordered protein-first against composition rule 8.
+- ~~The product calculator frame's three inconsistent numbers~~ — **closed 2026-09-04**
+  (73 / 124, label serving first). Still open: frame 5's macro row ordered protein-first
+  against composition rule 8, and the edit sheet's four meal pills wrapping to two rows.
 - ~~105 of 319 text nodes carry no text style~~ — **closed.** `04 · Screens` now measures
-  323 text nodes, 0 unstyled. The remaining 44 unbound solid fills are all documented
-  exemptions and not work items: 32 aurora `blob` fills (measured opacities — rebinding
-  needs a re-measure), 11 `Dynamic Island` fills (hardware cutout), 1 modal scrim.
+  490 text nodes, 0 unstyled. The 65 unbound solid fills (of 1,096) are all documented
+  exemptions and not work items: aurora `blob` fills (measured opacities — rebinding needs a
+  re-measure), `Dynamic Island` fills (hardware cutout), the two modal scrims on 6 and 9.

@@ -13,8 +13,8 @@ calculator mobile app, produced with an AI-native workflow using Claude Code.
 |---|---|---|
 | 1 | Branding & stylescape | [`branding-strategy.md`](branding-strategy.md) + Figma *Stylescape* section |
 | 2 | Design system | [`tokens.json`](tokens.json) · [`design-system.md`](design-system.md) + Figma variables & components |
-| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens* page — 11 frames, wired as a clickable prototype, and presented on device in *Presentation* |
-| 4 | Coded prototype | [jito-test-task-alina-mehdalska.vercel.app](https://jito-test-task-alina-mehdalska.vercel.app) · [`prototype/`](prototype/README.md) — the 11 frames as a React app generated from the same `tokens.json`, with live data, scrolling and motion |
+| 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens* page — 15 frames, wired as a clickable prototype, and presented on device in *Presentation* |
+| 4 | Coded prototype | [jito-test-task-alina-mehdalska.vercel.app](https://jito-test-task-alina-mehdalska.vercel.app) · [`prototype/`](prototype/README.md) — the original 11 frames as a React app generated from the same `tokens.json`, with live data, scrolling and motion |
 
 **Figma file:** https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l
 (Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6) · [Moodboard](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=163-214) · [Presentation](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=271-2))
@@ -37,7 +37,8 @@ data, inverted emotionally.
 That single decision propagates everywhere:
 
 - There is **no red over-budget state**. Exceeding the target draws an inset amber arc
-  and the words "180 over". `feedback.danger` is reserved for deleting a log entry.
+  and the words "390 over today's goal" (frame 1b). `feedback.danger` is reserved for
+  deleting a log entry — which frame 9 now lets you do.
 - Recipes outside your budget are **not hidden and not marked negatively** — they simply
   carry no match badge.
 - Copy has no exclamation marks and no shame vocabulary.
@@ -210,7 +211,7 @@ theme.dark/  44 dark-mode overrides
 README.md               this file
 branding-strategy.md    brand personality, colour system, type, tone, contrast audit
 design-system.md        component architecture — 12 variant sets + 9 standalone, tokens, states, a11y
-screens-spec.md         11 frames @ 393×852, both user stories, the prototype's flow maps
+screens-spec.md         15 frames @ 393×852, both user stories, the prototype's flow maps
 tokens.json             W3C DTCG design tokens (240 tokens) — feeds Figma and the code
 tools/                  the Figma Plugin API scripts that built and audited the file
 prototype/              the coded prototype (Vite + React + Tailwind v4), see its README
@@ -251,12 +252,12 @@ Stated plainly, because pretending otherwise would be the wrong signal:
 - **Profile has no screen.** Its tab is inert in Figma and a placeholder in code. The Figma
   prototype resolves all four recipe cards to the single detail frame; the code gives each
   recipe its own.
-- **Three numbers in the calculator frame disagree** — 59 kcal per 100 g, 142 kcal for 170 g,
-  and a per-macro column that sums to 123. The code computes from real label data (73 kcal
-  per 100 g, 124 for the serving); the frame is queued for the same correction.
-- **`text.tertiary` appears in small captions** at 3.6–3.9:1 although the contract records it
-  as large-text only. Both prototypes reproduce the design as drawn; the fix is a design
-  decision, not a code one.
+- **Figma is ahead of the code on four states.** A senior UX audit on 2026-09-03 found
+  eleven red flags; the design-side ones were fixed in Figma first (frames 1b, 4b, 7c and 9,
+  a meal-and-day picker on six frames, number-led reason chips, the calculator's numbers, one
+  verb for the diary, and 149 small captions moved off `text.tertiary`). The coded prototype
+  still shows the audited behaviour — `-390 kcal left`, a Discover tab that opens empty when
+  little is left, an inferred meal, no edit sheet — until it is mirrored.
 - **19 gradient paints are not variable-bound**, because Figma cannot bind gradients. Their
   values are mirrored by `accent.gauge-*`, `bg.aurora-*` and `bg.canvas-gradient-*` tokens,
   and the audit reports them separately rather than counting them as bound.

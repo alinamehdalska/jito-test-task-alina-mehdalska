@@ -165,7 +165,7 @@ Entry point for User Story A. Text search and barcode scan share one control.
 | Border (rest) | `border.subtle` 1pt |
 | Border (focus) | `border.focus`, 2pt |
 | Shadow | `shadow.xs` |
-| Placeholder | `text.tertiary` |
+| Placeholder | `text.secondary` — placeholders are text, and 17pt is not large text |
 | Value | `text.primary` |
 | Icons | `text.secondary` |
 
@@ -328,7 +328,8 @@ centre for the number and reads as a gauge rather than a progress donut.
 | Track | `bg.sunken`, 13pt stroke |
 | Sweep | gradient `accent.gauge-start → gauge-mid → gauge-end` |
 | Value | `display.calorie` (56/58 Heavy Rounded), `text.primary` |
-| Caption | `Caption 1`, `text.tertiary` |
+| Caption | `Caption 1`, `text.secondary` |
+| Over state | sweep completes; a 5pt `feedback.warning` arc inset 4pt from the sweep draws the excess back from the goal end; value `390`, caption `over today's goal` |
 | End labels | `Headline` + `Caption 2` at each arc terminus |
 
 - **Diameter 313 — it fills the card interior exactly**, upper semicircle only
@@ -348,6 +349,12 @@ centre for the number and reads as a gauge rather than a progress donut.
   at 0 / 0.34 / 0.58 / 0.76.
 - The arc is decorative: the value is always present as text, so the light start stop is
   permitted below 3:1. The mid and end stops clear it anyway.
+
+**Over budget is a state of this component, not a different one.** Frame 1b shows it: the
+sweep completes, the amber arc measures the excess against the same goal, and the caption
+changes — `390 · over today's goal`. No minus sign, no red. The arc sits inside the sweep
+because the excess is *beyond* the goal, and it starts where the goal ends. `feedback.warning`
+measures 4.67:1 on the surface and 3.35–3.43:1 on the three macro tracks it also completes.
 
 **The gauge leads with what is left.** It showed consumed as the centre figure while every
 instance showed remaining — the master had been left behind. The product counts down, which
@@ -483,6 +490,10 @@ Image-led card for discovery.
 7. **Touch targets are 44pt minimum**, including scan, stepper and remove controls.
 8. **Macro order is always carbs → protein → fat.** Never re-sorted by value.
 9. **Numbers are tabular** everywhere they can change.
+10. **Every log action names its meal and day** — `Breakfast · Today`, defaulted from the
+    clock, changeable in one tap. Form screens carry it as a pull-down subtitle under the
+    title; the recipe screens, which have no title bar, carry it as a `Log to` row above the
+    sticky controls. Same menu, same default, two placements.
 
 > **Spacing tokens must exist on the grid.** `setBoundVariable('paddingLeft', undefined)`
 > silently *clears* the padding rather than failing, so binding to an off-grid value such as
@@ -593,6 +604,11 @@ consumed figure and the target, so the information survives without colour perce
 (`bg.sunken`) carries attributes — time, diet, protein. Used on recipe cards and in the
 Discover recommendation header so the app always says *why* something is suggested.
 
+**The reason carries the number.** `Fits · 130 to spare`, `Just fits · 90 to spare`,
+`Fits tomorrow` — never a bare "Tight fit", which reads as ambiguous between time and
+calories. The component is `FIXED` 120 wide; an instance whose copy needs more is widened
+to its text plus the 25pt of dot, gap and padding, rather than clipped.
+
 ### 2.12 Screen chrome
 
 Five structures repeated on every screen and were maintained by hand on each. They are
@@ -617,7 +633,7 @@ drifts into `56 · 52 · 50 · 46 · 44 · 36` — which is what an audit of thi
 | **56** | Floating action button | `log-fab`, one per screen with a tab bar |
 | **52** | Primary and sticky CTA | `Button size=lg` — "Log 1 serving to Diary", "Save dish to Diary" |
 | **44** | Standard button | `Button size=md`, icon buttons, list-row actions |
-| **36** | Chip and filter pill | `Filter Pill`, `Ingredient Chip` |
+| **36** | Chip and filter pill | `Filter Pill`, `Ingredient Chip`, the `meal-picker` pull-down |
 
 **Where each may be used, and where it may not**
 

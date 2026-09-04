@@ -26,6 +26,32 @@ root `README.md`, not application code.
 | `figma-status-scrim.js` | **Applied 2026-09-03.** Screen 5's status bar made legible over its hero photo; alpha solved for 4.5:1 against any image. |
 | `figma-token-additions.js` | **Applied 2026-09-03.** 15 variables mirrored from `tokens.json` (control sizes, glass blur, motion, `text/inverse-secondary`), `feedback/success` re-solved to 4.81:1, the toast's detail line rebound. |
 | `figma-aurora-pink-and-scrim-blur.js` | **Applied 2026-09-03.** Two more mirrors from `tokens.json`: `bg/aurora-pink` for the fourth blob and `blur/scrim` for the sheet's backdrop. |
+| `figma-ux-red-flags.js` | **Applied 2026-09-04.** The design-side half of the UX audit: frames 1b · 9 · 4b · 7c, the meal-and-day picker on six frames, number-led reason chips, the calculator's numbers, one diary verb, 149 captions off `text.tertiary`, 14 reactions, three state flows, 15 mockups. |
+
+## figma-ux-red-flags.js
+
+A senior UX audit of the prototype (2026-09-03) ranked eleven red flags. Nine had a
+Figma-side fix, and the rule for this pass was **Figma first**: the file is the deliverable
+being judged, the code mirrors it. Four frames are new — **1b** the over-budget dashboard
+(`390 · over today's goal`, an amber arc inset from the goal end, bars completed in amber,
+meals reconciling to 2,240), **9** the edit-entry sheet (amount, meal pills, time, save,
+the first live `feedback.danger`), **4b** Discover when nothing fits tonight (fit becomes a
+sort; lightest first; `Fits tomorrow`), and **7c** search with no results (`Create a food`,
+`Scan a barcode`). Six frames gained the meal-and-day picker — a pull-down subtitle under
+the title on 2 / 3 / 7b, a `Log to` row above the sticky controls on 5 / 5b / 5c, with the
+fade moved up and extended. Frame 2 finally reconciles (73 → 124 kcal, `1 pot · 170 g`
+first); the reason chips carry the margin; every diary CTA says `Log`; 5b / 5c keep the
+per-serving figure and the fit chip above the tabs.
+
+**149 text nodes left `text.tertiary`** — 122 on Screens, 27 in components — everything
+under 20pt, which the contract had always said was large-text only. Measured afterwards:
+warning on surface 4.67:1 and 3.35–3.43:1 on the tracks, secondary on `bg.raised` 4.87:1,
+danger on its surface 4.74:1. Binding audit: 1,096 solid fills, 65 unbound and all exempt,
+0 unbound strokes, 490 texts and 0 unstyled.
+
+Three traps joined the list in `CLAUDE.md`: `createAutoLayout()` frames are born with a
+white fill; cloning a flow starting point clones the starting point (and the duplicate
+rolls back the whole atomic call); swapping `fontName` detaches text styles.
 
 ## figma-aurora-pink-and-scrim-blur.js
 

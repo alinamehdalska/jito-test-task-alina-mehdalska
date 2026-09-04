@@ -261,7 +261,8 @@ figure uses `sand/100` — the **darkest end** of the background gradient, i.e. 
 | `text.primary` `#362B23` | `bg.surface` `#FFFFFF` | **13.76:1** | AAA |
 | `text.secondary` `#6E645C` | `bg.canvas` `#F9F6F3` | **5.36:1** | AA |
 | `text.secondary` `#6E645C` | `bg.surface` `#FFFFFF` | **5.77:1** | AA |
-| `text.tertiary` `#82808C` | `bg.canvas` `#F9F6F3` | **3.6:1** | AA-lg |
+| `text.tertiary` `#82808C` | `bg.canvas` `#F9F6F3` | **3.6:1** | AA-lg — and since 2026-09-04 unused under 20pt |
+| `text.secondary` `#6E645C` | `bg.raised` `#F9E8E6` | **4.87:1** | AA |
 | `text.primary` `#362B23` | `accent.cta-gradient-start` `#FEB691` | **8.07:1** | AAA |
 | `text.primary` `#362B23` | `accent.cta-gradient-end` `#DB7E49` | **4.65:1** | AA |
 | `accent.primary-strong` `#9B4D1E` | `bg.canvas` `#F9F6F3` | **5.61:1** | AA |
@@ -272,6 +273,7 @@ figure uses `sand/100` — the **darkest end** of the background gradient, i.e. 
 | `feedback.success` `#2C7757` | `feedback.success-surface` `#E0F7EA` | **4.81:1** | AA |
 | `text.inverse-secondary` `#C9C7D1` | `bg.inverse` `#362B23` | **8.24:1** | AAA |
 | `accent.primary` `#F0986A` | `bg.inverse` `#362B23` | **6.16:1** | AA |
+| `feedback.danger` `#B4453C` | `feedback.danger-surface` `#FFEBE8` | **4.74:1** | AA |
 
 **Two pairs were re-solved on 2026-09-03**, when the coded prototype re-measured every
 combination it renders. `feedback.success` had been `#30815E`: 4.74:1 on white, but only
@@ -282,6 +284,12 @@ surface it sits on and is visually the same green. And the toast's detail line h
 `text.tertiary` on `bg.inverse`, **3.55:1** for 11pt text; there was no token for secondary
 text on an inverse surface, so `text.inverse-secondary` (`neutral/300`, the value Dark mode
 already uses for `text.secondary`) now exists for exactly that job.
+
+**149 text nodes left `text.tertiary` on 2026-09-04.** The contract had always said tertiary
+is large-text only, and the UX audit found it under gauge captions, meal detail lines,
+section labels, placeholders and inactive section tabs at 11–17pt — 3.6 to 3.9:1. All of
+them now use `text.secondary`, which clears AA on every surface it sits on, including the
+edit sheet's `bg.raised` rows at 4.87:1. Nothing under 20pt is set in tertiary any more.
 
 **Non-text contrast** (WCAG 1.4.11 — 3:1 for meaningful graphics):
 
@@ -294,6 +302,10 @@ already uses for `text.secondary`) now exists for exactly that job.
 | `macro.fat.indicator` `#5A87A7` | `bg.surface` `#FFFFFF` | **3.85:1** | PASS |
 | `border.interactive` `#82808C` | `bg.surface` `#FFFFFF` | **3.88:1** | PASS |
 | `border.focus` `#7C76C4` | `bg.canvas` `#F9F6F3` | **3.72:1** | PASS |
+| `feedback.warning` `#A36700` (over-budget arc, completed bars) | `bg.surface` `#FFFFFF` | **4.67:1** | PASS |
+| `feedback.warning` `#A36700` | `macro.carbs.track` `#FFD1BA` | **3.35:1** | PASS |
+| `feedback.warning` `#A36700` | `macro.protein.track` `#D9D8FF` | **3.38:1** | PASS |
+| `feedback.warning` `#A36700` | `macro.fat.track` `#C9E0F1` | **3.43:1** | PASS |
 
 **`text.disabled` is intentionally below AA.** WCAG 1.4.3 exempts disabled controls. It is
 never used for enabled content, and disabled states always carry a second signal.
