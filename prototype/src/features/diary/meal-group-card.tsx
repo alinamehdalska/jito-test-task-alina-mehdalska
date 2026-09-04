@@ -1,4 +1,4 @@
-import { PHOTOS } from '@/data/photos';
+import { thumbFor } from '@/data/photos';
 import { MEAL_LABEL } from '@/domain/meals';
 import type { DiaryEntry } from '@/domain/types';
 import { useEditEntryStore } from '@/features/diary/edit-entry-store';
@@ -9,7 +9,7 @@ import { formatKcal, formatTime } from '@/shared/lib/format';
 function MealEntryRow({ entry }: { readonly entry: DiaryEntry }) {
   const openEdit = useEditEntryStore((state) => state.open);
   const { nutrition } = entry;
-  const thumb = entry.photo ? PHOTOS[entry.photo].thumb : undefined;
+  const thumb = thumbFor(entry.photo);
   return (
     <li>
       <button

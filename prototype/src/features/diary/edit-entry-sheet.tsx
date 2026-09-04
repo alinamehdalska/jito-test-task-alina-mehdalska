@@ -1,7 +1,7 @@
 import { format, set } from 'date-fns';
 import { useState } from 'react';
 
-import { PHOTOS } from '@/data/photos';
+import { thumbFor } from '@/data/photos';
 import { MEAL_LABEL } from '@/domain/meals';
 import { multiplyNutrition } from '@/domain/nutrition';
 import { type DiaryEntry, MEAL_ORDER, type MealSlot } from '@/domain/types';
@@ -28,7 +28,7 @@ function readTime(value: string): { hours: number; minutes: number } {
 }
 
 function EntryCard({ entry, kcal }: { readonly entry: DiaryEntry; readonly kcal: number }) {
-  const thumb = entry.photo ? PHOTOS[entry.photo].thumb : undefined;
+  const thumb = thumbFor(entry.photo);
   const { nutrition } = entry;
   return (
     <div className="flex items-center gap-12 rounded-16 bg-bg-raised px-16 py-12">

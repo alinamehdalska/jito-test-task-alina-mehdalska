@@ -38,3 +38,14 @@ export const PHOTOS: Readonly<Record<PhotoKey, PhotoSet>> = {
   shakshuka: { card: shakshukaCard, hero: shakshukaHero },
   'tuna-nicoise': { card: tunaNicoiseCard, hero: tunaNicoiseHero },
 };
+
+/**
+ * The 44pt diary thumbnail. Products were exported at 112 and recipes at 340, so an entry
+ * logged from either borrows the nearest size; object-fit crops it. Only seed meals have an
+ * 88 px source.
+ */
+export function thumbFor(photo: PhotoKey | undefined): string | undefined {
+  if (!photo) return undefined;
+  const sizes = PHOTOS[photo];
+  return sizes.thumb ?? sizes.product ?? sizes.card;
+}
