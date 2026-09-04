@@ -160,7 +160,7 @@ function ProductForm({ product }: { readonly product: Product }) {
       bottomInset="cta-product"
       chrome={
         <StickyCta
-          fade="nav"
+          fade="product"
           header={
             <div className="flex items-center justify-between">
               <span className="flex flex-col gap-2">

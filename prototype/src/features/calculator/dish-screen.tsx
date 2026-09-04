@@ -63,7 +63,7 @@ export function DishScreen() {
       bottomInset="cta-dish"
       chrome={
         <StickyCta
-          fade="nav"
+          fade="dish"
           header={
             <div className="flex flex-col gap-12 rounded-20 bg-bg-surface px-16 py-8 shadow-sm">
               <div className="flex items-center justify-between">
