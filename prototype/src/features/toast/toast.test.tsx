@@ -14,7 +14,7 @@ describe('Toast', () => {
     vi.useRealTimers();
   });
 
-  it('announces, then dismisses itself after the documented 3 s', () => {
+  it('announces, then dismisses itself after the documented 5 s', () => {
     render(<Toast />);
     act(() => {
       useToastStore

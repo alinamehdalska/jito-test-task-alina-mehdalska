@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import { useToastStore } from '@/features/toast/store';
 import { Icon } from '@/shared/ui/icon';
 
-/** Frame 8 → 1 in the Figma prototype fires after 3 s; this is that timer. */
-export const TOAST_DURATION_MS = 3000;
+/**
+ * Frame 8 → 1 in the Figma prototype fires after 3 s. The code holds 5 s: the audit measured
+ * 3 s against the 4–10 s the platforms recommend, and undo is no longer the only way back.
+ */
+export const TOAST_DURATION_MS = 5000;
 
 /**
  * Frame 8, "Logged — confirmation". Always mounted as a polite live region so the

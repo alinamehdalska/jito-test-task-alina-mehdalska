@@ -301,8 +301,8 @@ and 4b carry the full tab bar and FAB wiring, and 4b inherited the card links fr
 pull-downs are states, not destinations. All four recipe cards resolve to the one detail
 screen that exists.
 
-**The coded prototype** in [`prototype/`](prototype/README.md) runs the original eleven frames as
-routes, with what Figma cannot express here: content scrolling under the floating chrome,
+**The coded prototype** in [`prototype/`](prototype/README.md) runs all fifteen frames as
+routes and states, with what Figma cannot express here: content scrolling under the floating chrome,
 live totals that move when something is logged, and the motion language from
 `branding-strategy.md` §8.
 

@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { act, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { addDays, isMonday, subDays } from 'date-fns';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -33,6 +33,27 @@ describe('DashboardScreen', () => {
     ).toBeInTheDocument();
     expect(screen.getByText('1,240 kcal')).toBeInTheDocument();
   });
+
+  it('goes over budget in amber with a number, never a minus sign', () => {
+    renderRoutes(routeObjects);
+    act(() => {
+      useDiaryStore.getState().log({
+        name: 'Chickpea Shakshuka',
+        meal: 'dinner',
+        loggedAt: new Date().toISOString(),
+        amount: { value: 2, unit: 'serving' },
+        nutrition: { kcal: 1000, protein: 48, carbs: 104, fat: 44 },
+        source: 'recipe',
+      });
+    });
+    const gauge = screen.getByRole('meter', { name: 'Calories remaining today' });
+    expect(gauge).toHaveAttribute('aria-valuenow', '0');
+    expect(gauge).toHaveAttribute('aria-valuetext', '390 kcal over the 1,850 goal; 2,240 consumed');
+    expect(gauge).toHaveTextContent('390');
+    expect(gauge).toHaveTextContent('over today’s goal');
+    expect(gauge).not.toHaveTextContent('-390');
+    expect(screen.getByRole('meter', { name: 'Carbs' })).toHaveAttribute('aria-valuenow', '246');
+  });
 });
 
 describe('DiaryScreen', () => {
@@ -47,7 +68,7 @@ describe('DiaryScreen', () => {
     const { router } = renderRoutes(routeObjects, { initialEntries: ['/diary'] });
 
     expect(screen.getByRole('region', { name: 'Breakfast' })).toBeInTheDocument();
-    expect(screen.getByRole('radio', { name: formatDayTitle(today) })).toBeChecked();
+    expect(screen.getByRole('radio', { name: `${formatDayTitle(today)}, logged` })).toBeChecked();
 
     await user.click(screen.getByRole('radio', { name: formatDayTitle(other) }));
     expect(router.state.location.search).toContain('day=');

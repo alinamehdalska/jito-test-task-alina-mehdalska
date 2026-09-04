@@ -38,6 +38,12 @@ export type PhotoKey =
   | 'shakshuka'
   | 'tuna-nicoise';
 
+/** The serving the label names — "1 pot · 170 g" — offered before any round number. */
+export interface ProductServing {
+  readonly label: string;
+  readonly grams: number;
+}
+
 export interface Product {
   readonly id: string;
   readonly name: string;
@@ -45,6 +51,15 @@ export interface Product {
   readonly category: FoodCategory;
   readonly per100g: Nutrition;
   readonly photo?: PhotoKey | undefined;
+  readonly serving?: ProductServing | undefined;
+}
+
+export type AmountUnit = 'g' | 'serving';
+
+/** How much was logged, in the unit the entry was made in; editing rescales from it. */
+export interface EntryAmount {
+  readonly value: number;
+  readonly unit: AmountUnit;
 }
 
 export type EntrySource = 'seed' | 'product' | 'dish' | 'recipe';
@@ -55,6 +70,7 @@ export interface DiaryEntry {
   readonly meal: MealSlot;
   /** ISO timestamp of when it was eaten. */
   readonly loggedAt: string;
+  readonly amount: EntryAmount;
   readonly nutrition: Nutrition;
   readonly source: EntrySource;
   readonly photo?: PhotoKey | undefined;

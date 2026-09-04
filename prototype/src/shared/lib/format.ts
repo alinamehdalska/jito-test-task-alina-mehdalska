@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 const integer = new Intl.NumberFormat('en-GB', { maximumFractionDigits: 0 });
 const oneDecimal = new Intl.NumberFormat('en-GB', {
   minimumFractionDigits: 1,
@@ -35,4 +37,17 @@ export function formatDayTitle(date: Date): string {
 /** `Thu`. */
 export function formatWeekday(date: Date): string {
   return weekday.format(date);
+}
+
+/** `Wed 2 Sep` — the day a log lands in, when it is not today. */
+export function formatDayShort(date: Date): string {
+  return format(date, 'EEE d MMM');
+}
+
+/** `½ serving` · `1 serving` · `1½ servings` · `2 servings`. */
+export function formatServings(value: number): string {
+  const whole = Math.floor(value);
+  const half = value - whole >= 0.5;
+  const figure = `${whole > 0 ? String(whole) : ''}${half ? '½' : ''}`;
+  return `${figure} ${value <= 1 ? 'serving' : 'servings'}`;
 }

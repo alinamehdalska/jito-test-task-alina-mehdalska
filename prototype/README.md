@@ -59,19 +59,24 @@ to SF Pro Rounded in Safari only. Numerals are tabular everywhere.
 
 ## Frames → routes → components
 
-| Figma frame               | Route                                      | Chrome                                          | Feature                                                                        |
-| ------------------------- | ------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------ |
-| 1 · Dashboard             | `/`                                        | tab bar, nav fade                               | `features/diary` — `HeroGauge` (SVG meter), `MacroStat`, `MealGroupCard`       |
-| 2 · Calculator — Product  | `/add/product/:productId?`                 | back / close, total + CTA                       | `features/calculator/product-screen`                                           |
-| 3 · Dish Calculator       | `/add/dish`                                | back / close, total + CTA                       | `features/calculator/dish-screen`                                              |
-| 4 · Recipe Discovery      | `/discover`                                | tab bar, discovery fade                         | `features/discover/discovery-screen`, `RecipeCard`, `FilterPill`, `ReasonChip` |
-| 5 · Recipe Details        | `/recipes/:slug`                           | hero + status scrim, stepper + CTA, detail fade | `features/discover/recipe-details-screen`                                      |
-| 5b · Nutrition            | `/recipes/:slug?tab=nutrition`             | compact header                                  | same screen, `SectionTabs`                                                     |
-| 5c · Instructions         | `/recipes/:slug?tab=instructions`          | compact header                                  | same screen                                                                    |
-| 6 · Add — action sheet    | not a route: `<dialog>` in the root layout | scrim + blur                                    | `features/add-sheet`                                                           |
-| 7 · Diary — empty state   | `/diary?day=YYYY-MM-DD`                    | tab bar                                         | `features/diary/diary-screen`, `WeekStrip`                                     |
-| 7b · Search — loading     | `/add/search?mode=product\|ingredient&q=`  | back                                            | `features/calculator/search-screen`                                            |
-| 8 · Logged — confirmation | toast on `/` after any log                 | —                                               | `features/toast`                                                               |
+| Figma frame                        | Route                                                 | Chrome                                                        | Feature                                                                                      |
+| ---------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 1 · Dashboard                      | `/`                                                   | tab bar, nav fade                                             | `features/diary` — `HeroGauge` (SVG meter), `MacroStat`, `MealGroupCard`                     |
+| 1b · Dashboard — over budget       | `/` once consumed passes the goal                     | same                                                          | `HeroGauge` over state: sweep capped, amber arc from the goal end, `390 · over today's goal` |
+| 2 · Calculator — Product           | `/add/product/:productId?`                            | back / `Breakfast · Today ▾` / close, total + CTA             | `features/calculator/product-screen`, `MealPickerTrigger`                                    |
+| 3 · Dish Calculator                | `/add/dish`                                           | back / close, total + CTA                                     | `features/calculator/dish-screen`                                                            |
+| 4 · Recipe Discovery               | `/discover`                                           | tab bar, discovery fade                                       | `features/discover/discovery-screen`, `RecipeCard`, `FilterPill`, `ReasonChip`               |
+| 4b · Discovery — planning tomorrow | `/discover` once nothing fits tonight, or after 20:00 | same                                                          | same screen — `recommendationMode`, `rankRecipes` in `domain/match`                          |
+| 5 · Recipe Details                 | `/recipes/:slug`                                      | hero + status scrim, `Log to` row, stepper + CTA, detail fade | `features/discover/recipe-details-screen`                                                    |
+| 5b · Nutrition                     | `/recipes/:slug?tab=nutrition`                        | same; the tabs stick under the status bar                     | same screen, `SectionTabs` — the panel swaps, the summary stays                              |
+| 5c · Instructions                  | `/recipes/:slug?tab=instructions`                     | same                                                          | same screen                                                                                  |
+| 6 · Add — action sheet             | not a route: `<dialog>` in the root layout            | scrim + blur                                                  | `features/add-sheet`                                                                         |
+| 7 · Diary — empty state            | `/diary?day=YYYY-MM-DD`                               | tab bar                                                       | `features/diary/diary-screen`, `WeekStrip`                                                   |
+| 7b · Search — loading              | `/add/search?mode=product\|ingredient&q=`             | back                                                          | `features/calculator/search-screen`                                                          |
+| 7c · Search — no results           | `/add/search?q=kefir`                                 | back                                                          | same screen — `EmptyState` with `Create a food` and `Scan a barcode`                         |
+| 8 · Logged — confirmation          | toast on `/` after any log                            | —                                                             | `features/toast`                                                                             |
+| 9 · Edit entry                     | not a route: `<dialog>` from any meal row             | scrim + blur                                                  | `features/diary/edit-entry-sheet` — amount, meal, time, delete with undo                     |
+| Meal picker (2, 3, 5, 7b)          | not a route: `<dialog>` from the pull-down            | scrim + blur                                                  | `features/diary/meal-picker`, `log-target-store`                                             |
 
 Shared chrome lives in `src/shared/chrome` (device frame, screen, status bar, tab bar,
 bottom fades, sticky CTA); shared controls in `src/shared/ui` (button, icon set, chip,
@@ -81,23 +86,40 @@ filter pill, stepper, segmented control, search input, section tabs, empty state
 
 - **Logging changes the budget.** Every "… to Diary" action adds an entry, the gauge and macro
   bars recompute, the toast offers Undo, and Discovery re-ranks its reasons against what is left.
-- **The diary is a calendar.** Today carries the dashboard's meals; any other day of the week
-  shows frame 7's empty state.
+- **Every log names its meal and day.** `Breakfast · Today ▾` under the title on the form
+  screens and a `Log to` row on the recipe screens open the same picker; the default comes
+  from the clock, and the day the diary has open carries into the flow.
+- **Entries can be corrected.** Tapping a meal row opens the edit sheet: amount rescales the
+  nutrition, meal and time move the entry, delete offers an undo. The toast holds 5 s.
+- **Over budget is a state, not a minus sign.** The gauge sweep caps at the goal, an amber
+  arc inset from the goal end draws the excess, the hero reads `390 · over today's goal`, and
+  the macro bars complete in amber.
+- **The diary is a calendar** with a dot under every day that has entries. Today carries the
+  dashboard's meals; any other day of the week shows frame 7's empty state, and `+ Add food`
+  there logs into that day.
 - **The calculators compute.** Per-100 g label data scaled to a preset or a typed gram value,
-  each macro's share of the serving's energy, dish totals split over servings.
-- **Search behaves like a lookup:** skeleton rows for the latency, then matches; in ingredient
+  each macro's share of the serving's energy, dish totals split over servings. The label
+  serving leads the presets — `1 pot · 170 g` before `100 g`.
+- **Search behaves like a lookup:** skeleton rows for the latency, then matches, and on a miss
+  the two recoveries (`Create a food`, `Scan a barcode`) rather than a dead end; in ingredient
   mode a pick joins the dish draft and returns to it.
-- **Recipe details are three true tab views**, deep-linkable, with a servings stepper that
-  multiplies what gets logged. All four recipes are complete.
+- **Discover never opens empty.** Fit is a sort, not a default filter; every reason carries the
+  margin (`Fits · 130 to spare`); once nothing fits tonight, or after 20:00, the tab plans
+  tomorrow against the full goal, lightest first.
+- **Recipe details are three tab panels under one summary**, deep-linkable; the tabs stick
+  under the status bar and swap only the panel, so the fit verdict never leaves the reader.
+  The servings stepper moves in halves and multiplies what gets logged. All four recipes are
+  complete.
 - **Motion is built:** push / pop / dissolve route transitions through the View Transitions
   API, the sheet and toast through `@starting-style`; all of it collapses under
   `prefers-reduced-motion`.
 
 ## Where the code departs from the frames, and why
 
-- **Greek Yogurt, 2% reads 73 kcal per 100 g and 124 kcal at 170 g.** The frame says 59 and
-  142, which cannot both be true of one product, and its per-macro column (24 + 68 + 31) is a
-  third number. The code computes from the label; the frame is queued for the same correction.
+- **The time row is a native `<input type="time">`** where frame 9 draws a value with a
+  chevron: the platform picker is the right control, and the chevron stays as the affordance.
+- **The meal picker is a sheet**, not the iOS pull-down menu the subtitle imitates: a
+  `<dialog>` is what the prototype can render inside the device frame on every platform.
 - **The avatar is initials.** The portrait in the file has no licence record, and the design
   keeps people out of its imagery anyway.
 - **The recipe macro row runs carbs → protein → fat** (composition rule 8) where frame 5 has
@@ -119,8 +141,8 @@ carries `aria-current`; every tappable element offers a 44pt target or sits in a
 does, and Playwright measures that. The focus ring is `border.focus` at 2pt with a 2pt
 offset (3.87:1). axe runs on every route in the e2e suite and fails on serious findings.
 
-Known, recorded exception: the design uses `text.tertiary` for small captions and
-placeholders (3.6–3.9:1), which the code reproduces rather than quietly changing.
+Nothing under 20pt is set in `text.tertiary` any more: the 2026-09-04 audit moved every
+small caption, placeholder and inactive tab label to `text.secondary`, in Figma and here.
 
 ## Photography
 

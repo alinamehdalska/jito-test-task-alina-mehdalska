@@ -36,7 +36,7 @@ export function MacroBreakdown({ nutrition }: { readonly nutrition: Nutrition })
                 <span className="type-subhead-emphasized text-text-primary">
                   {formatGrams(grams, 1)}
                 </span>
-                <span className="type-caption-1 text-text-tertiary">{formatKcal(kcal)} kcal</span>
+                <span className="type-caption-1 text-text-secondary">{formatKcal(kcal)} kcal</span>
               </span>
             </div>
             <div

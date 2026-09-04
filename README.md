@@ -14,7 +14,7 @@ calculator mobile app, produced with an AI-native workflow using Claude Code.
 | 1 | Branding & stylescape | [`branding-strategy.md`](branding-strategy.md) + Figma *Stylescape* section |
 | 2 | Design system | [`tokens.json`](tokens.json) · [`design-system.md`](design-system.md) + Figma variables & components |
 | 3 | Key screens & flows | [`screens-spec.md`](screens-spec.md) + Figma *Screens* page — 15 frames, wired as a clickable prototype, and presented on device in *Presentation* |
-| 4 | Coded prototype | [jito-test-task-alina-mehdalska.vercel.app](https://jito-test-task-alina-mehdalska.vercel.app) · [`prototype/`](prototype/README.md) — the original 11 frames as a React app generated from the same `tokens.json`, with live data, scrolling and motion |
+| 4 | Coded prototype | [jito-test-task-alina-mehdalska.vercel.app](https://jito-test-task-alina-mehdalska.vercel.app) · [`prototype/`](prototype/README.md) — all 15 frames as a React app generated from the same `tokens.json`, with live data, scrolling and motion |
 
 **Figma file:** https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l
 (Cover · [Foundations](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-2) · [Components](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-3) · [Stylescape](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-4) · [Screens](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-5) · [Flows](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=1-6) · [Moodboard](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=163-214) · [Presentation](https://www.figma.com/design/lzCgTFcfrlE8qGqYbBTh7l?node-id=271-2))
@@ -252,12 +252,11 @@ Stated plainly, because pretending otherwise would be the wrong signal:
 - **Profile has no screen.** Its tab is inert in Figma and a placeholder in code. The Figma
   prototype resolves all four recipe cards to the single detail frame; the code gives each
   recipe its own.
-- **Figma is ahead of the code on four states.** A senior UX audit on 2026-09-03 found
-  eleven red flags; the design-side ones were fixed in Figma first (frames 1b, 4b, 7c and 9,
-  a meal-and-day picker on six frames, number-led reason chips, the calculator's numbers, one
-  verb for the diary, and 149 small captions moved off `text.tertiary`). The coded prototype
-  still shows the audited behaviour — `-390 kcal left`, a Discover tab that opens empty when
-  little is left, an inferred meal, no edit sheet — until it is mirrored.
+- **The audit's code-only fixes are only in the code.** A senior UX audit on 2026-09-03
+  found eleven red flags; the design-side ones were fixed in Figma first and mirrored in the
+  prototype on 2026-09-04. Three fixes have no Figma frame because Figma cannot show them: the
+  5-second undo, the half-serving stepper, and the sticky recipe tabs that swap the panel
+  without leaving the page.
 - **19 gradient paints are not variable-bound**, because Figma cannot bind gradients. Their
   values are mirrored by `accent.gauge-*`, `bg.aurora-*` and `bg.canvas-gradient-*` tokens,
   and the audit reports them separately rather than counting them as bound.

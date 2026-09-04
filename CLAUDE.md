@@ -236,9 +236,10 @@ From the brief, and easy to miss:
   no unreachable frames.
 - **UX audit red flags — Figma side done** (2026-09-04, `tools/figma-ux-red-flags.js`):
   frames 1b, 4b, 7c and 9, the meal picker on six frames, number-led reason chips, the
-  calculator's numbers, one diary verb, and the tertiary rebind. **The coded prototype has
-  not been mirrored yet** — it still renders `-390 kcal left`, opens Discover on an empty
-  grid, infers the meal, and has no edit sheet. Mirror it next; Figma leads.
+  calculator's numbers, one diary verb, and the tertiary rebind. **Mirrored in the coded
+  prototype 2026-09-04**: edit sheet with undoable delete, meal-and-day picker, over-budget
+  gauge, Discover planning tomorrow, search recoveries, label serving, number-led reasons,
+  sticky tabs, half servings, 5 s toast; 64 unit tests, 46 Playwright tests.
 - **Coded prototype — done** (2026-09-03): both user stories end to end, 52 unit tests,
   34 Playwright tests including axe on every route. Deployed at https://jito-test-task-alina-mehdalska.vercel.app
   (Vercel, Root Directory `prototype`, rebuilt from `main` on every push); deep links return

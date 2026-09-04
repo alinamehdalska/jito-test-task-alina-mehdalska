@@ -18,7 +18,8 @@
 
   --screen-fade-nav: 121px;
   --screen-fade-discovery: 191px;
-  --screen-fade-detail: 160px;
+  /* Detail grew 52 on 2026-09-04 for the "Log to" row above the stepper: still solid by y 700. */
+  --screen-fade-detail: 212px;
 
   --screen-gauge-d: 313px;
   --screen-gauge-stroke: 13px;
@@ -45,6 +46,9 @@
   --screen-inset-cta: calc(var(--screen-cta-h) + var(--plate-space-32));
   --screen-inset-cta-product: calc(146px + var(--plate-space-32));
   --screen-inset-cta-dish: calc(206px + var(--plate-space-32));
+  /* Recipe details: the 44pt "Log to" row sits above the 96pt CTA row. */
+  --screen-inset-cta-recipe: calc(var(--screen-cta-h) + 52px + var(--plate-space-32));
+  --screen-header-h: 60px;
 
   /* iPhone 15 Pro bezel, mirrored from tools/figma-device-mockups.js */
   --device-bezel: 16px;

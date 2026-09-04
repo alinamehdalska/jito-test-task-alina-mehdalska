@@ -1,7 +1,8 @@
-import { format, isValid, parseISO } from 'date-fns';
+import { format, isSameDay, isValid, parseISO } from 'date-fns';
 import { useSearchParams } from 'react-router';
 
 import { useAddSheetStore } from '@/features/add-sheet/store';
+import { dayKey, useLogTargetStore } from '@/features/diary/log-target-store';
 import { MealGroupCard } from '@/features/diary/meal-group-card';
 import { consumedForDay, entriesForDay, groupByMeal } from '@/features/diary/selectors';
 import { useDiaryStore } from '@/features/diary/store';
@@ -22,7 +23,8 @@ function readDay(value: string | null, fallback: Date): Date {
 
 /**
  * Frame 7, "Diary". Today shows the same meals as the dashboard; any other day of the week
- * shows the empty state, which is how a real tracker looks on day one.
+ * shows the empty state, which is how a real tracker looks on day one. The open day carries
+ * into the log flow: "+ Add food" on Wednesday logs into Wednesday.
  */
 export function DiaryScreen() {
   const today = useToday();
@@ -30,13 +32,19 @@ export function DiaryScreen() {
   const selected = readDay(searchParams.get(DAY_PARAM), today);
   const entries = useDiaryStore((state) => state.entries);
   const openSheet = useAddSheetStore((state) => state.open);
+  const setTargetDay = useLogTargetStore((state) => state.setDay);
 
   const dayEntries = entriesForDay(entries, selected);
   const groups = groupByMeal(dayEntries);
   const consumed = consumedForDay(entries, selected);
+  const loggedDays = new Set(entries.map((entry) => dayKey(new Date(entry.loggedAt))));
 
   const selectDay = (day: Date) => {
     setSearchParams({ [DAY_PARAM]: format(day, DAY_FORMAT) }, { replace: true });
+  };
+  const addFood = () => {
+    setTargetDay(isSameDay(selected, today) ? null : dayKey(selected));
+    openSheet();
   };
 
   return (
@@ -46,7 +54,7 @@ export function DiaryScreen() {
         <p className="type-subhead text-text-secondary">{formatDayTitle(selected)}</p>
       </header>
 
-      <WeekStrip today={today} selected={selected} onSelect={selectDay} />
+      <WeekStrip today={today} selected={selected} loggedDays={loggedDays} onSelect={selectDay} />
 
       {groups.length === 0 ? (
         <div className="flex flex-1 flex-col justify-center">
@@ -55,7 +63,7 @@ export function DiaryScreen() {
             title="Nothing logged yet"
             body="Log a meal and the day starts filling in."
             action={
-              <Button size="md" onClick={openSheet} aria-haspopup="dialog">
+              <Button size="md" onClick={addFood} aria-haspopup="dialog">
                 + Add food
               </Button>
             }
@@ -72,6 +80,9 @@ export function DiaryScreen() {
           {groups.map((group) => (
             <MealGroupCard key={group.meal} group={group} />
           ))}
+          <Button size="md" variant="secondary" onClick={addFood} aria-haspopup="dialog">
+            + Add food
+          </Button>
         </section>
       )}
     </div>

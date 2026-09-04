@@ -6,6 +6,7 @@ import { CalculatorModeSwitch, SectionLabel } from '@/features/calculator/calcul
 import { INGREDIENT_ICON } from '@/features/calculator/ingredient-icon';
 import { useCalculatorStore } from '@/features/calculator/store';
 import { MACRO_DOT_CLASS, MACRO_LABEL } from '@/features/diary/macro-styles';
+import { MealPickerTrigger } from '@/features/diary/meal-picker';
 import { useLogEntry } from '@/features/diary/use-log-entry';
 import { Screen } from '@/shared/chrome/screen';
 import { ScreenHeader } from '@/shared/chrome/screen-header';
@@ -48,7 +49,12 @@ export function DishScreen() {
   };
 
   const save = () => {
-    logEntry({ name: dish.name.trim(), nutrition: serving, source: 'dish' });
+    logEntry({
+      name: dish.name.trim(),
+      nutrition: serving,
+      amount: { value: 1, unit: 'serving' },
+      source: 'dish',
+    });
     resetDish();
   };
 
@@ -62,7 +68,7 @@ export function DishScreen() {
             <div className="flex flex-col gap-12 rounded-20 bg-bg-surface px-16 py-8 shadow-sm">
               <div className="flex items-center justify-between">
                 <span className="flex flex-col gap-2">
-                  <span className="type-caption-1 text-text-tertiary uppercase">Total dish</span>
+                  <span className="type-caption-1 text-text-secondary uppercase">Total dish</span>
                   <span className="type-subhead text-text-secondary">
                     {formatKcal(total.kcal)} kcal · {dish.servings}{' '}
                     {dish.servings === 1 ? 'serving' : 'servings'}
@@ -72,7 +78,7 @@ export function DishScreen() {
                   <span className="type-metric-card text-text-primary">
                     {formatKcal(serving.kcal)}
                   </span>
-                  <span className="type-caption-2 text-text-tertiary">kcal per serving</span>
+                  <span className="type-caption-2 text-text-secondary">kcal per serving</span>
                 </span>
               </div>
               <dl className="flex items-center justify-between">
@@ -85,7 +91,7 @@ export function DishScreen() {
                       />
                       {formatGrams(total[macro])}
                     </dd>
-                    <dt className="pl-16 type-caption-2 text-text-tertiary">
+                    <dt className="pl-16 type-caption-2 text-text-secondary">
                       {MACRO_LABEL[macro]}
                     </dt>
                   </div>
@@ -95,12 +101,16 @@ export function DishScreen() {
           }
         >
           <Button size="lg" fullWidth onClick={save} disabled={!canSave}>
-            Save dish to Diary
+            Log {formatKcal(serving.kcal)} kcal to Diary
           </Button>
         </StickyCta>
       }
     >
-      <ScreenHeader title="Create a dish" closable />
+      <ScreenHeader
+        title="Create a dish"
+        closable
+        subtitle={<MealPickerTrigger variant="subtitle" />}
+      />
       <div className="flex flex-col gap-12 px-20 pt-8">
         <CalculatorModeSwitch />
 
@@ -115,7 +125,7 @@ export function DishScreen() {
             onChange={(event) => {
               renameDish(event.target.value);
             }}
-            className="h-control-cta w-full rounded-16 border border-border-subtle bg-bg-surface px-16 type-headline text-text-primary outline-none placeholder:text-text-tertiary focus-visible:border-2 focus-visible:border-border-focus"
+            className="h-control-cta w-full rounded-16 border border-border-subtle bg-bg-surface px-16 type-headline text-text-primary outline-none placeholder:text-text-secondary focus-visible:border-2 focus-visible:border-border-focus"
           />
         </div>
 
@@ -145,7 +155,7 @@ export function DishScreen() {
                     <span className="truncate type-subhead text-text-primary">
                       {row.product.name}
                     </span>
-                    <span className="type-caption-1 text-text-tertiary">
+                    <span className="type-caption-1 text-text-secondary">
                       {formatGrams(row.grams)}
                     </span>
                   </span>
@@ -155,7 +165,7 @@ export function DishScreen() {
                   <IconButton
                     icon="x"
                     label={`Remove ${row.product.name}`}
-                    className="-mr-12 text-text-tertiary"
+                    className="-mr-12 text-text-secondary"
                     onClick={() => {
                       removeIngredient(row.productId);
                     }}

@@ -1,9 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import { findRecipe, RECIPES } from '@/data/recipes';
-import { applyFilters, matchFor, reasonFor } from '@/domain/match';
+import { applyFilters, matchFor, rankRecipes, reasonFor, recommendationMode } from '@/domain/match';
 
 const REMAINING = 610;
+const GOAL = 1850;
+const NOON = new Date(2026, 8, 3, 12, 0);
+const EVENING = new Date(2026, 8, 3, 20, 5);
 
 function recipe(slug: string) {
   const found = findRecipe(slug);
@@ -22,18 +25,18 @@ describe('matchFor', () => {
 });
 
 describe('reasonFor', () => {
-  it('reproduces the four Discovery cards with 610 kcal left', () => {
+  it('reproduces the four Discovery cards with 610 kcal left, numbers included', () => {
     expect(reasonFor(recipe('lemon-herb-salmon-bowl'), REMAINING)).toEqual({
       tone: 'positive',
-      label: 'Fits your calories',
+      label: 'Fits · 130 to spare',
     });
     expect(reasonFor(recipe('miso-rice-egg-bowl'), REMAINING)).toEqual({
       tone: 'positive',
-      label: 'Fits your calories',
+      label: 'Fits · 215 to spare',
     });
     expect(reasonFor(recipe('chickpea-shakshuka'), REMAINING)).toEqual({
       tone: 'neutral',
-      label: 'Tight fit',
+      label: 'Just fits · 90 to spare',
     });
     expect(reasonFor(recipe('seared-tuna-nicoise'), REMAINING)).toEqual({
       tone: 'neutral',
@@ -42,12 +45,44 @@ describe('reasonFor', () => {
   });
 
   it('never uses the positive tone for something over budget', () => {
-    expect(reasonFor(recipe('chickpea-shakshuka'), 130).tone).toBe('neutral');
+    expect(reasonFor(recipe('chickpea-shakshuka'), 130)).toEqual({
+      tone: 'neutral',
+      label: 'Above today’s budget',
+    });
+  });
+
+  it('badges everything that fits a full day when planning tomorrow', () => {
+    expect(reasonFor(recipe('chickpea-shakshuka'), GOAL, 'tomorrow')).toEqual({
+      tone: 'positive',
+      label: 'Fits tomorrow',
+    });
+  });
+});
+
+describe('recommendationMode', () => {
+  it('plans tomorrow once nothing fits tonight, or after 20:00', () => {
+    expect(recommendationMode(RECIPES, REMAINING, NOON)).toBe('today');
+    expect(recommendationMode(RECIPES, 130, NOON)).toBe('tomorrow');
+    expect(recommendationMode(RECIPES, REMAINING, EVENING)).toBe('tomorrow');
+  });
+});
+
+describe('rankRecipes', () => {
+  it('puts what fits first today and the lightest first tomorrow', () => {
+    expect(rankRecipes(RECIPES, REMAINING, 'today').map((r) => r.slug)).toEqual([
+      'lemon-herb-salmon-bowl',
+      'miso-rice-egg-bowl',
+      'seared-tuna-nicoise',
+      'chickpea-shakshuka',
+    ]);
+    expect(rankRecipes(RECIPES, GOAL, 'tomorrow').map((r) => r.perServing.kcal)).toEqual([
+      395, 445, 480, 520,
+    ]);
   });
 });
 
 describe('applyFilters', () => {
-  it('keeps every recipe under the default fit filter, and narrows by attribute', () => {
+  it('keeps every recipe under the fit filter at 610, and narrows by attribute', () => {
     expect(applyFilters(RECIPES, new Set(['fits']), REMAINING)).toHaveLength(4);
     expect(applyFilters(RECIPES, new Set(['vegetarian']), REMAINING).map((r) => r.slug)).toEqual([
       'miso-rice-egg-bowl',

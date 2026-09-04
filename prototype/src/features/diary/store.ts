@@ -4,6 +4,8 @@ import { createSeedEntries, SEED_GOAL } from '@/data/seed-diary';
 import type { DiaryEntry, Goal } from '@/domain/types';
 
 export type LogInput = Omit<DiaryEntry, 'id'>;
+/** What the edit sheet can change: how much, which meal, when. */
+export type EntryPatch = Partial<Pick<DiaryEntry, 'amount' | 'nutrition' | 'meal' | 'loggedAt'>>;
 
 interface DiaryState {
   readonly goal: Goal;
@@ -11,7 +13,10 @@ interface DiaryState {
   readonly favouriteProductIds: readonly string[];
   readonly recentProductIds: readonly string[];
   readonly log: (input: LogInput) => DiaryEntry;
+  readonly update: (id: string, patch: EntryPatch) => void;
   readonly remove: (id: string) => void;
+  /** Puts a removed entry back exactly as it was — the delete toast's Undo. */
+  readonly restore: (entry: DiaryEntry) => void;
   readonly toggleFavourite: (productId: string) => void;
   readonly touchRecent: (productId: string) => void;
   readonly reset: (today?: Date) => void;
@@ -45,8 +50,20 @@ export const useDiaryStore = create<DiaryState>()((set) => ({
     set((state) => ({ entries: [...state.entries, entry] }));
     return entry;
   },
+  update: (id, patch) => {
+    set((state) => ({
+      entries: state.entries.map((entry) => (entry.id === id ? { ...entry, ...patch } : entry)),
+    }));
+  },
   remove: (id) => {
     set((state) => ({ entries: state.entries.filter((entry) => entry.id !== id) }));
+  },
+  restore: (entry) => {
+    set((state) =>
+      state.entries.some((existing) => existing.id === entry.id)
+        ? state
+        : { entries: [...state.entries, entry] },
+    );
   },
   toggleFavourite: (productId) => {
     set((state) => ({

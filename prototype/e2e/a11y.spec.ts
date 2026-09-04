@@ -7,6 +7,7 @@ const ROUTES = [
   '/diary',
   '/profile',
   '/add/search?q=chicken',
+  '/add/search?q=kefir',
   '/add/product/greek-yogurt-2',
   '/add/dish',
   '/recipes/lemon-herb-salmon-bowl',
@@ -15,9 +16,8 @@ const ROUTES = [
 ] as const;
 
 /**
- * Colour contrast is measured per token pair in branding-strategy.md §5 rather than by axe:
- * the design records `text.tertiary` as large-text only and uses it in captions anyway,
- * which is a documented exception, not a regression to catch here.
+ * Colour contrast is measured per token pair in branding-strategy.md §5 rather than by axe,
+ * so the aurora's colour-mix backgrounds do not produce false readings here.
  */
 async function expectNoSeriousViolations(page: Page) {
   const results = await new AxeBuilder({ page }).disableRules(['color-contrast']).analyze();
@@ -47,13 +47,32 @@ test('axe passes with the add sheet open', async ({ page }) => {
   await expectNoSeriousViolations(page);
 });
 
+test('axe passes with the edit sheet and the meal picker open', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Edit Greek yogurt bowl' }).click();
+  await expect(page.getByRole('dialog', { name: 'Edit entry' })).toBeVisible();
+  await expectNoSeriousViolations(page);
+
+  await page.goto('/add/product/greek-yogurt-2');
+  await page.getByRole('button', { name: /Log to .*Change meal or day/ }).click();
+  await expect(page.getByRole('dialog', { name: 'Log to' })).toBeVisible();
+  await expectNoSeriousViolations(page);
+});
+
 test.describe('touch targets and chrome geometry', () => {
   test.skip(({ viewport }) => viewport?.width !== 393, 'measured at the Figma frame size only');
 
   test('every interactive element offers a 44pt target, or sits in a row that does', async ({
     page,
   }) => {
-    for (const route of ['/', '/discover', '/add/product/greek-yogurt-2', '/add/dish']) {
+    for (const route of [
+      '/',
+      '/discover',
+      '/diary',
+      '/add/product/greek-yogurt-2',
+      '/add/dish',
+      '/recipes/lemon-herb-salmon-bowl',
+    ]) {
       await page.goto(route);
       const short = await page.evaluate(() => {
         const MIN = 44;

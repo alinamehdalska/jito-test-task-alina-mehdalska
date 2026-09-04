@@ -6,7 +6,7 @@ import { StatusBar } from '@/shared/chrome/status-bar';
 import { cn } from '@/shared/lib/cn';
 
 type Backdrop = 'aurora' | 'surface';
-type BottomInset = 'nav' | 'cta' | 'cta-product' | 'cta-dish' | 'none';
+type BottomInset = 'nav' | 'cta' | 'cta-product' | 'cta-dish' | 'cta-recipe' | 'none';
 
 interface ScreenProps {
   /** Every screen sits on the aurora except Recipe Details, which is a white surface. */
@@ -25,6 +25,7 @@ const INSET_CLASSES: Record<BottomInset, string> = {
   cta: 'pb-(--screen-inset-cta)',
   'cta-product': 'pb-(--screen-inset-cta-product)',
   'cta-dish': 'pb-(--screen-inset-cta-dish)',
+  'cta-recipe': 'pb-(--screen-inset-cta-recipe)',
   none: 'pb-48',
 };
 

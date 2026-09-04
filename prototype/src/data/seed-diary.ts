@@ -12,6 +12,7 @@ interface SeedMeal {
   readonly hours: number;
   readonly minutes: number;
   readonly nutrition: DiaryEntry['nutrition'];
+  readonly amount: DiaryEntry['amount'];
   readonly photo: NonNullable<DiaryEntry['photo']>;
 }
 
@@ -27,6 +28,7 @@ const SEED_MEALS: readonly SeedMeal[] = [
     hours: 8,
     minutes: 30,
     nutrition: { kcal: 320, protein: 22, carbs: 38, fat: 8 },
+    amount: { value: 250, unit: 'g' },
     photo: 'yogurt-bowl',
   },
   {
@@ -36,6 +38,7 @@ const SEED_MEALS: readonly SeedMeal[] = [
     hours: 13,
     minutes: 15,
     nutrition: { kcal: 540, protein: 44, carbs: 62, fat: 14 },
+    amount: { value: 320, unit: 'g' },
     photo: 'quinoa-salad',
   },
   {
@@ -45,6 +48,7 @@ const SEED_MEALS: readonly SeedMeal[] = [
     hours: 16,
     minutes: 0,
     nutrition: { kcal: 380, protein: 12, carbs: 42, fat: 19 },
+    amount: { value: 55, unit: 'g' },
     photo: 'trail-mix',
   },
 ];

@@ -1,10 +1,18 @@
 import { useState } from 'react';
 
 import { RECIPES } from '@/data/recipes';
-import { applyFilters, FILTER_IDS, FILTER_LABEL, type FilterId, reasonFor } from '@/domain/match';
+import {
+  applyFilters,
+  FILTER_IDS,
+  FILTER_LABEL,
+  type FilterId,
+  rankRecipes,
+  reasonFor,
+  recommendationMode,
+} from '@/domain/match';
 import { remainingForDay } from '@/features/diary/selectors';
 import { useDiaryStore } from '@/features/diary/store';
-import { useToday } from '@/features/diary/use-today';
+import { useNow, useToday } from '@/features/diary/use-today';
 import { RecipeCard } from '@/features/discover/recipe-card';
 import { formatKcal } from '@/shared/lib/format';
 import { EmptyState } from '@/shared/ui/empty-state';
@@ -15,14 +23,21 @@ import { SearchInput } from '@/shared/ui/search-input';
 /**
  * Frame 4, "Recipe Discovery" — User Story 2. The recommendation is personal in plain
  * words: what is left today drives every card's reason, and it changes as the diary does.
+ * Fit is a sort, not a default filter, and once nothing fits tonight the tab plans tomorrow
+ * (frame 4b) rather than opening on an empty grid.
  */
 export function DiscoveryScreen() {
   const today = useToday();
+  const now = useNow();
   const goal = useDiaryStore((state) => state.goal);
   const entries = useDiaryStore((state) => state.entries);
   const remaining = remainingForDay(goal, entries, today);
   const [query, setQuery] = useState('');
-  const [active, setActive] = useState<ReadonlySet<FilterId>>(() => new Set<FilterId>(['fits']));
+  const [active, setActive] = useState<ReadonlySet<FilterId>>(() => new Set<FilterId>());
+
+  const mode = recommendationMode(RECIPES, remaining, now);
+  const budget = mode === 'tomorrow' ? goal.kcal : remaining;
+  const isLate = mode === 'tomorrow' && RECIPES.some((r) => r.perServing.kcal <= remaining);
 
   const toggle = (filter: FilterId) => {
     setActive((current) => {
@@ -33,7 +48,7 @@ export function DiscoveryScreen() {
     });
   };
 
-  const recipes = applyFilters(RECIPES, active, remaining, query);
+  const recipes = rankRecipes(applyFilters(RECIPES, active, budget, query), budget, mode);
 
   return (
     <div className="flex flex-col gap-12 px-20 pt-4">
@@ -45,15 +60,19 @@ export function DiscoveryScreen() {
       >
         <div className="flex items-center justify-between">
           <h2 id="recommended" className="type-headline text-text-primary">
-            Recommended for you
+            {mode === 'tomorrow' ? 'Planning tomorrow' : 'Recommended for you'}
           </h2>
           <span className="inline-flex h-24 items-center gap-8 rounded-8 bg-feedback-success-surface px-8 type-caption-2 text-feedback-success">
             <span aria-hidden="true" className="size-4 rounded-full bg-feedback-success" />
-            {formatKcal(remaining)} kcal left
+            {formatKcal(Math.max(0, remaining))} kcal left
           </span>
         </div>
         <p className="type-caption-1 text-text-secondary">
-          Matched against the calories and macros you have left.
+          {mode === 'today'
+            ? 'Matched against the calories and macros you have left.'
+            : isLate
+              ? `After 8 pm the evening is spoken for · ranked against tomorrow’s ${formatKcal(goal.kcal)}.`
+              : `Nothing fits tonight’s ${formatKcal(Math.max(0, remaining))} kcal · ranked for tomorrow.`}
         </p>
       </section>
 
@@ -92,13 +111,13 @@ export function DiscoveryScreen() {
         <EmptyState
           icon="bowl-food"
           title="Nothing fits those filters"
-          body="Loosen a filter, or log a lighter lunch and check back."
+          body="Clear a filter or shorten the search to see more."
         />
       ) : (
         <ul aria-label="Recipes" className="grid grid-cols-2 gap-12">
           {recipes.map((recipe) => (
             <li key={recipe.slug} className="flex">
-              <RecipeCard recipe={recipe} reason={reasonFor(recipe, remaining)} />
+              <RecipeCard recipe={recipe} reason={reasonFor(recipe, budget, mode)} />
             </li>
           ))}
         </ul>

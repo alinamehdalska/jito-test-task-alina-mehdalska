@@ -11,24 +11,28 @@ import { renderRoutes } from '@/shared/test/render';
 
 describe('ProductScreen', () => {
   beforeEach(() => {
-    useDiaryStore.getState().reset(new Date(2026, 8, 3, 12, 0));
+    // Logging stamps the real clock, so the seed must sit on the real day.
+    useDiaryStore.getState().reset(new Date());
     useToastStore.setState({ current: null });
   });
 
-  it('recomputes the serving from presets and a typed amount', async () => {
+  it('opens on the label serving and recomputes from presets and a typed amount', async () => {
     const user = userEvent.setup();
     renderRoutes(routeObjects, { initialEntries: ['/add/product/greek-yogurt-2'] });
-    expect(screen.getByRole('button', { name: 'Add 73 kcal to Diary' })).toBeInTheDocument();
+    expect(screen.getByRole('radio', { name: '1 pot · 170 g' })).toBeChecked();
+    expect(screen.getByText('for 170 g · 1 pot')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Log 124 kcal to Diary' })).toBeInTheDocument();
+    expect(screen.getByText('17.0 g')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('radio', { name: '150 g' }));
-    expect(screen.getByRole('button', { name: 'Add 110 kcal to Diary' })).toBeInTheDocument();
+    await user.click(screen.getByRole('radio', { name: '100 g' }));
+    expect(screen.getByRole('button', { name: 'Log 73 kcal to Diary' })).toBeInTheDocument();
 
     const amount = screen.getByRole('textbox', { name: 'Amount in grams' });
     await user.clear(amount);
-    await user.type(amount, '170{Enter}');
-    expect(screen.getByRole('button', { name: 'Add 124 kcal to Diary' })).toBeInTheDocument();
+    await user.type(amount, '150{Enter}');
+    expect(screen.getByRole('button', { name: 'Log 110 kcal to Diary' })).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Custom' })).toBeChecked();
-    expect(screen.getByText('17.0 g')).toBeInTheDocument();
+    expect(screen.getByText('15.0 g')).toBeInTheDocument();
   });
 
   it('logs the serving, shows the toast and returns to Today', async () => {
@@ -37,13 +41,13 @@ describe('ProductScreen', () => {
       initialEntries: ['/add/product/greek-yogurt-2'],
     });
     await user.click(screen.getByRole('button', { name: 'Increase Amount in grams' }));
-    await user.click(screen.getByRole('button', { name: 'Add 80 kcal to Diary' }));
+    await user.click(screen.getByRole('button', { name: 'Log 131 kcal to Diary' }));
 
     expect(router.state.location.pathname).toBe('/');
-    expect(screen.getByRole('status')).toHaveTextContent('Greek Yogurt, 2% · 80 kcal');
+    expect(screen.getByRole('status')).toHaveTextContent('Greek Yogurt, 2% · 131 kcal');
     expect(screen.getByRole('meter', { name: 'Calories remaining today' })).toHaveAttribute(
       'aria-valuenow',
-      '530',
+      '479',
     );
 
     await user.click(screen.getByRole('button', { name: 'Undo' }));
@@ -56,7 +60,7 @@ describe('ProductScreen', () => {
 
 describe('DishScreen', () => {
   beforeEach(() => {
-    useDiaryStore.getState().reset(new Date(2026, 8, 3, 12, 0));
+    useDiaryStore.getState().reset(new Date());
     useCalculatorStore.setState(useCalculatorStore.getInitialState());
   });
 
@@ -78,7 +82,7 @@ describe('DishScreen', () => {
   it('saves one serving to the diary', async () => {
     const user = userEvent.setup();
     const { router } = renderRoutes(routeObjects, { initialEntries: ['/add/dish'] });
-    await user.click(screen.getByRole('button', { name: 'Save dish to Diary' }));
+    await user.click(screen.getByRole('button', { name: 'Log 244 kcal to Diary' }));
     expect(router.state.location.pathname).toBe('/');
     expect(screen.getByRole('status')).toHaveTextContent('Chicken Quinoa Bowl · 244 kcal');
     expect(useCalculatorStore.getState().dish.ingredients).toEqual([]);
@@ -113,6 +117,20 @@ describe('SearchScreen', () => {
     const results = screen.getByRole('list', { name: 'Results' });
     await user.click(within(results).getByRole('button', { name: /Chicken breast, cooked/ }));
     expect(router.state.location.pathname).toBe('/add/product/chicken-breast-cooked');
+  });
+
+  it('offers the two recoveries when nothing matches', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const { router } = renderRoutes(routeObjects, { initialEntries: ['/add/search'] });
+    await user.type(screen.getByRole('searchbox', { name: 'Search foods and brands' }), 'kefir');
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(SEARCH_LATENCY_MS);
+    });
+    expect(screen.getByText('0 results')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Nothing matches “kefir”' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Scan a barcode' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Create a food' }));
+    expect(router.state.location.pathname).toBe('/add/product');
   });
 
   it('adds an ingredient to the dish draft and goes back', async () => {

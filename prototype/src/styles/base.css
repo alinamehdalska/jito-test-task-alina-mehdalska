@@ -30,6 +30,11 @@
     letter-spacing: inherit;
   }
 
+  /* The edit sheet's time row draws its own chevron; Chrome's built-in clock icon would double it. */
+  input[type='time']::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

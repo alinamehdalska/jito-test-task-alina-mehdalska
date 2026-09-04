@@ -12,6 +12,7 @@ export const PRODUCTS = [
     category: 'dairy',
     per100g: { kcal: 73, protein: 10, carbs: 3.6, fat: 2 },
     photo: 'greek-yogurt',
+    serving: { label: '1 pot', grams: 170 },
   },
   {
     id: 'banana',

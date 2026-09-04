@@ -44,7 +44,7 @@ export function RecipeCard({
           <span className="type-subhead-emphasized text-text-primary">
             {formatKcal(recipe.perServing.kcal)} kcal
           </span>
-          <span className="type-caption-1 text-text-tertiary">·</span>
+          <span className="type-caption-1 text-text-secondary">·</span>
           <span className="type-caption-1 text-text-secondary">{recipe.minutes} min</span>
         </span>
         <ReasonChip reason={reason} />

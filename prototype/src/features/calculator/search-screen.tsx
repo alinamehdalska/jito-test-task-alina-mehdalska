@@ -6,11 +6,14 @@ import { PHOTOS } from '@/data/photos';
 import { findProduct, searchProducts } from '@/data/products';
 import type { Product } from '@/domain/types';
 import { useCalculatorStore } from '@/features/calculator/store';
+import { MealPickerTrigger } from '@/features/diary/meal-picker';
 import { useDiaryStore } from '@/features/diary/store';
 import { Screen } from '@/shared/chrome/screen';
 import { ScreenHeader } from '@/shared/chrome/screen-header';
 import { formatKcal } from '@/shared/lib/format';
 import { useAppNavigate, useGoBack } from '@/shared/lib/use-app-navigate';
+import { Button } from '@/shared/ui/button';
+import { EmptyState } from '@/shared/ui/empty-state';
 import { SearchInput } from '@/shared/ui/search-input';
 
 /** Frame 7b → 2 fires after 1.2 s in the Figma prototype; a real search would feel like this. */
@@ -62,7 +65,7 @@ function ResultRow({
         )}
         <span className="flex min-w-0 flex-1 flex-col gap-4">
           <span className="truncate type-subhead-emphasized text-text-primary">{product.name}</span>
-          <span className="type-caption-1 text-text-tertiary">
+          <span className="type-caption-1 text-text-secondary">
             {product.brand ? `${product.brand} · ` : ''}
             {formatKcal(product.per100g.kcal)} kcal per 100 g
           </span>
@@ -127,7 +130,10 @@ export function SearchScreen() {
 
   return (
     <Screen bottomInset="none">
-      <ScreenHeader title={mode === 'ingredient' ? 'Add ingredient' : 'Add food'} />
+      <ScreenHeader
+        title={mode === 'ingredient' ? 'Add ingredient' : 'Add food'}
+        subtitle={mode === 'product' ? <MealPickerTrigger variant="subtitle" /> : undefined}
+      />
       <div className="flex flex-col gap-16 px-20 pt-8">
         <SearchInput
           ref={inputRef}
@@ -142,7 +148,11 @@ export function SearchScreen() {
             });
           }}
         />
-        <p role="status" aria-live="polite" className="type-caption-1 text-text-tertiary uppercase">
+        <p
+          role="status"
+          aria-live="polite"
+          className="type-caption-1 text-text-secondary uppercase"
+        >
           {heading}
         </p>
         <ul aria-busy={isSearching} aria-label="Results" className="flex flex-col gap-12">
@@ -152,10 +162,34 @@ export function SearchScreen() {
                 <ResultRow key={product.id} product={product} onSelect={select} />
               ))}
         </ul>
+        {/* Frame 7c: a miss offers the two recoveries every benchmark has, not a dead end. */}
         {!isSearching && query.trim() && results.length === 0 && (
-          <p className="type-subhead text-text-secondary">
-            Nothing matches “{query.trim()}” yet. Try a shorter word.
-          </p>
+          <EmptyState
+            icon="magnifying-glass"
+            title={`Nothing matches “${query.trim()}”`}
+            body="Try a shorter word, or add it yourself."
+            action={
+              <div className="flex flex-col items-center gap-4">
+                <Button
+                  size="md"
+                  onClick={() => {
+                    navigate(routes.product, 'push');
+                  }}
+                >
+                  Create a food
+                </Button>
+                <Button
+                  size="md"
+                  variant="tertiary"
+                  onClick={() => {
+                    navigate(routes.product, 'push');
+                  }}
+                >
+                  Scan a barcode
+                </Button>
+              </div>
+            }
+          />
         )}
       </div>
     </Screen>

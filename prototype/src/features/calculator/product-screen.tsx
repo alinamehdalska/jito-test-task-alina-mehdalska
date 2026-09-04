@@ -8,6 +8,7 @@ import { scaleNutrition } from '@/domain/nutrition';
 import type { Product } from '@/domain/types';
 import { CalculatorModeSwitch, SectionLabel } from '@/features/calculator/calculator-shell';
 import { MacroBreakdown } from '@/features/calculator/macro-breakdown';
+import { MealPickerTrigger } from '@/features/diary/meal-picker';
 import { useDiaryStore } from '@/features/diary/store';
 import { useLogEntry } from '@/features/diary/use-log-entry';
 import { Screen } from '@/shared/chrome/screen';
@@ -21,38 +22,56 @@ import { Icon } from '@/shared/ui/icon';
 import { SearchInput } from '@/shared/ui/search-input';
 import { Stepper } from '@/shared/ui/stepper';
 
-const PRESETS = [100, 150, 200] as const;
+/** Without a label serving, three round numbers; with one, it leads and 150 g makes way. */
+const ROUND_PRESETS = [100, 150, 200] as const;
+const ROUND_PRESETS_AFTER_LABEL = [100, 200] as const;
 const DEFAULT_GRAMS = 100;
 const STEP_GRAMS = 10;
 const MIN_GRAMS = 10;
 const MAX_GRAMS = 2000;
 const AMOUNT_INPUT_ID = 'amount-input';
 
+interface Preset {
+  readonly label: string;
+  readonly grams: number;
+}
+
+function presetsFor(product: Product): readonly Preset[] {
+  const { serving } = product;
+  if (!serving) return ROUND_PRESETS.map((grams) => ({ label: `${String(grams)} g`, grams }));
+  return [
+    { label: `${serving.label} · ${String(serving.grams)} g`, grams: serving.grams },
+    ...ROUND_PRESETS_AFTER_LABEL.map((grams) => ({ label: `${String(grams)} g`, grams })),
+  ];
+}
+
 function ServingPresets({
+  presets,
   grams,
   onSelect,
 }: {
+  readonly presets: readonly Preset[];
   readonly grams: number;
   readonly onSelect: (grams: number) => void;
 }) {
-  const isCustom = !PRESETS.some((preset) => preset === grams);
+  const isCustom = !presets.some((preset) => preset.grams === grams);
   return (
     <div
       role="radiogroup"
       aria-label="Serving size"
-      className="flex min-h-control-button items-center gap-8"
+      className="flex min-h-control-button items-center gap-8 overflow-x-auto"
     >
-      {PRESETS.map((preset) => (
+      {presets.map((preset) => (
         <Chip
-          key={preset}
+          key={preset.grams}
           role="radio"
-          aria-checked={preset === grams}
-          selected={preset === grams}
+          aria-checked={preset.grams === grams}
+          selected={preset.grams === grams}
           onClick={() => {
-            onSelect(preset);
+            onSelect(preset.grams);
           }}
         >
-          {preset} g
+          {preset.label}
         </Chip>
       ))}
       <Chip
@@ -88,7 +107,7 @@ function ProductResultCard({ product }: { readonly product: Product }) {
       )}
       <span className="flex min-w-0 flex-1 flex-col gap-4">
         <span className="truncate type-subhead-emphasized text-text-primary">{product.name}</span>
-        <span className="type-caption-1 text-text-tertiary">
+        <span className="type-caption-1 text-text-secondary">
           {product.brand ? `${product.brand} · ` : ''}
           {formatKcal(product.per100g.kcal)} kcal per 100 g
         </span>
@@ -112,26 +131,28 @@ function ProductResultCard({ product }: { readonly product: Product }) {
   );
 }
 
-/**
- * Frame 2, "Calculator — Product". Presets cover the common servings in one tap; the
- * stepper with a typed value covers everything else, which is what this screen exists to capture.
- */
-export function ProductScreen() {
-  const { productId } = useParams();
+/** The form for one product; keyed on the product so a recent-chip switch starts fresh. */
+function ProductForm({ product }: { readonly product: Product }) {
   const recent = useDiaryStore((state) => state.recentProductIds);
   const favourites = useDiaryStore((state) => state.favouriteProductIds);
   const touchRecent = useDiaryStore((state) => state.touchRecent);
   const navigate = useAppNavigate();
   const logEntry = useLogEntry();
 
-  const product =
-    (productId ? findProduct(productId) : undefined) ?? requireProduct('greek-yogurt-2');
-  const [grams, setGrams] = useState<number>(DEFAULT_GRAMS);
+  const presets = presetsFor(product);
+  const [grams, setGrams] = useState<number>(product.serving?.grams ?? DEFAULT_GRAMS);
   const serving = scaleNutrition(product.per100g, grams);
+  const servingSuffix = product.serving?.grams === grams ? ` · ${product.serving.label}` : '';
 
   const add = () => {
     touchRecent(product.id);
-    logEntry({ name: product.name, nutrition: serving, source: 'product', photo: product.photo });
+    logEntry({
+      name: product.name,
+      nutrition: serving,
+      amount: { value: grams, unit: 'g' },
+      source: 'product',
+      photo: product.photo,
+    });
   };
 
   return (
@@ -143,8 +164,10 @@ export function ProductScreen() {
           header={
             <div className="flex items-center justify-between">
               <span className="flex flex-col gap-2">
-                <span className="type-caption-1 text-text-tertiary uppercase">Total</span>
-                <span className="type-subhead text-text-secondary">per {grams} g serving</span>
+                <span className="type-caption-1 text-text-secondary uppercase">Total</span>
+                <span className="type-subhead text-text-secondary">
+                  for {grams} g{servingSuffix}
+                </span>
               </span>
               <span className="type-metric-card text-text-primary">
                 {formatKcal(serving.kcal)} kcal
@@ -153,12 +176,12 @@ export function ProductScreen() {
           }
         >
           <Button size="lg" fullWidth onClick={add}>
-            Add {formatKcal(serving.kcal)} kcal to Diary
+            Log {formatKcal(serving.kcal)} kcal to Diary
           </Button>
         </StickyCta>
       }
     >
-      <ScreenHeader title="Add food" closable />
+      <ScreenHeader title="Add food" closable subtitle={<MealPickerTrigger variant="subtitle" />} />
       <div className="flex flex-col gap-12 px-20 pt-8">
         <CalculatorModeSwitch />
 
@@ -206,7 +229,7 @@ export function ProductScreen() {
 
         <div className="flex flex-col gap-12">
           <SectionLabel>Serving size</SectionLabel>
-          <ServingPresets grams={grams} onSelect={setGrams} />
+          <ServingPresets presets={presets} grams={grams} onSelect={setGrams} />
           <div className="flex min-h-control-cta items-center justify-between rounded-16 border border-border-subtle bg-bg-surface py-4 pr-12 pl-16">
             <span className="type-subhead text-text-secondary">Amount</span>
             <Stepper
@@ -227,4 +250,16 @@ export function ProductScreen() {
       </div>
     </Screen>
   );
+}
+
+/**
+ * Frame 2, "Calculator — Product". The label serving leads the presets — nobody eats a round
+ * hundred grams of yogurt — and the stepper with a typed value covers everything else, which
+ * is what this screen exists to capture.
+ */
+export function ProductScreen() {
+  const { productId } = useParams();
+  const product =
+    (productId ? findProduct(productId) : undefined) ?? requireProduct('greek-yogurt-2');
+  return <ProductForm key={product.id} product={product} />;
 }

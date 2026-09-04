@@ -17,6 +17,8 @@ interface StepperProps {
   readonly inputId?: string | undefined;
   /** `circles` is the calculators' row control; `pill` is the compact one beside a CTA. */
   readonly variant?: 'circles' | 'pill' | undefined;
+  /** How the value reads — `½` for half a serving — when the raw number would not. */
+  readonly formatValue?: ((value: number) => string) | undefined;
   readonly className?: string | undefined;
 }
 
@@ -59,7 +61,7 @@ interface AmountInputProps {
 function AmountInput({ id, label, value, onCommit }: AmountInputProps) {
   const [draft, setDraft] = useState(String(value));
   const commit = () => {
-    const parsed = Number.parseInt(draft, 10);
+    const parsed = Number.parseFloat(draft);
     if (Number.isNaN(parsed)) {
       setDraft(String(value));
       return;
@@ -71,8 +73,7 @@ function AmountInput({ id, label, value, onCommit }: AmountInputProps) {
       id={id}
       aria-label={label}
       type="text"
-      inputMode="numeric"
-      pattern="[0-9]*"
+      inputMode="decimal"
       value={draft}
       onChange={(event) => {
         setDraft(event.target.value);
@@ -101,6 +102,7 @@ export function Stepper({
   editable = false,
   inputId,
   variant = 'circles',
+  formatValue = String,
   className,
 }: StepperProps) {
   const generatedId = useId();
@@ -139,7 +141,7 @@ export function Stepper({
           />
         ) : (
           <span className={cn('text-center', variant === 'pill' ? 'min-w-16' : 'min-w-32')}>
-            {value}
+            {formatValue(value)}
           </span>
         )}
         {unit && <span>{unit}</span>}

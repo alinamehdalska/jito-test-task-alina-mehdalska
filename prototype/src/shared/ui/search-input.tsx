@@ -32,7 +32,7 @@ export function SearchInput({ label, trailing, className, ref, ...rest }: Search
         id={inputId}
         aria-label={label}
         type="search"
-        className="min-w-0 flex-1 bg-transparent type-body text-text-primary outline-none placeholder:text-text-tertiary"
+        className="min-w-0 flex-1 bg-transparent type-body text-text-primary outline-none placeholder:text-text-secondary"
         {...rest}
       />
       {trailing}

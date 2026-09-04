@@ -7,13 +7,16 @@ import { formatDayTitle, formatWeekday } from '@/shared/lib/format';
 interface WeekStripProps {
   readonly today: Date;
   readonly selected: Date;
+  /** `yyyy-MM-dd` keys of the days that have entries — the dot under the number. */
+  readonly loggedDays: ReadonlySet<string>;
   readonly onSelect: (day: Date) => void;
 }
 
 const DAYS_IN_WEEK = 7;
+const DAY_KEY = 'yyyy-MM-dd';
 
 /** The seven days of the current week as one radio group; a selected pill is solid coral. */
-export function WeekStrip({ today, selected, onSelect }: WeekStripProps) {
+export function WeekStrip({ today, selected, loggedDays, onSelect }: WeekStripProps) {
   const idPrefix = useId();
   const monday = startOfWeek(today, { weekStartsOn: 1 });
   const days = Array.from({ length: DAYS_IN_WEEK }, (_, index) => addDays(monday, index));
@@ -23,7 +26,8 @@ export function WeekStrip({ today, selected, onSelect }: WeekStripProps) {
       <legend className="sr-only">Day of the week</legend>
       {days.map((day) => {
         const isSelected = isSameDay(day, selected);
-        const key = format(day, 'yyyy-MM-dd');
+        const key = format(day, DAY_KEY);
+        const isLogged = loggedDays.has(key);
         const inputId = `${idPrefix}-${key}`;
         return (
           <label
@@ -43,7 +47,7 @@ export function WeekStrip({ today, selected, onSelect }: WeekStripProps) {
               name="diary-day"
               className="sr-only"
               checked={isSelected}
-              aria-label={formatDayTitle(day)}
+              aria-label={`${formatDayTitle(day)}${isLogged ? ', logged' : ''}`}
               onChange={() => {
                 onSelect(day);
               }}
@@ -60,6 +64,17 @@ export function WeekStrip({ today, selected, onSelect }: WeekStripProps) {
             >
               {format(day, 'd')}
             </span>
+            <span
+              aria-hidden="true"
+              className={cn(
+                'size-4 rounded-full',
+                isLogged
+                  ? isSelected
+                    ? 'bg-text-primary'
+                    : 'bg-accent-primary-strong'
+                  : 'bg-transparent',
+              )}
+            />
           </label>
         );
       })}

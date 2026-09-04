@@ -68,7 +68,7 @@ export function SectionTabs<Id extends string>({
                 className={cn(
                   isActive
                     ? 'type-subhead-emphasized text-text-primary'
-                    : 'type-subhead text-text-tertiary',
+                    : 'type-subhead text-text-secondary',
                 )}
               >
                 {tab.label}
