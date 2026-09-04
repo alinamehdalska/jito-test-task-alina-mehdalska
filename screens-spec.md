@@ -72,7 +72,8 @@ the four meal pills, the time, `Save changes` and `Delete entry` — the first l
 
 The same dashboard after two dinner recipes: 2,240 consumed against 1,850. The gauge's sweep
 completes, a thinner **amber arc inset from the goal end** draws the 390 excess, and the hero
-reads `390 · over today's goal` — never a minus sign. The three macro bars complete in amber.
+reads `390 · over today's goal` — never a minus sign. The three macro bars complete in amber, edge to edge: exceeding the target fills the track,
+it never leaves the bar two-thirds full beside a number that says otherwise.
 Breakfast, lunch, snack and the dinner group sum to the header's 2,240, and the macro totals
 (P 136 · C 236 · F 81) reconcile the same way. The coded prototype had rendered this state as
 `-390 kcal left`, which is the deficit language the composition metaphor exists to avoid; the
@@ -222,9 +223,18 @@ confirms without interrupting, and the undo makes logging feel safe to do quickl
 
 ## 9 · Edit entry
 
+**Purpose.** The diary's correction surface. Logging is fast and forgiving on purpose — a
+smart meal default, one tap to commit, a 3-second undo — so the second most frequent action
+in any tracker is fixing what just went in: wrong portion, wrong meal, logged twice, logged
+at the wrong time. Without this sheet every one of those was permanent after three seconds.
+It sits in the journey right after frame 8's toast and is reachable from every meal row on
+the dashboard and the diary, which is where a person notices the mistake.
+
 Opened from any meal row. A sheet over the dashboard: the entry with its photo, an `Amount`
 stepper, `Meal` as four pills, `Time`, then `Save changes` and `Delete entry`. Rows inside the
-white sheet sit on `bg.raised` (composition rule 6). Delete is the destructive Button variant —
+white sheet sit on `bg.raised` (composition rule 6), on the same 16pt inset as the entry card.
+A caption names each field once — `AMOUNT` above `1 bowl · 250 g`, `TIME` above
+`Today, 08:30 ›` — so the row carries the value, never a second label. Delete is the destructive Button variant —
 `feedback.danger` on `danger-surface`, 4.74:1.
 
 ---

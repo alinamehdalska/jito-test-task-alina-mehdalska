@@ -189,7 +189,10 @@ real rework on this file:
     overridden in an instance"*. Anything that repositions a component's internals must be
     done on the **component**; the instance then takes only a root `resize()`. And if those
     children are pinned `MIN/MIN`, resizing without repositioning them leaves the contents
-    at their old size, anchored to one corner.
+    at their old size, anchored to one corner. **A width override on an instance sublayer
+    reports success and silently reverts** — 1b's macro bars rendered at the dashboard's
+    proportions after a `resize()` that threw nothing. Detach the *parent* instance first:
+    detaching a nested child detaches the parent implicitly and invalidates the siblings' ids.
 15. **`figma.createAutoLayout()` frames are born with a white fill.** Clear `fills` on every
     layout container that is not meant to be a surface, or it renders as a white plate — the
     header title-stack shipped that way once and only the screenshot caught it.

@@ -64,10 +64,11 @@ const ICONS = '187:179', BUTTONS = '4:50', PILLS = '7:24', REASON_POSITIVE = '65
 // ---------------------------------------------------------------------------------------
 // 1 · 1b · Dashboard — over budget (x 5060)
 // The Dashboard component is instanced and detached so a dinner group can be appended;
-// daily-budget, Hero Gauge and Macro Stat stay instances — text, arcData, sublayer size
-// and sublayer fills all override cleanly, so no further detaching was needed. The amber
-// arc is a sibling drawn over the gauge rather than a child of it (instances take no
-// children), inset 4pt inside the 13.6pt sweep, 5pt thick, swept BACK from the goal end:
+// daily-budget, Hero Gauge and Macro Stat were left as instances — text, arcData and
+// sublayer fills override cleanly. The sublayer WIDTH override in this block did not (see
+// block 10: it reported success and reverted), which is why the bars are detached there.
+// The amber arc is a sibling drawn over the gauge rather than a child of it (instances take
+// no children), inset 4pt inside the 13.6pt sweep, 5pt thick, swept BACK from the goal end:
 // the excess sits beyond the goal, so it starts where the goal ends.
 {
   const f1 = await get('67:130');
@@ -364,6 +365,38 @@ await summary('72:194'); await summary('144:214');
 // the first existing cell, so the board stays one system.
 // (See figma-device-mockups.js for buildDevice; the refresh step is `old.remove()` followed
 // by placing a new clone at BEZEL/BEZEL with SCREEN_R and reactions wiped.)
+
+// ---------------------------------------------------------------------------------------
+// 10 · Review fixes (same day, after the designer's readback of the screenshots).
+//   · Frame 2: the pinned pod sat 2pt under the macro card. 8 + 8 reclaimed from the two
+//     cards' vertical padding (16 → 12, both tokens), 16 given to the pod's top; the CTA
+//     bottom stays on 808 and the card now ends 18pt above the TOTAL label.
+//   · 1b: the macro bars had NOT filled. A width override on an instance sublayer reports
+//     success and silently reverts — the render showed 202 / 203 / 198 of 313, the
+//     dashboard's own proportions. The daily-budget is detached first (detaching a nested
+//     child detaches the parent implicitly and invalidates the siblings' ids), then each
+//     Macro Stat, then the fill is resized to its track.
+//   · 9: the entry card's inset was 12 against the rows' 16, so the photo sat 4pt left of
+//     the row text; padding 16 and the entry resized to 321. "Amount" inside the amount
+//     row duplicated the AMOUNT caption above it — it is now the helper "1 bowl" beside the
+//     250 g stepper; "Time ··· 08:30 ›" became the value "Today, 08:30 ›".
+{
+  for (const id of ['69:183', '69:155']) { const card = await get(id); card.paddingTop = 12; card.paddingBottom = 12; await bindNum(card, 'paddingTop', V.space12); await bindNum(card, 'paddingBottom', V.space12); }
+  const pod = await get('69:214'); pod.paddingTop = 16; await bindNum(pod, 'paddingTop', V.space16); pod.y = 808 - pod.height;
+  const f1b = await get('295:987');
+  const budget = f1b.findOne(n => mainId(n) === '8:2').detachInstance(); budget.name = 'daily-budget';
+  for (const ms of budget.findAll(n => mainSet(n) === '65:52')) {
+    const d = ms.detachInstance();
+    const fill = d.findOne(n => n.type === 'RECTANGLE' && n.name === 'fill');
+    fill.resize(fill.parent.width, fill.height); fill.fills = [await boundPaint(V.warning)];
+  }
+  const card = await get('297:1287'); card.paddingLeft = 16; card.paddingRight = 16;
+  await bindNum(card, 'paddingLeft', V.space16); await bindNum(card, 'paddingRight', V.space16);
+  (await get('297:1288')).resize(321, 68);
+  const helper = await get('297:1299'); await setText(helper, '1 bowl'); helper.fills = [await boundPaint(V.textSecondary)]; helper.name = 'helper';
+  const value = await get('297:1326'); await setText(value, 'Today, 08:30'); value.name = 'value';
+  (await get('297:1336')).remove();
+}
 
 return { ok: true };
 
